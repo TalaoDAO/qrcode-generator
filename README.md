@@ -1,5 +1,10 @@
 ## Available Scripts
 
+### set config
+please create new development.json from config/development.exam.json
+
+you need to set correct DEFAULT_JWK value
+
 ### `npm install`
 
 Install both backend and frontend. Frontend placed in **/client** directory.

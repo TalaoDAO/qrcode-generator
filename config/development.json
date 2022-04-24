@@ -1,6 +1,0 @@
-{
-  "mongo": {
-    "uri": "mongodb://localhost:27017/tezotopia"
-  },
-  "DEFAULT_JWK": "{\"crv\": \"secp256k1\", \"d\": \"fxEWvbcF8-UaKZof4Ethng4lFiWO8YeUYHawQVHs6KU\", \"kty\": \"EC\", \"x\": \"uPSr7x3mgveGQ_xvuxO6CFIY6GG09ZsmngY5S2EixKk\", \"y\": \"mq7je_woNa3iMGoYWQ1uZKPjbDgDCskAbh12yuGAoKw\", \"alg\": \"ES256K-R\"}"
-}
