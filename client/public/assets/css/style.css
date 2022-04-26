@@ -22,11 +22,16 @@ body {
 
 .voucher-form {
   background-color: white;
-  padding: 3rem 2rem 2rem;
+  padding: 2rem;
   width: 450px;
-  height: 500px;
+  height: 520px;
   border-radius: 20px;
   margin: 2rem;
+}
+
+.voucher-form h5{
+  margin-bottom: 1.5rem;
+  font-weight: bold;
 }
 
 .voucher-form .MuiFormControl-root {
@@ -142,7 +147,7 @@ body {
 }
 
 .theme-modal .modal-body {
-  padding: 39px 50px;
+  /*padding: 39px 50px;*/
 }
 
 @media only screen and (max-width: 768px) {
