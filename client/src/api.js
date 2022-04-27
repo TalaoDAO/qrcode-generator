@@ -1,4 +1,5 @@
 import vouchers from './api/vouchers'
+import qrcode from './api/qrcode'
 
 export const base_url = "http://localhost:5000/api"
 
@@ -18,7 +19,8 @@ axios_package.interceptors.response.use(undefined, (err) => {
 })
 
 export default {
-    vouchers
+    vouchers,
+    qrcode
 }
 
 export const axios = axios_package

@@ -1,9 +1,10 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QRCodeContent from "../components/QRCodeContent";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import API from "../api";
 
 const ButtonStyled = styled(Button)({
   borderColor: "#923aff",
@@ -22,7 +23,19 @@ function Home() {
   const [qrUrl, setQRUrl] = useState('')
 
   const getQRUrl = async () => {
+    try {
+      const res = await API.qrcode.getQRCodeUrl();
 
+      if (res.data.success) {
+        setQRUrl(res.data.data.url);
+
+        const challengeRes = await API.qrcode.getChallenge(res.data.data.id);
+        console.log(challengeRes.data.data)
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (

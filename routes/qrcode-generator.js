@@ -6,4 +6,9 @@ const qrcodeController = require('../controllers/qrcodeController');
 // @access  public
 router.get('/', qrcodeController.getQRCode);
 
+// @route   GET get/qrcode-generator/:id
+// @desc    Get response with random id
+// @access  public
+router.get('/:id', qrcodeController.getChallenge);
+
 module.exports = router;
