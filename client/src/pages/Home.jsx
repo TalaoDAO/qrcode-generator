@@ -29,8 +29,9 @@ function Home() {
       if (res.data.success) {
         setQRUrl(res.data.data.url);
 
-        const challengeRes = await API.qrcode.getChallenge(res.data.data.id);
-        console.log(challengeRes.data.data)
+        // Get challenge res from wallet app.
+        // const challengeRes = await API.qrcode.getChallenge(res.data.data.id);
+        // console.log(challengeRes.data.data)
       }
 
     } catch (err) {
