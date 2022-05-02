@@ -1,21 +1,17 @@
-const redis = require("redis");
 const uuid = require("uuid");
 const crypto = require("crypto");
 const didkit = require("../helpers/didkit-handler");
 const config = require("config");
 const moment = require("moment");
 const {validationResult} = require("express-validator");
-const client = redis.createClient();
-
-client.connect().then()
-
-const REDIS_KEY = 'redisKey'
+const jwt = require("jsonwebtoken");
+const client = require('../helpers/redis-client');
 
 exports.getQRCode = async (req, res) => {
     try {
 
         const randomId = uuid.v4()
-        const sessionId = crypto.randomBytes(64).toString('base64')
+        const sessionId = generateAccessToken({id: randomId})
         const dateTime = moment();
 
         const did = await didkit.getDid(config.get('DEFAULT_JWK'));
@@ -27,9 +23,9 @@ exports.getQRCode = async (req, res) => {
             issuer: did
         }
 
-        await client.rPush(REDIS_KEY, JSON.stringify(userData))
+        await client.rPush(config.get('REDIS_KEY'), JSON.stringify(userData))
 
-        console.log(await client.lRange(REDIS_KEY, 0, -1))
+        console.log(await client.lRange(config.get('REDIS_KEY'), 0, -1))
 
         const url = `https://tezotopia.talao.co/${randomId}?issuer=${did}`
 
@@ -37,7 +33,8 @@ exports.getQRCode = async (req, res) => {
             url,
             id: randomId,
             session_id: sessionId,
-            date_time: dateTime
+            date_time: dateTime,
+            issuer: did
         }
 
         res.status(200).json({message: "QR Code URL", success: true, data});
@@ -50,9 +47,9 @@ exports.getQRCode = async (req, res) => {
 
 exports.getChallenge = async (req, res) => {
     try {
-        const users = await client.lRange(REDIS_KEY, 0, -1)
+        const users = await client.lRange(config.get('REDIS_KEY'), 0, -1)
 
-        const userIndex = users.findIndex(user => JSON.parse(user).id === req.params.id)
+        const userIndex = users.findIndex(user => JSON.parse(user).id === req.user.id)
 
         if (userIndex === -1) {
             return res.status(400).json({message: "Invalid session!", success: false});
@@ -75,9 +72,9 @@ exports.getChallenge = async (req, res) => {
         user.challenge = challenge;
         user.date_time = moment();
 
-        await client.lSet(REDIS_KEY, userIndex, JSON.stringify(user))
+        await client.lSet(config.get('REDIS_KEY'), userIndex, JSON.stringify(user))
 
-        console.log(await client.lRange(REDIS_KEY, 0, -1))
+        console.log(await client.lRange(config.get('REDIS_KEY'), 0, -1))
 
         const data = {
             "type": "VerifiablePresentationRequest",
@@ -115,9 +112,9 @@ exports.verify = async (req, res) => {
     const {presentation} = req.body;
 
     try {
-        const users = await client.lRange(REDIS_KEY, 0, -1)
+        const users = await client.lRange(config.get('REDIS_KEY'), 0, -1)
 
-        const userIndex = users.findIndex(user => JSON.parse(user).id === req.params.id)
+        const userIndex = users.findIndex(user => JSON.parse(user).id === req.user.id)
 
         if (userIndex === -1) {
             return res.status(400).json({message: "Invalid session!", success: false});
@@ -146,9 +143,9 @@ exports.verify = async (req, res) => {
 
         user.logged_in = true;
 
-        await client.lSet(REDIS_KEY, userIndex, JSON.stringify(user))
+        await client.lSet(config.get('REDIS_KEY'), userIndex, JSON.stringify(user))
 
-        console.log(await client.lRange(REDIS_KEY, 0, -1))
+        console.log(await client.lRange(config.get('REDIS_KEY'), 0, -1))
 
         res.status(200).json({message: "Login successful", success: true});
 
@@ -156,4 +153,8 @@ exports.verify = async (req, res) => {
         console.log(err.message);
         res.status(500).send("Server error");
     }
+}
+
+const generateAccessToken = (payload) => {
+    return jwt.sign(payload, config.get('ACCESS_TOKEN_SECRET'), {expiresIn: '15m'})
 }

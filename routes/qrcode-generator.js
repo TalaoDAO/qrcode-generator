@@ -1,22 +1,23 @@
 const router = require('express').Router();
 const qrcodeController = require('../controllers/qrcodeController');
-const {body, check} = require("express-validator");
+const {body} = require("express-validator");
+const authMiddleware = require('../middleware/auth')
 
 // @route   GET api/qrcode-generator/
 // @desc    Get qr code
 // @access  public
 router.get('/', qrcodeController.getQRCode);
 
-// @route   GET api/qrcode-generator/:id
+// @route   GET api/qrcode-generator/challenge
 // @desc    Get response with random id
-// @access  public
-router.get('/:id', qrcodeController.getChallenge);
+// @access  private
+router.get('/challenge', authMiddleware, qrcodeController.getChallenge);
 
-// @route   post api/qrcode-generator/:id
+// @route   post api/qrcode-generator/
 // @desc    Login random
-// @access  public
-router.post('/:id',[
+// @access  private
+router.post('/', [authMiddleware, [
     body('presentation', 'Presentation is required!').trim().not().isEmpty(), // String json
-], qrcodeController.verify);
+]], qrcodeController.verify);
 
 module.exports = router;

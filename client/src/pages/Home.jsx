@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import QRCodeContent from "../components/QRCodeContent";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import API from "../api";
+import { useNavigate } from "react-router-dom";
+import API, { SOCKET_URL } from "../api";
+import socketIOClient from 'socket.io-client';
 
 const ButtonStyled = styled(Button)({
   borderColor: "#923aff",
@@ -21,6 +22,21 @@ const ButtonStyled = styled(Button)({
 
 function Home() {
   const [qrUrl, setQRUrl] = useState('')
+  const socket = socketIOClient(SOCKET_URL);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    socket.on('authorised', function (isAuthorized) {
+      setLoggedIn(isAuthorized)
+    })
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/voucher');
+    }
+  }, [isLoggedIn])
 
   const getQRUrl = async () => {
     try {
@@ -28,10 +44,12 @@ function Home() {
 
       if (res.data.success) {
         setQRUrl(res.data.data.url);
-
-        // Get challenge res from wallet app.
-        // const challengeRes = await API.qrcode.getChallenge(res.data.data.id);
-        // console.log(challengeRes.data.data)
+        const sessionId = res.data.data.session_id
+        localStorage.setItem('token', sessionId)
+        localStorage.setItem('issuer', res.data.data.issuer)
+        setInterval(function(){
+          socket.emit('check-status', sessionId)
+        }, 2000);
       }
 
     } catch (err) {
@@ -41,7 +59,7 @@ function Home() {
 
   return (
     <>
-      <Link to={"/voucher"}><ButtonStyled variant="outlined">Create Voucher</ButtonStyled></Link>
+      {/*<Link to={"/voucher"}><ButtonStyled variant="outlined">Create Voucher</ButtonStyled></Link>*/}
 
       <QRCodeContent qrUrl={qrUrl} getQRUrl={getQRUrl} isButtonWithoutVoucher={true} />
     </>
