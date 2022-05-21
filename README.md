@@ -4,6 +4,17 @@
 
 Install both backend and frontend. Frontend placed in **/client** directory.
 
+## Install Redis
+
+### Install Redis on Mac
+`brew update`
+`brew install redis`
+`brew services start redis`
+
+### Install Redis on Windows
+Download Redis from [https://redis.io/](https://redis.io/)
+
+### Run the project
 In the project directory, you can run:
 
 ### `npm start` & `npm run client`
