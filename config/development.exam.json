@@ -4,5 +4,6 @@
   },
   "DEFAULT_JWK": "{ask to owner}",
   "ACCESS_TOKEN_SECRET": "{ask to owner}",
-  "REDIS_KEY": "REDIS_KEY"
+  "REDIS_KEY": "REDIS_KEY",
+  "API_URL": "API_URL"
 }

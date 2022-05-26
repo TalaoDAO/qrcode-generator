@@ -13,7 +13,6 @@ exports.getQRCode = async (req, res) => {
         const randomId = uuid.v4()
         const sessionId = generateAccessToken({id: randomId})
         const dateTime = moment();
-
         const did = await didkit.getDid(config.get('DEFAULT_JWK'));
 
         const userData = {
@@ -27,7 +26,7 @@ exports.getQRCode = async (req, res) => {
 
         console.log(await client.lRange(config.get('REDIS_KEY'), 0, -1))
 
-        const url = `https://tezotopia.talao.co/${randomId}?issuer=${did}`
+        const url = `${config.get('API_URL')}/api/qrcode-generator/${randomId}?issuer=${did}`
 
         const data = {
             url,
@@ -49,8 +48,8 @@ exports.getChallenge = async (req, res) => {
     try {
         const users = await client.lRange(config.get('REDIS_KEY'), 0, -1)
 
-        const userIndex = users.findIndex(user => JSON.parse(user).id === req.user.id)
-
+        // const userIndex = users.findIndex(user => JSON.parse(user).id === req.user.id)
+        const userIndex = 0;
         if (userIndex === -1) {
             return res.status(400).json({message: "Invalid session!", success: false});
         }
@@ -63,39 +62,35 @@ exports.getChallenge = async (req, res) => {
         const duration = moment.duration(now.diff(previousTime));
         const minutes = duration.minutes();
 
-        if (minutes > 3) {
-            return res.status(400).json({message: "Session expired!", success: false});
-        }
+        // if (minutes > 3) {
+        //     return res.status(400).json({message: "Session expired!", success: false});
+        // }
 
-        const challenge = crypto.randomBytes(64).toString('base64')
-
+        const challenge = crypto.randomBytes(8).toString('base64')
         user.challenge = challenge;
         user.date_time = moment();
-
         await client.lSet(config.get('REDIS_KEY'), userIndex, JSON.stringify(user))
-
         console.log(await client.lRange(config.get('REDIS_KEY'), 0, -1))
 
         const data = {
-            "type": "VerifiablePresentationRequest",
+            "challenge": challenge,
+            "domain": "talao.co",
             "query": [
                 {
-                    "type": "QueryByExample",
                     "credentialQuery": [
                         {
                             "example": {
-                                "type": "EmailPass"
+                                "type": "VerifiableCredential"
                             }
                         }
-                    ]
+                    ],
+                    "type": "QueryByExample"
                 }
             ],
-            "challenge": challenge,
-            "domain": "talao.co"
+            "type": "VerifiablePresentationRequest"
         }
 
-
-        res.status(200).json({message: "Challenge data", success: true, data});
+        res.status(200).json(data);
 
     } catch (err) {
         console.log(err.message);
