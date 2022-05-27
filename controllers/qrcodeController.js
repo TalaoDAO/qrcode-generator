@@ -6,6 +6,7 @@ const moment = require("moment");
 const {validationResult} = require("express-validator");
 const jwt = require("jsonwebtoken");
 const client = require('../helpers/redis-client');
+const { validateCredentials } = require('../helpers/walletReqest');
 
 exports.getQRCode = async (req, res) => {
     try {
@@ -108,7 +109,6 @@ exports.verify = async (req, res) => {
 
     try {
         const users = await client.lRange(config.get('REDIS_KEY'), 0, -1)
-
         const userIndex = users.findIndex(user => JSON.parse(user).id === req.params.id)
 
         if (userIndex === -1) {
@@ -116,10 +116,8 @@ exports.verify = async (req, res) => {
         }
 
         const user = JSON.parse(users[userIndex])
-
         const previousTime = user.date_time
         const now = moment()
-
         const duration = moment.duration(now.diff(previousTime));
         const minutes = duration.minutes();
 
@@ -129,22 +127,26 @@ exports.verify = async (req, res) => {
 
         const presentationObj = JSON.parse(presentation)
 
+        // validate request
         if (presentationObj.verifiableCredential.credentialSubject.type !== 'EmailPass' ||
             presentationObj.verifiableCredential.issuer !== config.get('EMAIL_PASS_DID')) {
             return res.status(400).json({message: "Login verification failed", success: false});
         }
 
+        // check if the email is authorized
+        const email=await validateCredentials(req.body['presentation']);
+        if(!config.get('AUTHORIZED_EMAILS').includes(email)) {
+            return res.status(403).json({ message: "User is not authorized." });
+        }
+
         user.logged_in = true;
-
         await client.lSet(config.get('REDIS_KEY'), userIndex, JSON.stringify(user))
-
         console.log(await client.lRange(config.get('REDIS_KEY'), 0, -1))
 
-        res.status(200).json({message: "Login successful", success: true});
-
+        return res.status(200).json({message: "Login successful", success: true});
     } catch (err) {
         console.log(err.message);
-        res.status(500).send("Server error");
+        return res.status(500).send("Server error");
     }
 }
 
