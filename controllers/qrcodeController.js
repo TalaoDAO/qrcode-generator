@@ -48,8 +48,8 @@ exports.getChallenge = async (req, res) => {
     try {
         const users = await client.lRange(config.get('REDIS_KEY'), 0, -1)
 
-        // const userIndex = users.findIndex(user => JSON.parse(user).id === req.user.id)
-        const userIndex = 0;
+        const userIndex = users.findIndex(user => JSON.parse(user).id === req.params.id)
+
         if (userIndex === -1) {
             return res.status(400).json({message: "Invalid session!", success: false});
         }
@@ -109,7 +109,7 @@ exports.verify = async (req, res) => {
     try {
         const users = await client.lRange(config.get('REDIS_KEY'), 0, -1)
 
-        const userIndex = users.findIndex(user => JSON.parse(user).id === req.user.id)
+        const userIndex = users.findIndex(user => JSON.parse(user).id === req.params.id)
 
         if (userIndex === -1) {
             return res.status(400).json({message: "Invalid session!", success: false});
@@ -129,10 +129,8 @@ exports.verify = async (req, res) => {
 
         const presentationObj = JSON.parse(presentation)
 
-        if (presentationObj.proof.challenge !== user.challenge || presentationObj.proof.domain !== 'https://talao.co/' ||
-            presentationObj.verifiableCredential.credentialSubject.type !== 'EmailPass' ||
-            presentationObj.verifiableCredential.issuer !== user.issuer || presentationObj.verifiableCredential.credentialSubject.email !== 'thierry.thevenet@talao.io'
-        ) {
+        if (presentationObj.verifiableCredential.credentialSubject.type !== 'EmailPass' ||
+            presentationObj.verifiableCredential.issuer !== config.get('EMAIL_PASS_DID')) {
             return res.status(400).json({message: "Login verification failed", success: false});
         }
 
