@@ -4,7 +4,7 @@ import QRCodeContent from "../components/QRCodeContent";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import API, { SOCKET_URL } from "../api";
+import API from "../api";
 import socketIOClient from 'socket.io-client';
 
 const ButtonStyled = styled(Button)({
@@ -22,7 +22,7 @@ const ButtonStyled = styled(Button)({
 
 function Home() {
   const [qrUrl, setQRUrl] = useState('')
-  const socket = socketIOClient(SOCKET_URL);
+  const socket = socketIOClient(process.env.REACT_APP_SOCKET_URL);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 

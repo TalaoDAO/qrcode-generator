@@ -22,7 +22,7 @@ function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false
                                 data-bs-target="#qrModal"
                                 onClick={getQRUrl}
                             >
-                                ACTIVATE YOUR VOUCHER
+                                QR CODE GENERATION
                             </button>
                         </div>}
                     </div>

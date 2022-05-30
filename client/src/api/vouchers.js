@@ -1,19 +1,19 @@
-import {base_url, axios} from "../api";
+import {axios} from "../api";
 
 const getVoucher = async (id) => {
-  return await axios.get(`${base_url}/vouchers/${id}`);
+  return await axios.get(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}`);
 }
 
 const getQRUrl = async (id) => {
-  return await axios.get(`${base_url}/vouchers/${id}/qr-url`);
+  return await axios.get(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}/qr-url`);
 }
 
 const addVoucher = async (data) => {
-  return await axios.post(`${base_url}/vouchers`, data);
+  return await axios.post(`${process.env.REACT_APP_BASE_URL}/vouchers`, data);
 }
 
 const updateVoucher = async (id, data) => {
-  return await axios.put(`${base_url}/vouchers/${id}`, data);
+  return await axios.put(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}`, data);
 }
 
 export default {

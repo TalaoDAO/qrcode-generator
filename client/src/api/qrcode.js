@@ -1,7 +1,7 @@
-import {base_url, axios} from "../api";
+import {axios} from "../api";
 
 const getQRCodeUrl = async () => {
-    return await axios.get(`${base_url}/qrcode-generator/`);
+    return await axios.get(`${process.env.REACT_APP_BASE_URL}/qrcode-generator/`);
 }
 
 export default {
