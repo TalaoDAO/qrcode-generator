@@ -34,7 +34,7 @@ body {
   font-weight: bold;
 }
 
-.voucher-form .MuiFormControl-root {
+.voucher-form .MuiFormControl-root, .voucher-form__select {
   margin-bottom: 1rem;
 }
 

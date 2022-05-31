@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography, Select, MenuItem} from "@mui/material";
 import API from "../api";
 import styled from "@emotion/styled";
 import QRCodeContent from "../components/QRCodeContent";
@@ -32,6 +32,7 @@ const HomeButtonStyled = styled(Button)({
 function Voucher() {
     const [voucher, setVoucher] = useState(null);
     const [formData, setFormData] = useState({
+        voucherTemplate: "voucher-1",
         name: "",
         phone: "",
         email: "",
@@ -110,6 +111,19 @@ function Voucher() {
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
                         <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Voucher`}</Typography>
+
+                        <Select
+                            className={'voucher-form__select'}
+                            required
+                            fullWidth
+                            value={'voucher-1'}
+                            name={"voucherTemplate"}
+                            label="Voucher Template"
+                            onChange={onChange}
+                        >
+                            <MenuItem value={'voucher-1'}>Voucher Template 1</MenuItem>
+                        </Select>
+
                         <TextField
                             required
                             fullWidth
@@ -163,7 +177,8 @@ function Voucher() {
                         />
 
                         <TextField
-                            fullWidthrequired
+                            fullWidth
+                            required
                             label="Affiliate blockchain account"
                             value={blockchainAccount}
                             name={"blockchainAccount"}
