@@ -103,7 +103,7 @@ function Voucher() {
         <>
             <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
             <Grid item xs={8}>
-                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} />
+                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true}/>
             </Grid>
             <Grid>
                 <Grid item className={"left-content"}>
@@ -147,6 +147,7 @@ function Voucher() {
 
                         <TextField
                             fullWidth
+                            required
                             label="Commission"
                             value={commission}
                             name={"commission"}
@@ -162,7 +163,7 @@ function Voucher() {
                         />
 
                         <TextField
-                            fullWidth
+                            fullWidthrequired
                             label="Affiliate blockchain account"
                             value={blockchainAccount}
                             name={"blockchainAccount"}
@@ -171,6 +172,7 @@ function Voucher() {
 
                         <TextField
                             fullWidth
+                            required
                             label="Voucher Duration"
                             value={duration}
                             name={"duration"}

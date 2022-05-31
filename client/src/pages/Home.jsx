@@ -61,7 +61,7 @@ function Home() {
     <>
       {/*<Link to={"/voucher"}><ButtonStyled variant="outlined">Create Voucher</ButtonStyled></Link>*/}
 
-      <QRCodeContent qrUrl={qrUrl} getQRUrl={getQRUrl} isButtonWithoutVoucher={true} />
+      <QRCodeContent qrUrl={qrUrl} getQRUrl={getQRUrl} isButtonWithoutVoucher={true} isLoggedIn={isLoggedIn} />
     </>
   );
 }

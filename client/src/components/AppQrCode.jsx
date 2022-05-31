@@ -15,7 +15,7 @@ const ButtonStyled = styled(Button)({
     },
 });
 
-function AppQrCode({url}) {
+function AppQrCode({url, isLoggedIn = false}) {
     const ref = useRef();
 
     return (
@@ -34,13 +34,14 @@ function AppQrCode({url}) {
                             {url ?
                                 <>
                                     <h2>
-                                        Scan the QR code 2
+                                        Scan the QR code
                                         <br/> with your AltMe wallet
                                     </h2>
-                                    <ButtonStyled onClick={() => exportComponentAsJPEG(ref)}
+                                    { isLoggedIn && <ButtonStyled onClick={() => exportComponentAsJPEG(ref)}
                                                   variant="contained"
                                                   startIcon={<Download/>}
                                                   style={{marginBottom: "2rem"}}>Download</ButtonStyled>
+                                    }
                                     <div ref={ref} style={{padding: '2rem'}}>
                                         <QRCode
                                             title="Download the App"

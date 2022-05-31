@@ -1,7 +1,7 @@
 import React from 'react';
 import AppQrCode from "../components/AppQrCode";
 
-function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false}) {
+function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false,  isLoggedIn = false}) {
     return (
         <>
             <section className="page-content">
@@ -22,14 +22,14 @@ function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false
                                 data-bs-target="#qrModal"
                                 onClick={getQRUrl}
                             >
-                                QR CODE GENERATION
+                                {isLoggedIn ? 'QR code generation' : 'Connect to the voucher generator'}
                             </button>
                         </div>}
                     </div>
                 </div>
             </section>
 
-            <AppQrCode url={qrUrl}/>
+            <AppQrCode url={qrUrl} isLoggedIn={isLoggedIn}/>
 
             <div
                 className="modal fade theme-modal"
