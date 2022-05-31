@@ -40,7 +40,7 @@ exports.postVoucher = async (req, res) => {
     return res.status(400).json({ message: errors.array()[0].msg, success: false });
   }
 
-  const { name, email, pseudo, socialNetwork, phone } = req.body;
+  const { name, email, pseudo, commission, phone, blockchain, accountBlockchain, duration } = req.body;
 
   try {
 
@@ -50,7 +50,10 @@ exports.postVoucher = async (req, res) => {
     VOUCHER_OBJ.credentialSubject.affiliate.pseudo = pseudo;
     VOUCHER_OBJ.credentialSubject.affiliate.email = email;
     VOUCHER_OBJ.credentialSubject.affiliate.phone = phone;
-    VOUCHER_OBJ.credentialSubject.affiliate.socialNetwork = socialNetwork;
+    VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission;
+    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain;
+    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = accountBlockchain;
+    VOUCHER_OBJ.credentialSubject.offers.duration = duration;
 
     const voucher = await Voucher.create({ user, voucher: VOUCHER_OBJ });
 
@@ -69,7 +72,7 @@ exports.updateVoucher = async (req, res) => {
     return res.status(400).json({ message: errors.array()[0].msg, success: false });
   }
 
-  const { name, email, pseudo, socialNetwork, phone } = req.body;
+  const { name, email, pseudo, commission, phone, blockchain, accountBlockchain, duration } = req.body;
 
   try {
 
@@ -83,7 +86,10 @@ exports.updateVoucher = async (req, res) => {
     VOUCHER_OBJ.credentialSubject.affiliate.pseudo = pseudo;
     VOUCHER_OBJ.credentialSubject.affiliate.email = email;
     VOUCHER_OBJ.credentialSubject.affiliate.phone = phone;
-    VOUCHER_OBJ.credentialSubject.affiliate.socialNetwork = socialNetwork;
+    VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission;
+    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain;
+    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = accountBlockchain;
+    VOUCHER_OBJ.credentialSubject.offers.duration = duration;
 
     await Voucher.updateOne({ _id: req.params.id }, { voucher: VOUCHER_OBJ });
 

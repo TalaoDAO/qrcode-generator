@@ -36,11 +36,14 @@ function Voucher() {
         phone: "",
         email: "",
         pseudo: "",
-        socialNetwork: ""
+        commission: "",
+        blockchain: "",
+        blockchainAccount: "",
+        duration: "",
     });
     const [qrUrl, setQRUrl] = useState('')
 
-    const { name, phone, email, pseudo, socialNetwork } = formData;
+    const { name, phone, email, pseudo, commission, blockchain, blockchainAccount, duration } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -51,7 +54,10 @@ function Voucher() {
                 phone: voucher.voucher.credentialSubject.affiliate.pseudo,
                 email: voucher.voucher.credentialSubject.affiliate.email,
                 pseudo: voucher.voucher.credentialSubject.affiliate.phone,
-                socialNetwork: voucher.voucher.credentialSubject.affiliate.socialNetwork,
+                commission: voucher.voucher.credentialSubject.affiliate.benefit.incentiveCompensation,
+                blockchain: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchain,
+                blockchainAccount: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount,
+                duration: voucher.voucher.credentialSubject.offers.duration,
             });
         }
     }, [voucher]);
@@ -96,17 +102,18 @@ function Voucher() {
     return (
         <>
             <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
-
-            <Grid container spacing={2}>
-                <Grid item xs={4} className={"left-content"}>
+            <Grid item xs={8}>
+                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} />
+            </Grid>
+            <Grid>
+                <Grid item className={"left-content"}>
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
                         <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Voucher`}</Typography>
-
                         <TextField
                             required
                             fullWidth
-                            label="Name"
+                            label="Affiliate Name"
                             value={name}
                             name={"name"}
                             onChange={onChange}
@@ -116,7 +123,7 @@ function Voucher() {
                             type={"email"}
                             required
                             fullWidth
-                            label="Email"
+                            label="Affiliate Email"
                             value={email}
                             name={"email"}
                             onChange={onChange}
@@ -124,7 +131,7 @@ function Voucher() {
 
                         <TextField
                             fullWidth
-                            label="Phone"
+                            label="Affiliate Phone"
                             value={phone}
                             name={"phone"}
                             onChange={onChange}
@@ -132,7 +139,7 @@ function Voucher() {
 
                         <TextField
                             fullWidth
-                            label="Pseudo"
+                            label="Affiliate Pseudo"
                             value={pseudo}
                             name={"pseudo"}
                             onChange={onChange}
@@ -140,9 +147,33 @@ function Voucher() {
 
                         <TextField
                             fullWidth
-                            label="Social Network"
-                            value={socialNetwork}
-                            name={"socialNetwork"}
+                            label="Commission"
+                            value={commission}
+                            name={"commission"}
+                            onChange={onChange}
+                        />
+
+                        <TextField
+                            fullWidth
+                            label="Affiliate Blockchain"
+                            value={blockchain}
+                            name={"blockchain"}
+                            onChange={onChange}
+                        />
+
+                        <TextField
+                            fullWidth
+                            label="Affiliate blockchain account"
+                            value={blockchainAccount}
+                            name={"blockchainAccount"}
+                            onChange={onChange}
+                        />
+
+                        <TextField
+                            fullWidth
+                            label="Voucher Duration"
+                            value={duration}
+                            name={"duration"}
                             onChange={onChange}
                         />
 
@@ -150,9 +181,6 @@ function Voucher() {
 
                     </form>
 
-                </Grid>
-                <Grid item xs={8}>
-                    <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} />
                 </Grid>
             </Grid>
         </>

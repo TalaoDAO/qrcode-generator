@@ -24,7 +24,7 @@ body {
   background-color: white;
   padding: 2rem;
   width: 450px;
-  height: 520px;
+  /*height: 520px;*/
   border-radius: 20px;
   margin: 2rem;
 }
@@ -44,7 +44,7 @@ body {
 }
 
 .page-content {
-  height: 100vh;
+  padding: 50px;
   display: flex;
   align-items: center;
 }
