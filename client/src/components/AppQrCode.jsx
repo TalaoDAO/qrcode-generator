@@ -1,9 +1,11 @@
 import QRCode from "react-qr-code";
-import { Download } from "@mui/icons-material";
-import { useRef } from "react";
-import { exportComponentAsJPEG } from "react-component-export-image";
-import { Button } from "@mui/material";
+import {Download} from "@mui/icons-material";
+import {useRef, useState} from "react";
+import {exportComponentAsJPEG} from "react-component-export-image";
+import {Button, TextareaAutosize, TextField} from "@mui/material";
 import styled from "@emotion/styled";
+import * as React from "react";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -17,6 +19,13 @@ const ButtonStyled = styled(Button)({
 
 function AppQrCode({url, isLoggedIn = false}) {
     const ref = useRef();
+    const [isCopied, setIsCopied] = useState(false);
+
+    setTimeout(() => {
+        if(isCopied) {
+            setIsCopied(false);
+        }
+    }, 2000)
 
     return (
         <div>
@@ -37,10 +46,10 @@ function AppQrCode({url, isLoggedIn = false}) {
                                         Scan the QR code
                                         <br/> with your AltMe wallet
                                     </h2>
-                                    { isLoggedIn && <ButtonStyled onClick={() => exportComponentAsJPEG(ref)}
-                                                  variant="contained"
-                                                  startIcon={<Download/>}
-                                                  style={{marginBottom: "2rem"}}>Download</ButtonStyled>
+                                    {isLoggedIn && <ButtonStyled onClick={() => exportComponentAsJPEG(ref)}
+                                                                 variant="contained"
+                                                                 startIcon={<Download/>}
+                                                                 style={{marginBottom: "2rem"}}>Download</ButtonStyled>
                                     }
                                     <div ref={ref} style={{padding: '2rem'}}>
                                         <QRCode
@@ -48,6 +57,18 @@ function AppQrCode({url, isLoggedIn = false}) {
                                             value={url}
                                         />
                                     </div>
+                                    <ButtonStyled
+                                        style={{
+                                            marginBottom: "2rem",
+                                            backgroundColor: isCopied ? '#979797' : '#923aff',
+                                            color: 'white'
+                                        }}
+                                    >
+                                        <CopyToClipboard text={url}
+                                                         onCopy={() => setIsCopied(true)}>
+                                            <span>{isCopied ? 'Copied!' : 'Copy QR code string'}</span>
+                                        </CopyToClipboard>
+                                    </ButtonStyled>
                                 </> : <h2>
                                     Invalid QR Code Link
                                 </h2>}
