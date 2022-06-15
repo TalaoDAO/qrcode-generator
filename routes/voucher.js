@@ -26,12 +26,6 @@ router.post('/', [
 // @route   PUT get/vouchers/:id
 // @desc    Update voucher info
 // @access  public
-router.put('/:id', [
-  body('name', 'Name is required!').trim().not().isEmpty(),
-  check('email', 'Email is required!').trim().isEmail(),
-  body('pseudo').trim(),
-  body('socialNetwork').trim(),
-  body('phone').trim(),
-], voucherController.updateVoucher);
+router.put('/:id', voucherController.updateVoucher);
 
 module.exports = router;
