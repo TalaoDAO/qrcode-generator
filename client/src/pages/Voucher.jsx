@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Button, Grid, TextField, Typography, Select, MenuItem} from "@mui/material";
+import { Button, Grid, TextField, Typography, Select, MenuItem, InputLabel,FormControl} from "@mui/material";
 import API from "../api";
 import styled from "@emotion/styled";
 import QRCodeContent from "../components/QRCodeContent";
@@ -37,10 +37,10 @@ function Voucher() {
         phone: "",
         email: "",
         pseudo: "",
-        commission: "",
-        blockchain: "",
+        commission: "5",
+        blockchain: "Tezos",
         blockchainAccount: "",
-        duration: "",
+        duration: "30",
     });
     const [qrUrl, setQRUrl] = useState('')
 
@@ -110,20 +110,24 @@ function Voucher() {
                 <Grid item className={"left-content"}>
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
+
                         <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Voucher`}</Typography>
+                        <FormControl fullWidth>
+                            <InputLabel id="voucherTemplate-label">Voucher Template</InputLabel>
 
-                        <Select
-                            className={'voucher-form__select'}
-                            required
-                            fullWidth
-                            value={'voucher-1'}
-                            name={"voucherTemplate"}
-                            label="Voucher Template"
-                            onChange={onChange}
-                        >
-                            <MenuItem value={'voucher-1'}>Voucher Template 1</MenuItem>
-                        </Select>
-
+                            <Select
+                                className={'voucher-form__select'}
+                                labelId="voucherTemplate"
+                                required
+                                fullWidth
+                                value={'voucher-1'}
+                                name={"voucherTemplate"}
+                                label="Voucher Template"
+                                onChange={onChange}
+                            >
+                                <MenuItem value={'voucher-1'}>Voucher Template 1</MenuItem>
+                            </Select>
+                        </FormControl>
                         <TextField
                             required
                             fullWidth
@@ -159,41 +163,104 @@ function Voucher() {
                             onChange={onChange}
                         />
 
-                        <TextField
-                            fullWidth
-                            required
-                            label="Commission"
-                            value={commission}
-                            name={"commission"}
-                            onChange={onChange}
-                        />
 
-                        <TextField
-                            fullWidth
-                            label="Affiliate Blockchain"
-                            value={blockchain}
-                            name={"blockchain"}
-                            onChange={onChange}
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="Commission-label">Commission</InputLabel>
+                            <Select
+                                className={'commission-form__select'}
+                                required
+                                labelId="Commission-label"
+                                fullWidth
+                                value={commission}
+                                name={"commission"}
+                                label="Commission"
+                                onChange={onChange}
+                            >
+                                <MenuItem value={1}>1 %</MenuItem>
+                                <MenuItem value={2}>2 %</MenuItem>
+                                <MenuItem value={3}>3 %</MenuItem>
+                                <MenuItem value={4}>4 %</MenuItem>
+                                <MenuItem value={5}>5 %</MenuItem>
+                                <MenuItem value={6}> 6 %</MenuItem>
+                                <MenuItem value={7}> 7 %</MenuItem>
+                                <MenuItem value={8}> 8 %</MenuItem>
+                                <MenuItem value={9}> 9 %</MenuItem>
+                                <MenuItem value={10}> 10 %</MenuItem>
+                                <MenuItem value={11}> 11 %</MenuItem>
+                                <MenuItem value={12}> 12 %</MenuItem>
+                                <MenuItem value={13}> 13 %</MenuItem>
+                                <MenuItem value={14}> 14 %</MenuItem>
+                                <MenuItem value={15}> 15 %</MenuItem>
+                                <MenuItem value={16}> 16 %</MenuItem>
+                                <MenuItem value={17}> 17 %</MenuItem>
+                                <MenuItem value={18}> 18 %</MenuItem>
+                                <MenuItem value={19}> 19 %</MenuItem>
+                                <MenuItem value={20}> 20 %</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id="blockchain-label">Affiliate Blockchain</InputLabel>
+                            <Select
+                                className={'blockchain-form__select'}
+                                labelId="blockchain-label"
+                                required
+                                fullWidth
+                                value={blockchain}
+                                name={"blockchain"}
+                                label="Affiliate Blockchain"
+                                onChange={onChange}
+                            >
+                                <MenuItem value={"Tezos"}> Tezos </MenuItem>
+                                <MenuItem value={"Ethereum"}> Ethereum </MenuItem>
+                                <MenuItem value={"Polygone"}> Polygone </MenuItem>
+                            </Select>
+                        </FormControl>
 
-                        <TextField
-                            fullWidth
-                            required
-                            label="Affiliate blockchain account"
-                            value={blockchainAccount}
-                            name={"blockchainAccount"}
-                            onChange={onChange}
-                        />
-
-                        <TextField
-                            fullWidth
-                            required
-                            label="Voucher Duration"
-                            value={duration}
-                            name={"duration"}
-                            onChange={onChange}
-                        />
-
+                        <FormControl fullWidth>
+                            <InputLabel id="blockchainAccount-label">Affiliate blockchain account</InputLabel>
+                            <Select
+                                className={'blockchain-form__select'}
+                                labelId="blockchainAccount-label"
+                                required
+                                fullWidth
+                                value={blockchainAccount}
+                                name={"blockchainAccount"}
+                                label="Affiliate blockchain account"
+                                onChange={onChange}
+                            >
+                                <MenuItem value={"tz1"}> tz1 </MenuItem>
+                                <MenuItem value={"tz2"}> tz2 </MenuItem>
+                                <MenuItem value={"tz3"}> tz3 </MenuItem>
+                                <MenuItem value={"0x"}> 0x </MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id="duration-label">Voucher Duration</InputLabel>
+                            
+                            <Select
+                                className={'blockchain-form__select'}
+                                labelId="duration-label"
+                                required
+                                fullWidth
+                                value={duration}
+                                name={"duration"}
+                                label="Voucher Duration"
+                                onChange={onChange}
+                            >
+                                <MenuItem value={7}> 7 </MenuItem>
+                                <MenuItem value={10}> 10 </MenuItem>
+                                <MenuItem value={20}> 20 </MenuItem>
+                                <MenuItem value={30}> 30 </MenuItem>
+                                <MenuItem value={40}> 40 </MenuItem>
+                                <MenuItem value={45}> 45 </MenuItem>
+                                <MenuItem value={60}> 60 </MenuItem>
+                                <MenuItem value={75}> 75 </MenuItem>
+                                <MenuItem value={90}> 90 </MenuItem>
+                                <MenuItem value={120}> 120 </MenuItem>
+                                <MenuItem value={180}> 180 </MenuItem>
+                                <MenuItem value={365}> 365 </MenuItem>
+                            </Select>
+                        </FormControl>
                         <ButtonStyled variant="contained" type={"submit"}>{voucher ? "Update" : "Save"}</ButtonStyled>
 
                     </form>
