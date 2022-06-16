@@ -22,7 +22,7 @@ function AppQrCode({url, isLoggedIn = false}) {
     const [isCopied, setIsCopied] = useState(false);
 
     setTimeout(() => {
-        if(isCopied) {
+        if (isCopied) {
             setIsCopied(false);
         }
     }, 2000)
@@ -57,7 +57,7 @@ function AppQrCode({url, isLoggedIn = false}) {
                                             value={url}
                                         />
                                     </div>
-                                    <ButtonStyled
+                                    {isLoggedIn && <ButtonStyled
                                         style={{
                                             marginBottom: "2rem",
                                             backgroundColor: isCopied ? '#979797' : '#923aff',
@@ -69,6 +69,7 @@ function AppQrCode({url, isLoggedIn = false}) {
                                             <span>{isCopied ? 'Copied!' : 'Copy QR code string'}</span>
                                         </CopyToClipboard>
                                     </ButtonStyled>
+                                    }
                                 </> : <h2>
                                     Invalid QR Code Link
                                 </h2>}

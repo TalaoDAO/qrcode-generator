@@ -22,7 +22,7 @@ exports.generateQRCode = async (req, res) => {
   try {
     const voucher = await Voucher.findById(req.params.id);
 
-    const url = `https://tezotopia.talao.co/${voucher.id}`
+    const url = `${config.get('ISSUER_URL')}/issuer/${voucher.id}`
 
     res.status(200).json({ message: "QR Code URL", success: true, data: url });
 
