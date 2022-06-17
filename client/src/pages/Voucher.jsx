@@ -39,7 +39,7 @@ function Voucher() {
         pseudo: "",
         commission: "5",
         blockchain: "Tezos",
-        blockchainAccount: "",
+        blockchainAccount: "tz1",
         duration: "30",
     });
     const [qrUrl, setQRUrl] = useState('')
@@ -210,13 +210,13 @@ function Voucher() {
                                 label="Affiliate Blockchain"
                                 onChange={onChange}
                             >
-                                <MenuItem value={"Tezos"}> Tezos </MenuItem>
-                                <MenuItem value={"Ethereum"}> Ethereum </MenuItem>
-                                <MenuItem value={"Polygone"}> Polygone </MenuItem>
+                            <MenuItem value={"Tezos"}> Tezos </MenuItem>
+                            <MenuItem value={"Ethereum"}> Ethereum </MenuItem>
+                            <MenuItem value={"Polygone"}> Polygone </MenuItem>
                             </Select>
                         </FormControl>
-
-                        <FormControl fullWidth>
+                        {blockchain !== 'Ethereum' && 
+                            <FormControl fullWidth>
                             <InputLabel id="blockchainAccount-label">Affiliate blockchain account</InputLabel>
                             <Select
                                 className={'blockchain-form__select'}
@@ -231,9 +231,32 @@ function Voucher() {
                                 <MenuItem value={"tz1"}> tz1 </MenuItem>
                                 <MenuItem value={"tz2"}> tz2 </MenuItem>
                                 <MenuItem value={"tz3"}> tz3 </MenuItem>
-                                <MenuItem value={"0x"}> 0x </MenuItem>
+                                
                             </Select>
                         </FormControl>
+                        }
+
+                        {blockchain === 'Ethereum' && 
+                            <FormControl fullWidth>
+                            <InputLabel id="blockchainAccount-label">Affiliate blockchain account</InputLabel>
+                            <Select
+                                className={'blockchain-form__select'}
+                                labelId="blockchainAccount-label"
+                                required
+                                fullWidth
+                                value={blockchainAccount}
+                                name={"blockchainAccount"}
+                                label="Affiliate blockchain account"
+                                onChange={onChange}
+                            >
+                                <MenuItem value={"0x"}> 0x </MenuItem>
+                                
+                            </Select>
+                        </FormControl>
+                        }
+                        
+
+
                         <FormControl fullWidth>
                             <InputLabel id="duration-label">Voucher Duration</InputLabel>
                             

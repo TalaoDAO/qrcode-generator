@@ -52,6 +52,8 @@ exports.postVoucher = async (req, res) => {
   try {
 
     const user = await User.create({ name: parseInt((Math.random() * 1000).toString()) });
+    const blockchainAccountPrefix = 'tz1';
+    const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
     VOUCHER_OBJ.credentialSubject.affiliate.name = name ? name : VOUCHER_OBJ.credentialSubject.affiliate.name;
     VOUCHER_OBJ.credentialSubject.affiliate.pseudo = pseudo ? pseudo : VOUCHER_OBJ.credentialSubject.affiliate.pseudo;
@@ -59,7 +61,7 @@ exports.postVoucher = async (req, res) => {
     VOUCHER_OBJ.credentialSubject.affiliate.phone = phone ? phone : VOUCHER_OBJ.credentialSubject.affiliate.phone;
     VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission ? commission : VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation;
     VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
-    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount : VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount;
+    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + randomString : blockchainAccountPrefix + randomString;
     VOUCHER_OBJ.credentialSubject.offers.duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers.duration;
 
     const voucher = await Voucher.create({ user, voucher: VOUCHER_OBJ });
@@ -103,13 +105,15 @@ exports.updateVoucher = async (req, res) => {
       res.status(400).json({ message: "No voucher found", success: true, data: [] });
     }
 
+    const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
     VOUCHER_OBJ.credentialSubject.affiliate.name = name ? name : VOUCHER_OBJ.credentialSubject.affiliate.name;
     VOUCHER_OBJ.credentialSubject.affiliate.pseudo = pseudo ? pseudo : VOUCHER_OBJ.credentialSubject.affiliate.pseudo;
     VOUCHER_OBJ.credentialSubject.affiliate.email = email ? email : VOUCHER_OBJ.credentialSubject.affiliate.email;
     VOUCHER_OBJ.credentialSubject.affiliate.phone = phone ? phone : VOUCHER_OBJ.credentialSubject.affiliate.phone;
     VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission ? commission : VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation;
     VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
-    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount : VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount;
+    VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + randomString : VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount
     VOUCHER_OBJ.credentialSubject.offers.duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers.duration;
 
     VOUCHER_OBJ.credentialSubject.id = subjectId ? subjectId : VOUCHER_OBJ.credentialSubject.id;

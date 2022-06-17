@@ -211,7 +211,7 @@ exports.VOUCHER_OBJ = {
             "paymentAccepted": {
                 "blockchain": "Tezos",
                 "currency": "XTZ",
-                "blockchainAccount": "tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg5555"
+                "blockchainAccount": "NyjrTUNxDpPaqNZ84ipGELAcTWYg5555"
             },
             "benefit": {
                 "category": "commission",

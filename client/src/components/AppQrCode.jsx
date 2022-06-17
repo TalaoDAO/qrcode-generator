@@ -32,7 +32,7 @@ function AppQrCode({url, isLoggedIn = false}) {
             <div
                 className="modal fade theme-modal"
                 id="qrModal"
-                tabindex="-1"
+                tabIndex="-1"
                 aria-labelledby="qrModalLabel"
                 aria-hidden="true"
             >
