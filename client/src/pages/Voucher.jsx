@@ -30,6 +30,7 @@ const HomeButtonStyled = styled(Button)({
 });
 
 function Voucher() {
+    const [blockchainAccountError, setBlockchainAccountError] = useState(null);
     const [voucher, setVoucher] = useState(null);
     const [formData, setFormData] = useState({
         voucherTemplate: "voucher-1",
@@ -47,6 +48,18 @@ function Voucher() {
     const { name, phone, email, pseudo, commission, blockchain, blockchainAccount, duration } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const blockchainAccountOnChange = e =>  {
+        if((blockchain === 'Ethereum' || blockchain === 'Polygone')  && e.target.value.length >= 2 && e.target.value.slice(0, 2) !== '0x'){
+            console.log(e.target.value.length) 
+            setBlockchainAccountError('Affiliate blockchain account should start with 0x');
+        }else if(blockchain === 'Tezos'  && e.target.value.length >= 3 && (e.target.value.slice(0, 3) !== 'tz1' && e.target.value.slice(0, 3) !== 'tz2' && e.target.value.slice(0, 3) !== 'tz3') ){
+            setBlockchainAccountError('Affiliate blockchain account should start with tz1, tz2 or tz3');
+        }else{
+            setBlockchainAccountError(null);
+        }
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
 
     useEffect(() => {
         if (voucher) {
@@ -208,55 +221,23 @@ function Voucher() {
                                 value={blockchain}
                                 name={"blockchain"}
                                 label="Affiliate Blockchain"
-                                onChange={onChange}
+                                onChange={blockchainAccountOnChange}
                             >
                             <MenuItem value={"Tezos"}> Tezos </MenuItem>
                             <MenuItem value={"Ethereum"}> Ethereum </MenuItem>
                             <MenuItem value={"Polygone"}> Polygone </MenuItem>
                             </Select>
                         </FormControl>
-                        {blockchain !== 'Ethereum' && 
-                            <FormControl fullWidth>
-                            <InputLabel id="blockchainAccount-label">Affiliate blockchain account</InputLabel>
-                            <Select
-                                className={'blockchain-form__select'}
-                                labelId="blockchainAccount-label"
-                                required
-                                fullWidth
-                                value={blockchainAccount}
-                                name={"blockchainAccount"}
-                                label="Affiliate blockchain account"
-                                onChange={onChange}
-                            >
-                                <MenuItem value={"tz1"}> tz1 </MenuItem>
-                                <MenuItem value={"tz2"}> tz2 </MenuItem>
-                                <MenuItem value={"tz3"}> tz3 </MenuItem>
-                                
-                            </Select>
-                        </FormControl>
-                        }
-
-                        {blockchain === 'Ethereum' && 
-                            <FormControl fullWidth>
-                            <InputLabel id="blockchainAccount-label">Affiliate blockchain account</InputLabel>
-                            <Select
-                                className={'blockchain-form__select'}
-                                labelId="blockchainAccount-label"
-                                required
-                                fullWidth
-                                value={blockchainAccount}
-                                name={"blockchainAccount"}
-                                label="Affiliate blockchain account"
-                                onChange={onChange}
-                            >
-                                <MenuItem value={"0x"}> 0x </MenuItem>
-                                
-                            </Select>
-                        </FormControl>
-                        }
                         
-
-
+                        <TextField
+                            fullWidth
+                            label="Affiliate blockchain account"
+                            value={blockchainAccount}
+                            name={"blockchainAccount"}
+                            error={blockchainAccountError}
+                            helperText={blockchainAccountError}
+                            onChange={blockchainAccountOnChange}
+                        />
                         <FormControl fullWidth>
                             <InputLabel id="duration-label">Voucher Duration</InputLabel>
                             
