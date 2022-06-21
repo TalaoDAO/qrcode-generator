@@ -162,6 +162,10 @@ body {
   /*padding: 39px 50px;*/
 }
 
+.modal-open {
+  overflow: auto !important;
+}
+
 @media only screen and (max-width: 768px) {
   .container {
     max-width: 100%;
