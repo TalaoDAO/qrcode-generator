@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
         ref: 'Users'
     },
     
-    mebershipCards: {
+    membershipCards: {
         type: mongoose.SchemaTypes.Mixed,
     },
 
@@ -21,4 +21,4 @@ const schema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('MebershipCards', schema);
+module.exports = mongoose.model('MembershipCards', schema);

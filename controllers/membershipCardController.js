@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
-const MebershipCard = require("../models/membershipCards");
+const MembershipCard = require("../models/membershipCards");
 const User = require("../models/users");
-const { MEMBERSHIPCARD_OBJ } = require("../utils");
+const { MEMBERSHIP_CARD_OBJ } = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 
@@ -9,28 +9,28 @@ exports.getMembershipCard = async (req, res) => {
     
     try {
 
-        const mebershipCard = await MebershipCard.findById(req.params.id);
+        const membershipCard = await MembershipCard.findById(req.params.id);
     
-        res.status(200).json({ message: "Mebership Card data", success: true, mebershipCard });
+        res.status(200).json({ message: "Membership Card data", success: true, membershipCard });
     
     } catch (err) {
         console.log(err.message);
-        res.status(400).json({ message: "No Mebership Card found", success: true, data: [] });
+        res.status(400).json({ message: "No Membership Card found", success: true, data: [] });
     }
     
 };
 
 exports.generateQRCode = async (req, res) => {
     try {
-        const mebershipCard = await MebershipCard.findById(req.params.id);
+        const membershipCard = await MembershipCard.findById(req.params.id);
     
-        const url = `${config.get('ISSUER_URL')}/issuer/${mebershipCard.id}`
+        const url = `${config.get('ISSUER_URL')}/issuer/${membershipCard.id}`
     
         res.status(200).json({ message: "QR Code URL", success: true, data: url });
     
         } catch (err) {
         console.log(err.message);
-        res.status(400).json({ message: "No Mebership Card found", success: true, data: [] });
+        res.status(400).json({ message: "No Membership Card found", success: true, data: [] });
         }
     };
 
@@ -49,14 +49,14 @@ exports.postMembershipCard = async (req, res) => {
  
     try {
         const user = await User.create({ name: parseInt((Math.random() * 1000).toString()) });
-    
-        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].duration;
-        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? currency : MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
-        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIPCARD_OBJ.credentialSubject.offers.cardPrice[0].value
 
-        const mebershipCard = await MebershipCard.create({ user, mebershipCards: MEMBERSHIPCARD_OBJ });
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? currency : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value
 
-        res.status(200).json({ message: "Membership cards created", success: true, data: mebershipCard });
+        const membershipCard = await MembershipCard.create({ user, membershipCards: MEMBERSHIP_CARD_OBJ });
+
+        res.status(200).json({ message: "Membership cards created", success: true, data: membershipCard });
 
     } catch (err) {
         console.log(err.message);
@@ -80,21 +80,21 @@ exports.updateMembershipCard = async (req, res) => {
     try {
 
         try {
-        await MebershipCard.findById(req.params.id);
+        await MembershipCard.findById(req.params.id);
         } catch (err) {
         res.status(400).json({ message: "No Membership Card found", success: true, data: [] });
         }
 
         const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-        MEMBERSHIPCARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIPCARD_OBJ.credentialSubject.offers.duration;
-        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? duration : MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
-        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIPCARD_OBJ.credentialSubject.offers.cardPrice[0].value
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.duration;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value
 
 
-        await MebershipCard.updateOne({ _id: req.params.id }, { mebershipCard: MEMBERSHIPCARD_OBJ });
+        await MembershipCard.updateOne({ _id: req.params.id }, { membershipCard: MEMBERSHIP_CARD_OBJ });
 
-        res.status(200).json({ message: "Mebership Card updated", success: true, data: [] });
+        res.status(200).json({ message: "Membership Card updated", success: true, data: [] });
 
     } catch (err) {
         console.log(err.message);

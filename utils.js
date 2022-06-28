@@ -222,7 +222,7 @@ exports.VOUCHER_OBJ = {
 }
 
 
-exports.MEMBERSHIPCARD_OBJ = {
+exports.MEMBERSHIP_CARD_OBJ = {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
         {
