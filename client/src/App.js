@@ -7,7 +7,7 @@ import MembershipCard from "./pages/MembershipCard";
 function App() {
     const token = localStorage.getItem('token')
     if (!token) {
-        return <Home/>
+      return <Home/>
     } else {
       return (
         <Router>

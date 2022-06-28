@@ -48,9 +48,9 @@ function MembershipCard() {
     useEffect(() => {
         if (membershipCard) {
             setFormData({
-                currency: membershipCard.voucher.credentialSubject.offers.cardPrice.currency,
-                value: membershipCard.voucher.credentialSubject.offers.cardPrice.value,
-                duration: membershipCard.voucher.credentialSubject.offers.duration,
+                currency: membershipCard.membershipCards.credentialSubject.offers[0].cardPrice.currency,
+                value: membershipCard.membershipCards.credentialSubject.offers[0].cardPrice.value,
+                duration: membershipCard.membershipCards.credentialSubject.offers[0].duration,
             });
         }
     }, [membershipCard]);
