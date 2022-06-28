@@ -17,6 +17,11 @@ axios_package.interceptors.response.use(undefined, (err) => {
     return Promise.reject(err)
 })
 
+axios_package.interceptors.request.use(req => {
+    req.headers.authorization = localStorage.getItem('token');
+    return req;
+});
+
 export default {
     membershipCards,
     vouchers,
