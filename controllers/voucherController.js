@@ -6,6 +6,7 @@ const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 
 exports.getVoucher = async (req, res) => {
+  
   try {
 
     const voucher = await Voucher.findById(req.params.id);

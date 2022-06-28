@@ -1,4 +1,5 @@
 import vouchers from './api/vouchers'
+import membershipCards from './api/membershipcards'
 import qrcode from './api/qrcode'
 
 const axios_package = require('axios')
@@ -17,6 +18,7 @@ axios_package.interceptors.response.use(undefined, (err) => {
 })
 
 export default {
+    membershipCards,
     vouchers,
     qrcode
 }
