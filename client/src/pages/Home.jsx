@@ -35,7 +35,7 @@ function Home() {
     useEffect(() => {
         if (isLoggedIn) {
             document.querySelector('.modal-backdrop').remove();
-            navigate('/voucher');
+            navigate('/choice');
         }
     }, [isLoggedIn])
 
