@@ -127,6 +127,12 @@ body {
   transition: 0.3s;
 }
 
+button.active-btn a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+}
+
 .active-btn:hover {
   background: #fbd400;
   color: #923aff;

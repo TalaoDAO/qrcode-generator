@@ -1,72 +1,62 @@
 const { validationResult } = require("express-validator");
-const Voucher = require("../models/vouchers");
+const MebershipCard = require("../models/membershipCards");
 const User = require("../models/users");
 const { MEMBERSHIPCARD_OBJ } = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 
-exports.getVoucher = async (req, res) => {
+exports.getMembershipCard = async (req, res) => {
+    
     try {
 
-        const voucher = await Voucher.findById(req.params.id);
-
-        res.status(200).json({ message: "Voucher data", success: true, voucher });
-
+        const mebershipCard = await MebershipCard.findById(req.params.id);
+    
+        res.status(200).json({ message: "Mebership Card data", success: true, mebershipCard });
+    
     } catch (err) {
         console.log(err.message);
-        res.status(400).json({ message: "No voucher found", success: true, data: [] });
+        res.status(400).json({ message: "No Mebership Card found", success: true, data: [] });
     }
+    
 };
 
 exports.generateQRCode = async (req, res) => {
     try {
-        const voucher = await Voucher.findById(req.params.id);
-
-        const url = `${config.get('ISSUER_URL')}/issuer/${voucher.id}`
-
+        const mebershipCard = await MebershipCard.findById(req.params.id);
+    
+        const url = `${config.get('ISSUER_URL')}/issuer/${mebershipCard.id}`
+    
         res.status(200).json({ message: "QR Code URL", success: true, data: url });
-
-    } catch (err) {
+    
+        } catch (err) {
         console.log(err.message);
-        res.status(400).json({ message: "No voucher found", success: true, data: [] });
-    }
-};
+        res.status(400).json({ message: "No Mebership Card found", success: true, data: [] });
+        }
+    };
 
-exports.postVoucher = async (req, res) => {
+exports.postMembershipCard = async (req, res) => {
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ message: errors.array()[0].msg, success: false });
     }
 
     const {
-        name,
-        email,
-        pseudo,
-        commission,
-        phone,
-        blockchain,
-        blockchainAccount,
+        value,
+        currency,
         duration,
     } = req.body;
-
+ 
     try {
-
         const user = await User.create({ name: parseInt((Math.random() * 1000).toString()) });
-        const blockchainAccountPrefix = 'tz1';
-        const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    
+        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].duration;
+        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? currency : MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
+        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIPCARD_OBJ.credentialSubject.offers.cardPrice[0].value
 
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.name = name ? name : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.name;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.pseudo = pseudo ? pseudo : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.pseudo;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.email = email ? email : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.email;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.phone = phone ? phone : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.phone;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission ? commission : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + randomString : blockchainAccountPrefix + randomString;
-        MEMBERSHIPCARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIPCARD_OBJ.credentialSubject.offers.duration;
+        const mebershipCard = await MebershipCard.create({ user, mebershipCards: MEMBERSHIPCARD_OBJ });
 
-        const voucher = await Voucher.create({ user, voucher: MEMBERSHIPCARD_OBJ });
-
-        res.status(200).json({ message: "Voucher created", success: true, data: voucher });
+        res.status(200).json({ message: "Membership cards created", success: true, data: mebershipCard });
 
     } catch (err) {
         console.log(err.message);
@@ -75,56 +65,36 @@ exports.postVoucher = async (req, res) => {
 };
 
 
-exports.updateVoucher = async (req, res) => {
+exports.updateMembershipCard = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ message: errors.array()[0].msg, success: false });
     }
 
     const {
-        name,
-        email,
-        pseudo,
-        commission,
-        phone,
-        blockchain,
-        blockchainAccount,
+        value,
+        currency,
         duration,
-        blockchainTezos,
-        expirationDate,
-        issuanceDate,
-        voucherId,
-        subjectId,
     } = req.body;
 
     try {
 
         try {
-        await Voucher.findById(req.params.id);
+        await MebershipCard.findById(req.params.id);
         } catch (err) {
-        res.status(400).json({ message: "No voucher found", success: true, data: [] });
+        res.status(400).json({ message: "No Membership Card found", success: true, data: [] });
         }
 
         const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.name = name ? name : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.name;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.pseudo = pseudo ? pseudo : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.pseudo;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.email = email ? email : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.email;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.phone = phone ? phone : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.phone;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission ? commission : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
-        MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + randomString : MEMBERSHIPCARD_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount
         MEMBERSHIPCARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIPCARD_OBJ.credentialSubject.offers.duration;
+        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? duration : MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
+        MEMBERSHIPCARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIPCARD_OBJ.credentialSubject.offers.cardPrice[0].value
 
-        MEMBERSHIPCARD_OBJ.credentialSubject.id = subjectId ? subjectId : MEMBERSHIPCARD_OBJ.credentialSubject.id;
-        MEMBERSHIPCARD_OBJ.id = voucherId ? voucherId : MEMBERSHIPCARD_OBJ.id;
-        MEMBERSHIPCARD_OBJ.issuanceDate = issuanceDate ? issuanceDate : MEMBERSHIPCARD_OBJ.issuanceDate;
-        MEMBERSHIPCARD_OBJ.expirationDate = expirationDate ? expirationDate : MEMBERSHIPCARD_OBJ.expirationDate;
-        MEMBERSHIPCARD_OBJ.credentialSubject.associatedAddress.blockchainTezos = blockchainTezos ? blockchainTezos : MEMBERSHIPCARD_OBJ.credentialSubject.id;
 
-        await Voucher.updateOne({ _id: req.params.id }, { voucher: MEMBERSHIPCARD_OBJ });
+        await MebershipCard.updateOne({ _id: req.params.id }, { mebershipCard: MEMBERSHIPCARD_OBJ });
 
-        res.status(200).json({ message: "Voucher updated", success: true, data: [] });
+        res.status(200).json({ message: "Mebership Card updated", success: true, data: [] });
 
     } catch (err) {
         console.log(err.message);

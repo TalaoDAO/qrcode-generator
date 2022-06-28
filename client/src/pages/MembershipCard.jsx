@@ -29,16 +29,18 @@ const HomeButtonStyled = styled(Button)({
     color: "white",
 });
 
+
+
 function MembershipCard() {
     const [membershipCard, setMembershipCard] = useState(null);
-    const [formData, setFormData] = useState({
-        membershipCardDuration: "",
-        membershipCardPrice: 60,
-        membershipCardCurrency: "USD"
-    });
     const [qrUrl, setQRUrl] = useState('')
+    const [formData, setFormData] = useState({
+        duration: "",
+        value: 60,
+        currency: "USD"
+    });
 
-    const {  membershipCardDuration, membershipCardCurrency, membershipCardPrice } = formData;
+    const {  duration, currency, value } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -46,13 +48,8 @@ function MembershipCard() {
     useEffect(() => {
         if (membershipCard) {
             setFormData({
-                name: membershipCard.voucher.credentialSubject.affiliate.name,
-                phone: membershipCard.voucher.credentialSubject.affiliate.pseudo,
-                email: membershipCard.voucher.credentialSubject.affiliate.email,
-                pseudo: membershipCard.voucher.credentialSubject.affiliate.phone,
-                commission: membershipCard.voucher.credentialSubject.affiliate.benefit.incentiveCompensation,
-                blockchain: membershipCard.voucher.credentialSubject.affiliate.paymentAccepted.blockchain,
-                blockchainAccount: membershipCard.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount,
+                currency: membershipCard.voucher.credentialSubject.offers.cardPrice.currency,
+                value: membershipCard.voucher.credentialSubject.offers.cardPrice.value,
                 duration: membershipCard.voucher.credentialSubject.offers.duration,
             });
         }
@@ -64,6 +61,7 @@ function MembershipCard() {
         try {
 
             if (!membershipCard) {
+                
                 const res = await API.membershipCards.addMembershipCard(formData);
 
                 if (res.data.success) {
@@ -79,6 +77,7 @@ function MembershipCard() {
             console.log(err);
         }
     };
+
 
     const getQRUrl = async () => {
         try {
@@ -99,7 +98,7 @@ function MembershipCard() {
         <>
             <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
             <Grid item xs={8}>
-                <QRCodeContent membershipCard={membershipCard} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true}/>
+                <QRCodeContent voucher={membershipCard} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true}/>
             </Grid>
             <Grid>
                 <Grid item className={"left-content"}>
@@ -113,8 +112,8 @@ function MembershipCard() {
                             required
                             fullWidth
                             label="Membership Card duration"
-                            value={membershipCardDuration}
-                            name={"membershipCardDuration"}
+                            value={duration}
+                            name={"duration"}
                             onChange={onChange}
                         />
 
@@ -125,8 +124,8 @@ function MembershipCard() {
                                 required
                                 labelId="membershipCardPrice-label"
                                 fullWidth
-                                value={membershipCardPrice}
-                                name={"membershipCardPrice"}
+                                value={value}
+                                name={"value"}
                                 label="membershipCardPrice"
                                 onChange={onChange}
                             >
@@ -159,8 +158,8 @@ function MembershipCard() {
                                 labelId="membershipCardCurrency-label"
                                 required
                                 fullWidth
-                                value={membershipCardCurrency}
-                                name={"membershipCardCurrency"}
+                                value={currency}
+                                name={"currency"}
                                 label="Membership Card Currency"
                                 onChange={onChange}
                             >

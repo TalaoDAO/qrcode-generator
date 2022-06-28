@@ -12,7 +12,7 @@ function Choice({isLoggedIn = false}) {
 
     const [nextPage, setNextPage] = useState("#");
 
-    const onChange = e => setNextPage({ nextPage: e.target.value });    
+    const onChange = e => setNextPage({ [e.target.name]: e.target.value });    
     
     const HomeButtonStyled = styled(Button)({
         borderColor: "#923aff",
@@ -27,8 +27,6 @@ function Choice({isLoggedIn = false}) {
         color: "white",
     });
 
-
-
     return (
         <>
         <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
@@ -39,22 +37,24 @@ function Choice({isLoggedIn = false}) {
                     <div className="flux-box">
                         <div className="header">
                             <div className="row g-0">
-                                <div className="col-12 text-center">
-                                    <FormControl>
-                                        <FormLabel id="radio-group-label">Please choose</FormLabel>
-                                        <RadioGroup
-                                            row
-                                            aria-labelledby="radio-group-label"
-                                            name="row-radio-buttons-group"
-                                        >
-                                            <FormControlLabel  onChange={onChange} value="voucher" control={<Radio />} label="Voucher" />
-                                            <FormControlLabel  onChange={onChange} value="membership-card" control={<Radio />} label="Membership" />
-                    
-                                        </RadioGroup>
-                                        <button className="active-btn" >
-                                            <a href={nextPage.nextPage}>Next</a>
-                                        </button>
-                                    </FormControl>
+                                <div className="col-12  left-content">
+                                    <div className='voucher-form'>
+                                        <FormControl>
+                                            <h5>Please choose</h5>
+                                            <RadioGroup
+                                                row
+                                                aria-labelledby="radio-group-label"
+                                                name="row-radio-buttons-group"
+                                            >
+                                                <FormControlLabel  name="next" onChange={onChange} value="voucher" control={<Radio />} label="Voucher" />
+                                                <FormControlLabel  name="next" onChange={onChange} value="membership-card" control={<Radio />} label="Membership" />
+                        
+                                            </RadioGroup>
+                                            <button className="active-btn" >
+                                                <a href={nextPage.next}>Next</a>
+                                            </button>
+                                        </FormControl>
+                                    </div>
                                 </div>
                             </div>
                         </div>
