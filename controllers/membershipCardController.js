@@ -75,6 +75,11 @@ exports.updateMembershipCard = async (req, res) => {
         value,
         currency,
         duration,
+        blockchainTezos,
+        expirationDate,
+        issuanceDate,
+        voucherId,
+        subjectId,
     } = req.body;
 
     try {
@@ -91,6 +96,11 @@ exports.updateMembershipCard = async (req, res) => {
         MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
         MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value
 
+        MEMBERSHIP_CARD_OBJ.credentialSubject.id = subjectId ? subjectId : MEMBERSHIP_CARD_OBJ.credentialSubject.id;
+        MEMBERSHIP_CARD_OBJ.id = voucherId ? voucherId : MEMBERSHIP_CARD_OBJ.id;
+        MEMBERSHIP_CARD_OBJ.issuanceDate = issuanceDate ? issuanceDate : MEMBERSHIP_CARD_OBJ.issuanceDate;
+        MEMBERSHIP_CARD_OBJ.expirationDate = expirationDate ? expirationDate : MEMBERSHIP_CARD_OBJ.expirationDate;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.associatedAddress.blockchainTezos = blockchainTezos ? blockchainTezos : MEMBERSHIP_CARD_OBJ.credentialSubject.id;
 
         await MembershipCard.updateOne({ _id: req.params.id }, { membershipCard: MEMBERSHIP_CARD_OBJ });
 

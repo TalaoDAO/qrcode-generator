@@ -1,31 +1,31 @@
 const router = require('express').Router();
 const voucherController = require('../../controllers/voucherController');
-const { body, check } = require("express-validator");
+const membershipCardController = require('../../controllers/membershipCardController');
+const Voucher = require("../models/vouchers");
+const MembershipCard = require("../models/membershipCards");
 
 // @route   GET get/vouchers/:id
 // @desc    Get voucher info
 // @access  public
-router.get('/:id', voucherController.getVoucher);
-
-// @route   GET get/vouchers/:id/qr-code
-// @desc    Generate QR Code for vouchers
-// @access  public
-router.get('/:id/qr-url', voucherController.generateQRCode);
-
-// @route   POST get/vouchers/
-// @desc    Create a new user and a voucher
-// @access  public
-router.post('/', [
-  body('name', 'Name is required!').trim().not().isEmpty(),
-  check('email', 'Email is required!').trim().isEmail(),
-  body('pseudo').trim(),
-  body('socialNetwork').trim(),
-  body('phone').trim(),
-], voucherController.postVoucher);
+router.get('/:id', async (req, res) => {
+  const voucher = await Voucher.findById(req.params.id);
+  if(voucher) {
+    return voucherController.getVoucher(req, res);
+  } else {
+    return membershipCardController.getMembershipCard(req, res);
+  }
+});
 
 // @route   PUT get/vouchers/:id
 // @desc    Update voucher info
 // @access  public
-router.put('/:id', voucherController.updateVoucher);
+router.put('/:id', async (req, res) => {
+  const voucher = await Voucher.findById(req.params.id);
+  if(voucher) {
+    return voucherController.updateVoucher(req, res);
+  } else {
+    return membershipCardController.updateMembershipCard(req, res);
+  }
+});
 
 module.exports = router;
