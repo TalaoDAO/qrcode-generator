@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const voucherController = require('../../controllers/voucherController');
 const membershipCardController = require('../../controllers/membershipCardController');
-const Voucher = require("../models/vouchers");
+const Voucher = require("../../models/vouchers");
 const MembershipCard = require("../models/membershipCards");
 
 // @route   GET get/vouchers/:id
