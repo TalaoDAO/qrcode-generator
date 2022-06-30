@@ -81,7 +81,7 @@ exports.getChallenge = async (req, res) => {
                     "credentialQuery": [
                         {
                             "example": {
-                                "type": "VerifiableCredential"
+                                "type": "EmailPass"
                             }
                         }
                     ],
