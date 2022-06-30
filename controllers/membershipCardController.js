@@ -92,9 +92,9 @@ exports.updateMembershipCard = async (req, res) => {
 
         const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-        MEMBERSHIP_CARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.duration;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
         MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
-        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value
 
         MEMBERSHIP_CARD_OBJ.credentialSubject.id = subjectId ? subjectId : MEMBERSHIP_CARD_OBJ.credentialSubject.id;
         MEMBERSHIP_CARD_OBJ.id = voucherId ? voucherId : MEMBERSHIP_CARD_OBJ.id;
