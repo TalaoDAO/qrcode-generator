@@ -35,7 +35,7 @@ function MembershipCard() {
     const [membershipCard, setMembershipCard] = useState(null);
     const [qrUrl, setQRUrl] = useState('')
     const [formData, setFormData] = useState({
-        duration: "",
+        duration: 360,
         value: 60,
         currency: "USD"
     });
@@ -107,15 +107,27 @@ function MembershipCard() {
 
                         <Typography variant={"h5"}>{`${membershipCard ? 'Update' : 'Create'} Membership Card`}</Typography>
 
-                        <TextField
-                            type={"text"}
-                            required
-                            fullWidth
-                            label="Membership Card duration"
-                            value={duration}
-                            name={"duration"}
-                            onChange={onChange}
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel id="membershipCardDuration-label">Membership Card Duration</InputLabel>
+                            <Select
+                              className={'membershipCardDuration-form__select'}
+                              required
+                              labelId="membershipCardDuration-label"
+                              fullWidth
+                              value={duration}
+                              name={"duration"}
+                              label="membershipCardDuration"
+                              onChange={onChange}
+                            >
+                                <MenuItem value={30}>30</MenuItem>
+                                <MenuItem value={60}>60</MenuItem>
+                                <MenuItem value={90}>90</MenuItem>
+                                <MenuItem value={180}>180</MenuItem>
+                                <MenuItem value={270}>270</MenuItem>
+                                <MenuItem value={360}>360</MenuItem>
+                                <MenuItem value={720}>720</MenuItem>
+                            </Select>
+                        </FormControl>
 
                         <FormControl fullWidth>
                             <InputLabel id="membershipCardPrice-label">Membership Card Price</InputLabel>
