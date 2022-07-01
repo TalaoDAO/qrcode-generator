@@ -48,6 +48,7 @@ exports.postVoucher = async (req, res) => {
     blockchain,
     blockchainAccount,
     duration,
+    discount,
   } = req.body;
 
   try {
@@ -64,6 +65,7 @@ exports.postVoucher = async (req, res) => {
     VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
     VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + randomString : blockchainAccountPrefix + randomString;
     VOUCHER_OBJ.credentialSubject.offers.duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers.duration;
+    VOUCHER_OBJ.credentialSubject.offers.benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers.benefit.discount;
 
     const voucher = await Voucher.create({ user, voucher: VOUCHER_OBJ });
 
@@ -91,6 +93,7 @@ exports.updateVoucher = async (req, res) => {
     blockchain,
     blockchainAccount,
     duration,
+    discount,
     blockchainTezos,
     expirationDate,
     issuanceDate,
@@ -116,6 +119,7 @@ exports.updateVoucher = async (req, res) => {
     VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
     VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + randomString : VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount
     VOUCHER_OBJ.credentialSubject.offers.duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers.duration;
+    VOUCHER_OBJ.credentialSubject.offers.benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers.benefit.discount;
 
     VOUCHER_OBJ.credentialSubject.id = subjectId ? subjectId : VOUCHER_OBJ.credentialSubject.id;
     VOUCHER_OBJ.id = voucherId ? voucherId : VOUCHER_OBJ.id;

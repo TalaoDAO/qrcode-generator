@@ -37,10 +37,11 @@ function MembershipCard() {
     const [formData, setFormData] = useState({
         duration: 360,
         value: 60,
-        currency: "USD"
+        currency: "USD",
+        discount: "15%",
     });
 
-    const {  duration, currency, value } = formData;
+    const {  duration, currency, value, discount } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -51,6 +52,7 @@ function MembershipCard() {
                 currency: membershipCard.membershipCards.credentialSubject.offers[0].cardPrice.currency,
                 value: membershipCard.membershipCards.credentialSubject.offers[0].cardPrice.value,
                 duration: membershipCard.membershipCards.credentialSubject.offers[0].duration,
+                discount: membershipCard.membershipCards.credentialSubject.offers[0].benefit.discount,
             });
         }
     }, [membershipCard]);
@@ -177,6 +179,31 @@ function MembershipCard() {
                             >
                             <MenuItem value={"EUR"}> EUR </MenuItem>
                             <MenuItem value={"USD"}> USD </MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id="discount-label">Gamer Reward</InputLabel>
+
+                            <Select
+                              className={'blockchain-form__select'}
+                              labelId="discount-label"
+                              required
+                              fullWidth
+                              value={discount}
+                              name={"discount"}
+                              label="Gamer Reward"
+                              onChange={onChange}
+                            >
+                                <MenuItem value={"5%"}>5 %</MenuItem>
+                                <MenuItem value={"10%"}>10 %</MenuItem>
+                                <MenuItem value={"15%"}>15 %</MenuItem>
+                                <MenuItem value={"20%"}>20 %</MenuItem>
+                                <MenuItem value={"25%"}>25 %</MenuItem>
+                                <MenuItem value={"30%"}>30 %</MenuItem>
+                                <MenuItem value={"35%"}>35 %</MenuItem>
+                                <MenuItem value={"40%"}>40 %</MenuItem>
+                                <MenuItem value={"45%"}>45 %</MenuItem>
+                                <MenuItem value={"50%"}>50 %</MenuItem>
                             </Select>
                         </FormControl>
                         <ButtonStyled variant="contained" type={"submit"}>{membershipCard ? "Update" : "Save"}</ButtonStyled>

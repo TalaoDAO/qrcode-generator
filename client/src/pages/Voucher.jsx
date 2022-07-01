@@ -42,10 +42,11 @@ function Voucher() {
         blockchain: "Tezos",
         blockchainAccount: "tz1",
         duration: "30",
+        discount: "15%",
     });
     const [qrUrl, setQRUrl] = useState('')
 
-    const { name, phone, email, pseudo, commission, blockchain, blockchainAccount, duration } = formData;
+    const { name, phone, email, pseudo, commission, blockchain, blockchainAccount, duration, discount } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -72,6 +73,7 @@ function Voucher() {
                 blockchain: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchain,
                 blockchainAccount: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount,
                 duration: voucher.voucher.credentialSubject.offers.duration,
+                discount: voucher.voucher.credentialSubject.offers.benefit.discount,
             });
         }
     }, [voucher]);
@@ -263,6 +265,31 @@ function Voucher() {
                                 <MenuItem value={120}> 120 </MenuItem>
                                 <MenuItem value={180}> 180 </MenuItem>
                                 <MenuItem value={365}> 365 </MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id="discount-label">Gamer Reward</InputLabel>
+
+                            <Select
+                              className={'blockchain-form__select'}
+                              labelId="discount-label"
+                              required
+                              fullWidth
+                              value={discount}
+                              name={"discount"}
+                              label="Gamer Reward"
+                              onChange={onChange}
+                            >
+                                <MenuItem value={"5%"}>5 %</MenuItem>
+                                <MenuItem value={"10%"}>10 %</MenuItem>
+                                <MenuItem value={"15%"}>15 %</MenuItem>
+                                <MenuItem value={"20%"}>20 %</MenuItem>
+                                <MenuItem value={"25%"}>25 %</MenuItem>
+                                <MenuItem value={"30%"}>30 %</MenuItem>
+                                <MenuItem value={"35%"}>35 %</MenuItem>
+                                <MenuItem value={"40%"}>40 %</MenuItem>
+                                <MenuItem value={"45%"}>45 %</MenuItem>
+                                <MenuItem value={"50%"}>50 %</MenuItem>
                             </Select>
                         </FormControl>
                         <ButtonStyled variant="contained" type={"submit"}>{voucher ? "Update" : "Save"}</ButtonStyled>
