@@ -72,8 +72,8 @@ function Voucher() {
                 commission: voucher.voucher.credentialSubject.affiliate.benefit.incentiveCompensation,
                 blockchain: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchain,
                 blockchainAccount: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount,
-                duration: voucher.voucher.credentialSubject.offers.duration,
-                discount: voucher.voucher.credentialSubject.offers.benefit.discount,
+                duration: voucher.voucher.credentialSubject.offers[0].duration,
+                discount: voucher.voucher.credentialSubject.offers[0].benefit.discount,
             });
         }
     }, [voucher]);

@@ -24,7 +24,7 @@ exports.generateQRCode = async (req, res) => {
     try {
         const membershipCard = await MembershipCard.findById(req.params.id);
     
-        const url = `${config.get('ISSUER_URL')}/issuer/${membershipCard.id}`
+        const url = `${config.get('ISSUER_URL')}/issuer/membership_${membershipCard.id}`
     
         res.status(200).json({ message: "QR Code URL", success: true, data: url });
     
