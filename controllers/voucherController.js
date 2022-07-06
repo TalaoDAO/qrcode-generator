@@ -4,6 +4,7 @@ const User = require("../models/users");
 const { VOUCHER_OBJ } = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
+const mongoose = require("mongoose");
 
 exports.getVoucher = async (req, res) => {
   
@@ -49,6 +50,7 @@ exports.postVoucher = async (req, res) => {
     blockchainAccount,
     duration,
     discount,
+    isMobile
   } = req.body;
 
   try {
@@ -67,7 +69,18 @@ exports.postVoucher = async (req, res) => {
     VOUCHER_OBJ.credentialSubject.offers[0].duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers[0].duration;
     VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount;
 
-    const voucher = await Voucher.create({ user, voucher: VOUCHER_OBJ });
+    let voucher;
+
+    if (isMobile) {
+      const existingVoucher = await Voucher.findById('voucher_mobile')
+      if (existingVoucher) {
+        await Voucher.updateOne({ _id: 'voucher_mobile' }, { voucher: VOUCHER_OBJ });
+      } else {
+        voucher = await Voucher.create({ _id: 'voucher_mobile', user, voucher: VOUCHER_OBJ });
+      }
+    } else {
+      voucher = await Voucher.create({ _id: new mongoose.Types.ObjectId(), user, voucher: VOUCHER_OBJ });
+    }
 
     res.status(200).json({ message: "Voucher created", success: true, data: voucher });
 
