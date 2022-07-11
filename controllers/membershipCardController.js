@@ -4,6 +4,7 @@ const User = require("../models/users");
 const { MEMBERSHIP_CARD_OBJ } = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
+const mongoose = require("mongoose");
 
 exports.getMembershipCard = async (req, res) => {
     
@@ -45,6 +46,7 @@ exports.postMembershipCard = async (req, res) => {
         value,
         currency,
         duration,
+        discount,
     } = req.body;
  
     try {
@@ -52,9 +54,10 @@ exports.postMembershipCard = async (req, res) => {
 
         MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
         MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? currency : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
-        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount;
 
-        const membershipCard = await MembershipCard.create({ user, membershipCards: MEMBERSHIP_CARD_OBJ });
+        const membershipCard = await MembershipCard.create({ _id: new mongoose.Types.ObjectId(), user, membershipCards: MEMBERSHIP_CARD_OBJ });
 
         res.status(200).json({ message: "Membership cards created", success: true, data: membershipCard });
 
@@ -75,6 +78,7 @@ exports.updateMembershipCard = async (req, res) => {
         value,
         currency,
         duration,
+        discount,
         blockchainTezos,
         expirationDate,
         issuanceDate,
@@ -94,7 +98,8 @@ exports.updateMembershipCard = async (req, res) => {
 
         MEMBERSHIP_CARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
         MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
-        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount;
 
         MEMBERSHIP_CARD_OBJ.credentialSubject.id = subjectId ? subjectId : MEMBERSHIP_CARD_OBJ.credentialSubject.id;
         MEMBERSHIP_CARD_OBJ.id = voucherId ? voucherId : MEMBERSHIP_CARD_OBJ.id;
@@ -102,7 +107,7 @@ exports.updateMembershipCard = async (req, res) => {
         MEMBERSHIP_CARD_OBJ.expirationDate = expirationDate ? expirationDate : MEMBERSHIP_CARD_OBJ.expirationDate;
         MEMBERSHIP_CARD_OBJ.credentialSubject.associatedAddress.blockchainTezos = blockchainTezos ? blockchainTezos : MEMBERSHIP_CARD_OBJ.credentialSubject.id;
 
-        await MembershipCard.updateOne({ _id: req.params.id }, { membershipCard: MEMBERSHIP_CARD_OBJ });
+        await MembershipCard.updateOne({ _id: req.params.id }, { membershipCards: MEMBERSHIP_CARD_OBJ });
 
         res.status(200).json({ message: "Membership Card updated", success: true, data: [] });
 
