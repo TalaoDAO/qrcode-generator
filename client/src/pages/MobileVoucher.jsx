@@ -33,9 +33,6 @@ function MobileVoucher() {
     const [formData, setFormData] = useState({
         name: "Altme",
         email: "contact@altme.io",
-        commission: "0",
-        blockchain: "Tezos",
-        blockchainAccount: null,
         duration: "30",
         discount: "15%",
         isMobile: true,
@@ -50,9 +47,6 @@ function MobileVoucher() {
             setFormData({
                 name: voucher.voucher.credentialSubject.affiliate.name,
                 email: voucher.voucher.credentialSubject.affiliate.email,
-                commission: voucher.voucher.credentialSubject.affiliate.benefit.incentiveCompensation,
-                blockchain: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchain,
-                blockchainAccount: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount,
                 duration: voucher.voucher.credentialSubject.offers[0].duration,
                 discount: voucher.voucher.credentialSubject.offers[0].benefit.discount,
             });
