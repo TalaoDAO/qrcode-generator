@@ -6,7 +6,7 @@ function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false
         <>
             <section className="page-content">
                 <div className="container">
-                    <div className="flux-box">
+                    <div className="flux-box position-center">
                         <div className="header">
                             <div className="row g-0">
                                 <div className="col-12 text-center">
