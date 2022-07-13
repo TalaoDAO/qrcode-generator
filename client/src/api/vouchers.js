@@ -1,5 +1,9 @@
 import {axios} from "../api";
 
+const getVouchers = async () => {
+  return await axios.get(`${process.env.REACT_APP_BASE_URL}/vouchers`);
+}
+
 const getVoucher = async (id) => {
   return await axios.get(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}`);
 }
@@ -16,9 +20,15 @@ const updateVoucher = async (id, data) => {
   return await axios.put(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}`, data);
 }
 
+const deleteVoucher = async (id) => {
+  return await axios.delete(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}`);
+}
+
 export default {
+  getVouchers,
   getQRUrl,
   getVoucher,
   addVoucher,
-  updateVoucher
+  updateVoucher,
+  deleteVoucher
 }

@@ -90,6 +90,16 @@ exports.postVoucher = async (req, res) => {
   }
 };
 
+exports.getVouchers = async (req, res) => {
+  try {
+    const vouchers = await Voucher.find();
+    res.status(200).json({ message: "Vouchers", success: true, data: vouchers });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
 
 exports.updateVoucher = async (req, res) => {
   const errors = validationResult(req);
@@ -144,6 +154,24 @@ exports.updateVoucher = async (req, res) => {
 
     res.status(200).json({ message: "Voucher updated", success: true, data: [] });
 
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
+
+exports.deleteVoucher = async (req, res) => {
+  try {
+    try {
+      await Voucher.findById(req.params.id);
+    } catch (err) {
+      res.status(400).json({ message: "No voucher found", success: true, data: [] });
+    }
+
+    await Voucher.deleteOne({ _id: req.params.id });
+
+    res.status(200).json({ message: "Voucher deleted", success: true, data: [] });
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server error");
