@@ -43,8 +43,7 @@ function AppQrCode({url, isLoggedIn = false}) {
                             {url ?
                                 <>
                                     <h2>
-                                        Scan the QR code
-                                        <br/> with your AltMe wallet
+                                        QR code and link generated
                                     </h2>
                                     {isLoggedIn && <ButtonStyled onClick={() => exportComponentAsJPEG(ref)}
                                                                  variant="contained"

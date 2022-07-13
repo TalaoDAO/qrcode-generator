@@ -38,7 +38,7 @@ function Voucher() {
         phone: "",
         email: "",
         pseudo: "",
-        commission: "5",
+        commission: "5%",
         blockchain: "Tezos",
         blockchainAccount: "tz1",
         duration: "30",
@@ -126,7 +126,7 @@ function Voucher() {
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
 
-                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Voucher`}</Typography>
+                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'}  voucher for AltMe`}</Typography>
                         <FormControl fullWidth>
                             <InputLabel id="voucherTemplate-label">Voucher Template</InputLabel>
 
@@ -180,7 +180,7 @@ function Voucher() {
 
 
                         <FormControl fullWidth>
-                            <InputLabel id="Commission-label">Commission</InputLabel>
+                            <InputLabel id="Commission-label">Affiliate Commission</InputLabel>
                             <Select
                                 className={'commission-form__select'}
                                 required
