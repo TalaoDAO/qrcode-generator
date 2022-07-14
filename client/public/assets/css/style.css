@@ -55,6 +55,13 @@ body {
   align-items: center;
 }
 
+.position-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .offer-text h1 {
   font-size: 61px;
   font-weight: 700;
@@ -170,6 +177,10 @@ button.active-btn a {
 
 .modal-open {
   overflow: auto !important;
+}
+
+.vouchers-table {
+  margin: 7rem;
 }
 
 @media only screen and (max-width: 768px) {

@@ -24,9 +24,19 @@ router.post('/', authMiddleware, [
   body('phone').trim(),
 ], voucherController.postVoucher);
 
+// @route   GET get/vouchers/
+// @desc    Create a new user and a voucher
+// @access  public
+router.get('/', authMiddleware,  voucherController.getVouchers);
+
 // @route   PUT get/vouchers/:id
 // @desc    Update voucher info
 // @access  public
 router.put('/:id', authMiddleware, voucherController.updateVoucher);
+
+// @route   DELETE get/vouchers/:id
+// @desc    Delete voucher
+// @access  public
+router.delete('/:id', authMiddleware, voucherController.deleteVoucher);
 
 module.exports = router;
