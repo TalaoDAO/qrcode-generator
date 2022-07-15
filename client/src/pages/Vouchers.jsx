@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
 import { Button, createTheme, TextField, ThemeProvider } from '@mui/material';
 import API from "../api";
@@ -23,6 +23,7 @@ function Vouchers() {
     const defaultMaterialTheme = createTheme();
     const [isLoading, setIsLoading] = useState(false);
     const [vouchers, setVouchers] = useState([])
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async function getAllVouchers() {
@@ -83,6 +84,10 @@ function Vouchers() {
             console.log(err);
             setIsLoading(false)
         }
+    }
+
+    const navigateToVoucher = (id) => {
+        navigate('/voucher', {state: id})
     }
 
     const tableColumns = [
@@ -205,16 +210,16 @@ function Vouchers() {
                                 isFreeAction: true,
                                 tooltip: 'Refresh',
                                 onClick: () => getVouchers()
+                            },
+                            {
+                                icon: 'add',
+                                isFreeAction: true,
+                                tooltip: 'Create',
+                                onClick: () => navigate('/voucher')
                             }
                         ]}
+                        onRowClick={(event, rowData) => navigateToVoucher(rowData._id)}
                         editable={{
-                            onRowUpdate: (newData, oldData) =>
-                                new Promise((resolve, reject) => {
-                                    setTimeout(async () => {
-                                        await updateVoucher(oldData._id, newData)
-                                        resolve();
-                                    }, 1000);
-                                }),
                             onRowDelete: oldData =>
                                 new Promise((resolve) => {
                                     setTimeout(async () => {

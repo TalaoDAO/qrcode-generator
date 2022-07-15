@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography, Select, MenuItem, InputLabel,FormC
 import API from "../api";
 import styled from "@emotion/styled";
 import QRCodeContent from "../components/QRCodeContent";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -29,7 +29,7 @@ const HomeButtonStyled = styled(Button)({
     color: "white",
 });
 
-function Voucher() {
+function Voucher({ navigation }) {
     const [blockchainAccountError, setBlockchainAccountError] = useState(null);
     const [voucher, setVoucher] = useState(null);
     const [formData, setFormData] = useState({
@@ -45,6 +45,7 @@ function Voucher() {
         discount: "15%",
     });
     const [qrUrl, setQRUrl] = useState('')
+    const { state } = useLocation();
 
     const { name, phone, email, pseudo, commission, blockchain, blockchainAccount, duration, discount } = formData;
 
@@ -61,6 +62,14 @@ function Voucher() {
         }
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
+
+    useEffect(() => {
+        if (state) {
+            (async function getVoucherData() {
+                await getVoucher(state);
+            })();
+        }
+    }, [])
 
     useEffect(() => {
         if (voucher) {
@@ -95,6 +104,17 @@ function Voucher() {
 
             await API.vouchers.updateVoucher(voucher._id, formData);
 
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const getVoucher = async (id) => {
+        try {
+            const res = await API.vouchers.getVoucher(id);
+            if (res.data.success) {
+                setVoucher(res.data.data);
+            }
         } catch (err) {
             console.log(err);
         }
