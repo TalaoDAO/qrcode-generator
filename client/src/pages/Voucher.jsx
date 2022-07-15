@@ -116,7 +116,7 @@ function Voucher() {
         try {
             const res = await API.vouchers.getVoucher(id);
             if (res.data.success) {
-                setVoucher(res.data.data);
+                setVoucher(res.data.voucher);
             }
         } catch (err) {
             console.log(err);
@@ -142,7 +142,7 @@ function Voucher() {
         <>
             <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
             <Grid item xs={8}>
-                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true}/>
+                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true} isCenter={false}/>
             </Grid>
             <Grid>
                 <Grid item className={"left-content"}>
