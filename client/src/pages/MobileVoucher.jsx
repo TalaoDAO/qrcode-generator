@@ -4,6 +4,7 @@ import { Button, Grid, Typography, Select, MenuItem, InputLabel,FormControl} fro
 import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { VOUCHER_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -36,6 +37,7 @@ function MobileVoucher() {
         duration: "30",
         discount: "15%",
         isMobile: true,
+        type: VOUCHER_KEY
     });
 
     const { duration, discount } = formData;
@@ -45,6 +47,7 @@ function MobileVoucher() {
     useEffect(() => {
         if (voucher) {
             setFormData({
+                ...formData,
                 name: voucher.voucher.credentialSubject.affiliate.name,
                 email: voucher.voucher.credentialSubject.affiliate.email,
                 duration: voucher.voucher.credentialSubject.offers[0].duration,

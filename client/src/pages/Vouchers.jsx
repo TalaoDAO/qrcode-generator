@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
-import { Button, createTheme, TextField, ThemeProvider } from '@mui/material';
+import { Button, createTheme, ThemeProvider } from '@mui/material';
 import API from "../api";
 
 const HomeButtonStyled = styled(Button)({
@@ -59,33 +59,6 @@ function Vouchers() {
         }
     }
 
-    const updateVoucher = async (id, data) => {
-        setIsLoading(true)
-        try {
-            console.log(data)
-            const newData = {
-                name: data.voucher.credentialSubject.affiliate.name,
-                pseudo: data.voucher.credentialSubject.affiliate.pseudo,
-                email: data.voucher.credentialSubject.affiliate.email,
-                phone: data.voucher.credentialSubject.affiliate.phone,
-                incentiveCompensation: data.voucher.credentialSubject.affiliate.benefit.incentiveCompensation,
-                blockchain: data.voucher.credentialSubject.affiliate.paymentAccepted.blockchain,
-                blockchainAccount: data.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount,
-                duration: data.voucher.credentialSubject.offers[0].duration,
-                discount: data.voucher.credentialSubject.offers[0].discount,
-            }
-
-            const res = await API.vouchers.updateVoucher(id, newData);
-            if (res.data.success) {
-                await getVouchers();
-                setIsLoading(false)
-            }
-        } catch (err) {
-            console.log(err);
-            setIsLoading(false)
-        }
-    }
-
     const navigateToVoucher = (id) => {
         navigate({
             pathname: '/voucher',
@@ -95,96 +68,36 @@ function Vouchers() {
 
     const tableColumns = [
         {
-            title: 'Name', field: 'voucher.credentialSubject.affiliate.name',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Name', field: 'voucher.credentialSubject.affiliate.name'
         },
         {
-            title: 'Pseudo', field: 'voucher.credentialSubject.affiliate.pseudo',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Pseudo', field: 'voucher.credentialSubject.affiliate.pseudo'
         },
         {
-            title: 'Email', field: 'voucher.credentialSubject.affiliate.email',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Email', field: 'voucher.credentialSubject.affiliate.email'
         },
         {
-            title: 'Phone', field: 'voucher.credentialSubject.affiliate.phone',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Phone', field: 'voucher.credentialSubject.affiliate.phone'
         },
         {
             title: 'Commission',
             field: 'voucher.credentialSubject.affiliate.benefit.incentiveCompensation',
-            type: 'numeric',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            type: 'numeric'
         },
         {
-            title: 'Blockchain', field: 'voucher.credentialSubject.affiliate.paymentAccepted.blockchain',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Blockchain', field: 'voucher.credentialSubject.affiliate.paymentAccepted.blockchain'
         },
         {
-            title: 'Blockchain Account', field: 'voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Blockchain Account', field: 'voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount'
         },
         {
-            title: 'Duration', field: 'voucher.credentialSubject.offers[0].duration', type: 'numeric',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Duration', field: 'voucher.credentialSubject.offers[0].duration', type: 'numeric'
         },
         {
-            title: 'Discount', field: 'voucher.credentialSubject.offers[0].benefit.discount', type: 'numeric',
-            editComponent: props => (
-                <TextField
-                    variant="standard"
-                    value={props.value}
-                    onChange={e => props.onChange(e.target.value)}
-                />
-            )
+            title: 'Discount', field: 'voucher.credentialSubject.offers[0].benefit.discount', type: 'numeric'
+        },
+        {
+            title: 'Type', field: 'type'
         },
     ]
 

@@ -11,17 +11,13 @@ router.get('/:id', authMiddleware, voucherController.getVoucher);
 // @route   GET get/vouchers/:id/qr-code
 // @desc    Generate QR Code for vouchers
 // @access  public
-router.get('/:id/qr-url', authMiddleware, voucherController.generateQRCode);
+router.get('/:id/qr-url/:type', authMiddleware, voucherController.generateQRCode);
 
 // @route   POST get/vouchers/
 // @desc    Create a new user and a voucher
 // @access  public
 router.post('/', authMiddleware, [
-  body('name', 'Name is required!').trim().not().isEmpty(),
-  check('email', 'Email is required!').trim().isEmail(),
-  body('pseudo').trim(),
-  body('socialNetwork').trim(),
-  body('phone').trim(),
+  body('type', 'Type is required!').trim().not().isEmpty(),
 ], voucherController.postVoucher);
 
 // @route   GET get/vouchers/
@@ -32,7 +28,9 @@ router.get('/', authMiddleware,  voucherController.getVouchers);
 // @route   PUT get/vouchers/:id
 // @desc    Update voucher info
 // @access  public
-router.put('/:id', authMiddleware, voucherController.updateVoucher);
+router.put('/:id', authMiddleware, [
+  body('type', 'Type is required!').trim().not().isEmpty(),
+], voucherController.updateVoucher);
 
 // @route   DELETE get/vouchers/:id
 // @desc    Delete voucher

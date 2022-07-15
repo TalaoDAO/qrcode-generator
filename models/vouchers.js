@@ -13,6 +13,8 @@ const schema = new mongoose.Schema({
     type: mongoose.SchemaTypes.Mixed,
   },
 
+  type: String,
+
   createdAt: {
     type: Date,
     default: Date.now,
