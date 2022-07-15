@@ -1,12 +1,12 @@
 import React from 'react';
 import AppQrCode from "../components/AppQrCode";
 
-function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false,  isLoggedIn = false}) {
+function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false,  isLoggedIn = false, isCenter=true}) {
     return (
         <>
             <section className="page-content">
                 <div className="container">
-                    <div className="flux-box position-center">
+                    <div className={`flux-box ${isCenter && 'position-center'}`}>
                         <div className="header">
                             <div className="row g-0">
                                 <div className="col-12 text-center">

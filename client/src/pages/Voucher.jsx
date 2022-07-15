@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography, Select, MenuItem, InputLabel,FormC
 import API from "../api";
 import styled from "@emotion/styled";
 import QRCodeContent from "../components/QRCodeContent";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -45,6 +45,7 @@ function Voucher() {
         discount: "15%",
     });
     const [qrUrl, setQRUrl] = useState('')
+    const location = useLocation();
 
     const { name, phone, email, pseudo, commission, blockchain, blockchainAccount, duration, discount } = formData;
 
@@ -52,7 +53,7 @@ function Voucher() {
 
     const blockchainAccountOnChange = e =>  {
         if((blockchain === 'Ethereum' || blockchain === 'Polygone')  && e.target.value.length >= 2 && e.target.value.slice(0, 2) !== '0x'){
-            console.log(e.target.value.length) 
+            console.log(e.target.value.length)
             setBlockchainAccountError('Affiliate blockchain account should start with 0x');
         }else if(blockchain === 'Tezos'  && e.target.value.length >= 3 && (e.target.value.slice(0, 3) !== 'tz1' && e.target.value.slice(0, 3) !== 'tz2' && e.target.value.slice(0, 3) !== 'tz3') ){
             setBlockchainAccountError('Affiliate blockchain account should start with tz1, tz2 or tz3');
@@ -61,6 +62,17 @@ function Voucher() {
         }
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
+
+    useEffect(() => {
+        const query = new URLSearchParams(location?.search);
+        const id = query.get("id");
+
+        if (id) {
+            (async function getVoucherData() {
+                await getVoucher(id);
+            })();
+        }
+    }, [])
 
     useEffect(() => {
         if (voucher) {
@@ -100,6 +112,17 @@ function Voucher() {
         }
     };
 
+    const getVoucher = async (id) => {
+        try {
+            const res = await API.vouchers.getVoucher(id);
+            if (res.data.success) {
+                setVoucher(res.data.voucher);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const getQRUrl = async () => {
         try {
             if (voucher) {
@@ -119,7 +142,7 @@ function Voucher() {
         <>
             <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
             <Grid item xs={8}>
-                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true}/>
+                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true} isCenter={false}/>
             </Grid>
             <Grid>
                 <Grid item className={"left-content"}>
