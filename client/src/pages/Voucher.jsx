@@ -29,7 +29,7 @@ const HomeButtonStyled = styled(Button)({
     color: "white",
 });
 
-function Voucher({ navigation }) {
+function Voucher() {
     const [blockchainAccountError, setBlockchainAccountError] = useState(null);
     const [voucher, setVoucher] = useState(null);
     const [formData, setFormData] = useState({
@@ -45,7 +45,7 @@ function Voucher({ navigation }) {
         discount: "15%",
     });
     const [qrUrl, setQRUrl] = useState('')
-    const { state } = useLocation();
+    const location = useLocation();
 
     const { name, phone, email, pseudo, commission, blockchain, blockchainAccount, duration, discount } = formData;
 
@@ -53,7 +53,7 @@ function Voucher({ navigation }) {
 
     const blockchainAccountOnChange = e =>  {
         if((blockchain === 'Ethereum' || blockchain === 'Polygone')  && e.target.value.length >= 2 && e.target.value.slice(0, 2) !== '0x'){
-            console.log(e.target.value.length) 
+            console.log(e.target.value.length)
             setBlockchainAccountError('Affiliate blockchain account should start with 0x');
         }else if(blockchain === 'Tezos'  && e.target.value.length >= 3 && (e.target.value.slice(0, 3) !== 'tz1' && e.target.value.slice(0, 3) !== 'tz2' && e.target.value.slice(0, 3) !== 'tz3') ){
             setBlockchainAccountError('Affiliate blockchain account should start with tz1, tz2 or tz3');
@@ -64,9 +64,12 @@ function Voucher({ navigation }) {
     }
 
     useEffect(() => {
-        if (state) {
+        const query = new URLSearchParams(location?.search);
+        const id = query.get("id");
+
+        if (id) {
             (async function getVoucherData() {
-                await getVoucher(state);
+                await getVoucher(id);
             })();
         }
     }, [])

@@ -87,7 +87,10 @@ function Vouchers() {
     }
 
     const navigateToVoucher = (id) => {
-        navigate('/voucher', {state: id})
+        navigate({
+            pathname: '/voucher',
+            search: `?id=${id}`
+        });
     }
 
     const tableColumns = [
