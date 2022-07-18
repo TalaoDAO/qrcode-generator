@@ -150,8 +150,8 @@ exports.updateVoucher = async (req, res) => {
     }
 
     const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
-    if (type === VOUCHER_KEY) {
+    const voucherType =  type ? type : req.params.type;
+    if (voucherType === VOUCHER_KEY) {
       VOUCHER_OBJ.credentialSubject.affiliate.name = name ? name : VOUCHER_OBJ.credentialSubject.affiliate.name;
       VOUCHER_OBJ.credentialSubject.affiliate.pseudo = pseudo ? pseudo : VOUCHER_OBJ.credentialSubject.affiliate.pseudo;
       VOUCHER_OBJ.credentialSubject.affiliate.email = email ? email : VOUCHER_OBJ.credentialSubject.affiliate.email;
@@ -171,7 +171,7 @@ exports.updateVoucher = async (req, res) => {
       await Voucher.updateOne({ _id: req.params.id }, { voucher: VOUCHER_OBJ });
 
       return res.status(200).json({ message: "Voucher updated", success: true, data: [] });
-    } else if (type === MEMBERSHIP_KEY) {
+    } else if (voucherType === MEMBERSHIP_KEY) {
 
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers.duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? currency : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;

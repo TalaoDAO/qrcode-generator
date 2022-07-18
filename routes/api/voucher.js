@@ -8,9 +8,11 @@ router.get('/:id', async (req, res) => {
   let qArr;
   if (req.params.id === 'voucher_mobile'){
     qArr = req.params.id
+    req.params.type = 'voucher_mobile';
   } else {
     qArr = req.params.id.split('_');
     req.params.id = qArr[1];
+    req.params.type = qArr[0];
   }
 
   if(qArr.length < 2) {
@@ -27,9 +29,11 @@ router.put('/:id', async (req, res) => {
   let qArr;
   if (req.params.id === 'voucher_mobile'){
     qArr = req.params.id
+    req.params.type = 'voucher_mobile';
   } else {
     qArr = req.params.id.split('_');
     req.params.id = qArr[1];
+    req.params.type = qArr[0];
   }
 
   if(qArr.length < 2) {
