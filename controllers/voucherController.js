@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const Voucher = require("../models/vouchers");
 const User = require("../models/users");
-const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY} = require("../utils");
+const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY} = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 const mongoose = require("mongoose");
@@ -151,7 +151,7 @@ exports.updateVoucher = async (req, res) => {
 
     const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const voucherType =  type ? type : req.params.type;
-    if (voucherType === VOUCHER_KEY) {
+    if (voucherType === VOUCHER_KEY || voucherType === VOUCHER_MOBILE_KEY) {
       VOUCHER_OBJ.credentialSubject.affiliate.name = name ? name : VOUCHER_OBJ.credentialSubject.affiliate.name;
       VOUCHER_OBJ.credentialSubject.affiliate.pseudo = pseudo ? pseudo : VOUCHER_OBJ.credentialSubject.affiliate.pseudo;
       VOUCHER_OBJ.credentialSubject.affiliate.email = email ? email : VOUCHER_OBJ.credentialSubject.affiliate.email;
