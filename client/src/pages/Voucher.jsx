@@ -41,7 +41,7 @@ function Voucher() {
         pseudo: "",
         commission: "5%",
         blockchain: "Tezos",
-        blockchainAccount: "tz1",
+        blockchainAccount: "",
         duration: "30",
         discount: "15%",
         type: VOUCHER_KEY
