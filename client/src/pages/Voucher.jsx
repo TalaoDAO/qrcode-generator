@@ -78,7 +78,6 @@ function Voucher() {
 
     useEffect(() => {
         if (voucher) {
-            const fullBlockchainAccount = voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount.split('_');
             setFormData({
                 ...formData,
                 name: voucher.voucher.credentialSubject.affiliate.name,
@@ -87,7 +86,7 @@ function Voucher() {
                 pseudo: voucher.voucher.credentialSubject.affiliate.phone,
                 commission: voucher.voucher.credentialSubject.affiliate.benefit.incentiveCompensation,
                 blockchain: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchain,
-                blockchainAccount: fullBlockchainAccount[0],
+                blockchainAccount: voucher.voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount,
                 duration: voucher.voucher.credentialSubject.offers[0].duration,
                 discount: voucher.voucher.credentialSubject.offers[0].benefit.discount,
             });

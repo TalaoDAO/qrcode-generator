@@ -70,7 +70,7 @@ exports.postVoucher = async (req, res) => {
       VOUCHER_OBJ.credentialSubject.affiliate.phone = phone ? phone : VOUCHER_OBJ.credentialSubject.affiliate.phone;
       VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission ? commission : VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation;
       VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
-      VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + '_' + randomString : blockchainAccountPrefix + '_' + randomString;
+      VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount : blockchainAccountPrefix + randomString;
       VOUCHER_OBJ.credentialSubject.offers[0].duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers[0].duration;
       VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount;
 
@@ -158,7 +158,7 @@ exports.updateVoucher = async (req, res) => {
       VOUCHER_OBJ.credentialSubject.affiliate.phone = phone ? phone : VOUCHER_OBJ.credentialSubject.affiliate.phone;
       VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation = commission ? commission : VOUCHER_OBJ.credentialSubject.affiliate.benefit.incentiveCompensation;
       VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain = blockchain ? blockchain :VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchain;
-      VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount + '_' + randomString : VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount
+      VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount = blockchainAccount ? blockchainAccount : VOUCHER_OBJ.credentialSubject.affiliate.paymentAccepted.blockchainAccount
       VOUCHER_OBJ.credentialSubject.offers[0].duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers[0].duration;
       VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount;
 
