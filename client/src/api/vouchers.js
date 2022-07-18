@@ -8,8 +8,8 @@ const getVoucher = async (id) => {
   return await axios.get(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}`);
 }
 
-const getQRUrl = async (id) => {
-  return await axios.get(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}/qr-url`);
+const getQRUrl = async (id, type) => {
+  return await axios.get(`${process.env.REACT_APP_BASE_URL}/vouchers/${id}/qr-url/${type}`);
 }
 
 const addVoucher = async (data) => {

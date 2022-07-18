@@ -5,6 +5,7 @@ import API from "../api";
 import styled from "@emotion/styled";
 import QRCodeContent from "../components/QRCodeContent";
 import { Link, useLocation } from "react-router-dom";
+import { VOUCHER_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -43,6 +44,7 @@ function Voucher() {
         blockchainAccount: "tz1",
         duration: "30",
         discount: "15%",
+        type: VOUCHER_KEY
     });
     const [qrUrl, setQRUrl] = useState('')
     const location = useLocation();
@@ -77,6 +79,7 @@ function Voucher() {
     useEffect(() => {
         if (voucher) {
             setFormData({
+                ...formData,
                 name: voucher.voucher.credentialSubject.affiliate.name,
                 phone: voucher.voucher.credentialSubject.affiliate.pseudo,
                 email: voucher.voucher.credentialSubject.affiliate.email,
@@ -126,7 +129,7 @@ function Voucher() {
     const getQRUrl = async () => {
         try {
             if (voucher) {
-                const res = await API.vouchers.getQRUrl(voucher._id);
+                const res = await API.vouchers.getQRUrl(voucher._id, VOUCHER_KEY);
 
                 if (res.data.success) {
                     setQRUrl(res.data.data);

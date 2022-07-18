@@ -1,10 +1,11 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Button, Grid, TextField, Typography, Select, MenuItem, InputLabel,FormControl} from "@mui/material";
+import { Button, Grid, Typography, Select, MenuItem, InputLabel,FormControl} from "@mui/material";
 import API from "../api";
 import styled from "@emotion/styled";
 import QRCodeContent from "../components/QRCodeContent";
 import { Link } from "react-router-dom";
+import { MEMBERSHIP_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -32,13 +33,14 @@ const HomeButtonStyled = styled(Button)({
 
 
 function MembershipCard() {
-    const [membershipCard, setMembershipCard] = useState(null);
+    const [voucher, setVoucher] = useState(null);
     const [qrUrl, setQRUrl] = useState('')
     const [formData, setFormData] = useState({
         duration: 360,
         value: 60,
         currency: "USD",
         discount: "15%",
+        type: MEMBERSHIP_KEY,
     });
 
     const {  duration, currency, value, discount } = formData;
@@ -47,33 +49,34 @@ function MembershipCard() {
 
 
     useEffect(() => {
-        if (membershipCard) {
+        if (voucher) {
             setFormData({
-                currency: membershipCard.membershipCards.credentialSubject.offers[0].cardPrice.currency,
-                value: membershipCard.membershipCards.credentialSubject.offers[0].cardPrice.value,
-                duration: membershipCard.membershipCards.credentialSubject.offers[0].duration,
-                discount: membershipCard.membershipCards.credentialSubject.offers[0].benefit.discount,
+                ...formData,
+                currency: voucher.voucher.credentialSubject.offers[0].cardPrice.currency,
+                value: voucher.voucher.credentialSubject.offers[0].cardPrice.value,
+                duration: voucher.voucher.credentialSubject.offers[0].duration,
+                discount: voucher.voucher.credentialSubject.offers[0].benefit.discount,
             });
         }
-    }, [membershipCard]);
+    }, [voucher]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
         try {
 
-            if (!membershipCard) {
+            if (!voucher) {
                 
-                const res = await API.membershipCards.addMembershipCard(formData);
+                const res = await API.vouchers.addVoucher(formData);
 
                 if (res.data.success) {
-                    setMembershipCard(res.data.data);
+                    setVoucher(res.data.data);
                 }
 
                 return;
             }
 
-            await API.membershipCards.updateMembershipCard(membershipCard._id, formData);
+            await API.vouchers.updateVoucher(voucher._id, formData);
 
         } catch (err) {
             console.log(err);
@@ -83,8 +86,8 @@ function MembershipCard() {
 
     const getQRUrl = async () => {
         try {
-            if (membershipCard) {
-                const res = await API.membershipCards.getQRUrl(membershipCard._id);
+            if (voucher) {
+                const res = await API.vouchers.getQRUrl(voucher._id, MEMBERSHIP_KEY);
 
                 if (res.data.success) {
                     setQRUrl(res.data.data);
@@ -100,25 +103,25 @@ function MembershipCard() {
         <>
             <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
             <Grid item xs={8}>
-                <QRCodeContent voucher={membershipCard} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true}/>
+                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true} isCenter={false}/>
             </Grid>
             <Grid>
                 <Grid item className={"left-content"}>
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
 
-                        <Typography variant={"h5"}>{`${membershipCard ? 'Update' : 'Create'} Membership Card`}</Typography>
+                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Membership Card`}</Typography>
 
                         <FormControl fullWidth>
-                            <InputLabel id="membershipCardDuration-label">Membership Card Duration</InputLabel>
+                            <InputLabel id="voucherDuration-label">Membership Card Duration</InputLabel>
                             <Select
-                              className={'membershipCardDuration-form__select'}
+                              className={'voucherDuration-form__select'}
                               required
-                              labelId="membershipCardDuration-label"
+                              labelId="voucherDuration-label"
                               fullWidth
                               value={duration}
                               name={"duration"}
-                              label="membershipCardDuration"
+                              label="voucherDuration"
                               onChange={onChange}
                             >
                                 <MenuItem value={30}>30</MenuItem>
@@ -132,15 +135,15 @@ function MembershipCard() {
                         </FormControl>
 
                         <FormControl fullWidth>
-                            <InputLabel id="membershipCardPrice-label">Membership Card Price</InputLabel>
+                            <InputLabel id="voucherPrice-label">Membership Card Price</InputLabel>
                             <Select
-                                className={'membershipCardPrice-form__select'}
+                                className={'voucherPrice-form__select'}
                                 required
-                                labelId="membershipCardPrice-label"
+                                labelId="voucherPrice-label"
                                 fullWidth
                                 value={value}
                                 name={"value"}
-                                label="membershipCardPrice"
+                                label="voucherPrice"
                                 onChange={onChange}
                             >
                                 <MenuItem value={5}>5</MenuItem>
@@ -166,10 +169,10 @@ function MembershipCard() {
                             </Select>
                         </FormControl>
                         <FormControl fullWidth>
-                            <InputLabel id="membershipCardCurrency-label">Membership Card Currency</InputLabel>
+                            <InputLabel id="voucherCurrency-label">Membership Card Currency</InputLabel>
                             <Select
-                                className={'membershipCardCurrency-form__select'}
-                                labelId="membershipCardCurrency-label"
+                                className={'voucherCurrency-form__select'}
+                                labelId="voucherCurrency-label"
                                 required
                                 fullWidth
                                 value={currency}
@@ -206,7 +209,7 @@ function MembershipCard() {
                                 <MenuItem value={"50%"}>50 %</MenuItem>
                             </Select>
                         </FormControl>
-                        <ButtonStyled variant="contained" type={"submit"}>{membershipCard ? "Update" : "Save"}</ButtonStyled>
+                        <ButtonStyled variant="contained" type={"submit"}>{voucher ? "Update" : "Save"}</ButtonStyled>
 
                     </form>
 
