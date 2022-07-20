@@ -43,7 +43,7 @@ function AppQrCode({url, isLoggedIn = false}) {
                             {url ?
                                 <>
                                     <h2>
-                                        QR code and link generated
+                                        Scan with your wallet
                                     </h2>
                                     {isLoggedIn && <ButtonStyled onClick={() => exportComponentAsJPEG(ref)}
                                                                  variant="contained"
@@ -56,7 +56,7 @@ function AppQrCode({url, isLoggedIn = false}) {
                                             value={url}
                                         />
                                     </div>
-                                    {isLoggedIn && <ButtonStyled
+                                    <ButtonStyled
                                         style={{
                                             marginBottom: "2rem",
                                             backgroundColor: isCopied ? '#979797' : '#923aff',
@@ -68,7 +68,6 @@ function AppQrCode({url, isLoggedIn = false}) {
                                             <span>{isCopied ? 'Copied!' : 'Copy QR code string'}</span>
                                         </CopyToClipboard>
                                     </ButtonStyled>
-                                    }
                                 </> : <h2>
                                     Invalid QR Code Link
                                 </h2>}

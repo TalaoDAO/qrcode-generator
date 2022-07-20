@@ -143,7 +143,7 @@ function Voucher() {
 
     return (
         <>
-            <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
+            <Link to={"/choice"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
             <Grid item xs={8}>
                 <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true} isCenter={false}/>
             </Grid>
