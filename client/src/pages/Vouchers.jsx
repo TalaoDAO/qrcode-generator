@@ -59,7 +59,7 @@ function Vouchers() {
         }
     }
 
-    const navigateToVoucher = (id) => {
+    const navigateToVoucher = (id, type) => {
         navigate({
             pathname: '/voucher',
             search: `?id=${id}`
@@ -94,16 +94,16 @@ function Vouchers() {
             title: 'Duration', field: 'voucher.credentialSubject.offers[0].duration', type: 'numeric'
         },
         {
-            title: 'Discount', field: 'voucher.credentialSubject.offers[0].benefit.discount', type: 'numeric'
+            title: 'Reward', field: 'voucher.credentialSubject.offers[0].benefit.discount', type: 'numeric'
         },
         {
-            title: 'Type', field: 'type'
+            title: 'Type', field: 'voucher.type[1]'
         },
     ]
 
     return (
         <>
-            <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
+            <Link to={"/choice"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
 
             <div className="vouchers-table">
                 <ThemeProvider theme={defaultMaterialTheme}>

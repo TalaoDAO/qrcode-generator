@@ -80,7 +80,7 @@ function MobileVoucher() {
 
     return (
         <>
-            <Link to={"/"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
+            <Link to={"/choice"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
             <Grid>
                 <Grid item className={"left-content"}>
 
