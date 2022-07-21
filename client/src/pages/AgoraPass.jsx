@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Button, Grid, Typography, Select, MenuItem, InputLabel,FormControl} from "@mui/material";
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { VOUCHER_KEY, VOUCHER_MOBILE_KEY } from "../utils";
+import { AGORA_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -32,28 +32,39 @@ const HomeButtonStyled = styled(Button)({
 function MobileVoucher() {
     const [voucher, setVoucher] = useState(null);
     const [formData, setFormData] = useState({
-        name: "Altme",
-        email: "contact@altme.io",
         duration: "30",
-        discount: "15%",
-        type: VOUCHER_MOBILE_KEY
+        type: AGORA_KEY
     });
 
-    const { duration, discount } = formData;
+    const { duration } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    useEffect(() => {
+        (async function getVoucherData() {
+            await getVoucher(AGORA_KEY);
+        })();
+    }, [])
 
     useEffect(() => {
         if (voucher) {
             setFormData({
                 ...formData,
-                name: voucher.voucher.credentialSubject.affiliate.name,
-                email: voucher.voucher.credentialSubject.affiliate.email,
-                duration: voucher.voucher.credentialSubject.offers[0].duration,
-                discount: voucher.voucher.credentialSubject.offers[0].benefit.discount,
+                duration: voucher.voucher.credentialSubject.duration,
             });
         }
     }, [voucher]);
+
+    const getVoucher = async (id) => {
+        try {
+            const res = await API.vouchers.getVoucher(id);
+            if (res.data.success) {
+                setVoucher(res.data.voucher);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -85,7 +96,7 @@ function MobileVoucher() {
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
 
-                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Voucher`}</Typography>
+                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Agora Pass`}</Typography>
 
                         <FormControl fullWidth>
                             <InputLabel id="duration-label">Voucher Duration</InputLabel>
@@ -114,31 +125,7 @@ function MobileVoucher() {
                                 <MenuItem value={365}> 365 </MenuItem>
                             </Select>
                         </FormControl>
-                        <FormControl fullWidth>
-                            <InputLabel id="discount-label">Gamer Reward</InputLabel>
 
-                            <Select
-                                className={'blockchain-form__select'}
-                                labelId="discount-label"
-                                required
-                                fullWidth
-                                value={discount}
-                                name={"discount"}
-                                label="Gamer Reward"
-                                onChange={onChange}
-                            >
-                                <MenuItem value={"5%"}>5 %</MenuItem>
-                                <MenuItem value={"10%"}>10 %</MenuItem>
-                                <MenuItem value={"15%"}>15 %</MenuItem>
-                                <MenuItem value={"20%"}>20 %</MenuItem>
-                                <MenuItem value={"25%"}>25 %</MenuItem>
-                                <MenuItem value={"30%"}>30 %</MenuItem>
-                                <MenuItem value={"35%"}>35 %</MenuItem>
-                                <MenuItem value={"40%"}>40 %</MenuItem>
-                                <MenuItem value={"45%"}>45 %</MenuItem>
-                                <MenuItem value={"50%"}>50 %</MenuItem>
-                            </Select>
-                        </FormControl>
                         <ButtonStyled variant="contained" type={"submit"}>{voucher ? "Update" : "Save"}</ButtonStyled>
 
                     </form>

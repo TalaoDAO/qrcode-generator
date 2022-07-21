@@ -136,7 +136,7 @@ exports.verify = async (req, res) => {
         // check if the email is authorized
         const email=await validateCredentials(req.body['presentation']);
         if(!config.get('AUTHORIZED_EMAILS').includes(email)) {
-            return res.status(403).json({ message: "User is not authorized." });
+            return res.status(401).json({ message: "User is not authorized." });
         }
 
         user.logged_in = true;
