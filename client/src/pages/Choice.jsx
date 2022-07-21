@@ -49,6 +49,7 @@ function Choice({isLoggedIn = false}) {
                                                 <FormControlLabel  name="next" onChange={onChange} value="vouchers" control={<Radio />} label="Voucher" />
                                                 <FormControlLabel  name="next" onChange={onChange} value="membership-card" control={<Radio />} label="Membership" />
                                                 <FormControlLabel  name="next" onChange={onChange} value="voucher-mobile" control={<Radio />} label="Voucher for mobile" />
+                                                <FormControlLabel  name="next" onChange={onChange} value="agora-pass" control={<Radio />} label="Agora Pass" />
 
                                             </RadioGroup>
                                             <button className="active-btn" >

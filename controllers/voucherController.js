@@ -1,13 +1,13 @@
 const { validationResult } = require("express-validator");
 const Voucher = require("../models/vouchers");
 const User = require("../models/users");
-const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY} = require("../utils");
+const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY, AGORA_KEY, AGORA_OBJ} = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 const mongoose = require("mongoose");
 
 exports.getVoucher = async (req, res) => {
-  
+
   try {
     const voucher = await Voucher.findById(req.params.id);
 
@@ -23,7 +23,17 @@ exports.generateQRCode = async (req, res) => {
   try {
     const voucher = await Voucher.findById(req.params.id);
 
-    const url = `${config.get('ISSUER_URL')}/issuer/${req.params.type}_${voucher.id}`
+    let typeEnd = ''
+
+    if (req.params.type === VOUCHER_MOBILE_KEY) {
+      typeEnd = VOUCHER_MOBILE_KEY
+    } else if (req.params.type === AGORA_KEY) {
+      typeEnd = AGORA_KEY
+    } else {
+      typeEnd = `${req.params.type}_${voucher.id}`
+    }
+
+    const url = `${config.get('ISSUER_URL')}/issuer/${typeEnd}`
 
     res.status(200).json({ message: "QR Code URL", success: true, data: url });
 
@@ -51,8 +61,7 @@ exports.postVoucher = async (req, res) => {
     discount,
     value,
     currency,
-    type,
-    isMobile
+    type
   } = req.body;
 
   try {
@@ -74,21 +83,25 @@ exports.postVoucher = async (req, res) => {
       VOUCHER_OBJ.credentialSubject.offers[0].duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers[0].duration;
       VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount;
 
-      if (isMobile) {
-        const existingVoucher = await Voucher.findById('voucher_mobile')
-        if (existingVoucher) {
-          await Voucher.updateOne({ _id: 'voucher_mobile' }, { voucher: VOUCHER_OBJ });
-        } else {
-          voucher = await Voucher.create({ _id: 'voucher_mobile', user, voucher: VOUCHER_OBJ, type });
-        }
-      } else {
-        voucher = await Voucher.create({ _id: new mongoose.Types.ObjectId(), user, voucher: VOUCHER_OBJ, type });
-      }
+      voucher = await Voucher.create({ _id: new mongoose.Types.ObjectId(), user, voucher: VOUCHER_OBJ, type });
 
       return res.status(200).json({ message: "Voucher created", success: true, data: voucher });
 
+    } else if (type === VOUCHER_MOBILE_KEY) {
+
+        VOUCHER_OBJ.credentialSubject.offers[0].duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers[0].duration;
+        VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers[0].benefit.discount;
+
+        const existingVoucher = await Voucher.findById(VOUCHER_MOBILE_KEY)
+        if (existingVoucher) {
+            await Voucher.updateOne({_id: VOUCHER_MOBILE_KEY}, {voucher: VOUCHER_OBJ});
+        } else {
+            voucher = await Voucher.create({_id: VOUCHER_MOBILE_KEY, user, voucher: VOUCHER_OBJ, type});
+        }
+
+        return res.status(200).json({message: "Voucher mobile created", success: true, data: voucher});
     } else if (type === MEMBERSHIP_KEY) {
-      MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
+        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? currency : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount;
@@ -96,6 +109,18 @@ exports.postVoucher = async (req, res) => {
       voucher = await Voucher.create({ _id: new mongoose.Types.ObjectId(), user, voucher: MEMBERSHIP_CARD_OBJ, type });
 
       return res.status(200).json({ message: "Membership card created", success: true, data: voucher });
+
+    } else if (type === AGORA_KEY) {
+      AGORA_OBJ.credentialSubject.duration = duration ? duration : AGORA_OBJ.credentialSubject.duration
+
+      const existingVoucher = await Voucher.findById(AGORA_KEY)
+      if (existingVoucher) {
+        await Voucher.updateOne({ _id: AGORA_KEY }, { voucher: AGORA_OBJ });
+      } else {
+        voucher = await Voucher.create({ _id: AGORA_KEY, user, voucher: AGORA_OBJ, type });
+      }
+
+      return res.status(200).json({ message: "Agora pass created", success: true, data: voucher });
     }
 
   } catch (err) {
@@ -187,6 +212,13 @@ exports.updateVoucher = async (req, res) => {
       await Voucher.updateOne({ _id: req.params.id }, { voucher: MEMBERSHIP_CARD_OBJ });
 
       return res.status(200).json({ message: "Membership card updated", success: true, data: [] });
+
+    } else if (voucherType === AGORA_KEY) {
+      AGORA_OBJ.credentialSubject.duration = duration ? duration : AGORA_OBJ.credentialSubject.duration
+
+      await Voucher.updateOne({ _id: AGORA_KEY }, { voucher: AGORA_OBJ });
+
+      return res.status(200).json({ message: "Agora pass updated", success: true, voucher: [] });
     }
 
   } catch (err) {

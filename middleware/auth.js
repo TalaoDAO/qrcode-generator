@@ -19,6 +19,6 @@ module.exports = async (req, res, next) => {
         req.user = decode
         next()
     } catch (err) {
-        res.status(403).json({message: 'Authorization failed.', success: false})
+        res.status(401).json({message: 'Authorization failed.', success: false})
     }
 }
