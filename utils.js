@@ -360,12 +360,12 @@ exports.MEMBERSHIP_CARD_OBJ = {
 
 }
 
-exports.AGORA_OBJ = {
+exports.ARAGO_OBJ = {
     "@context": ["https://www.w3.org/2018/credentials/v1",
         {
             "name" : "https://schema.org/name",
             "description" : "https://schema.org/description",
-            "AgoraPass" : {
+            "AragoPass" : {
                 "@id": "https://github.com/TalaoDAO/context/blob/main/README.mdidentitypass",
                 "@context": {
                     "@version": 1.1,
@@ -398,39 +398,39 @@ exports.AGORA_OBJ = {
         }
     ],
     "id": "",
-    "type": ["VerifiableCredential", "AgoraPass"],
+    "type": ["VerifiableCredential", "AragoPass"],
     "issuer": "",
     "name" : [
         {
-            "@value": "Agora pass",
+            "@value": "Arago pass",
             "@language": "en"
         },
         {
-            "@value": "Agora Pass",
+            "@value": "Arago Pass",
             "@language": "fr"
         }
     ],
     "description" : [
         {
             "@language": "en",
-            "@value": "It can be used to authenticate with Agora services."
+            "@value": "It can be used to authenticate with Arago services."
         },
         {
             "@language": "fr",
-            "@value": "Cette attestationpermet de s'authentifier auprès des services d'Agora."
+            "@value": "Cette attestationpermet de s'authentifier auprès des services d'Arago."
         }
     ],
     "issuanceDate": "",
     "credentialSubject" : {
         "id": "",
-        "type" : "AgoraPass",
+        "type" : "AragoPass",
         "email" : "john.doe@gmail.com",
         "image" : "",
         "familyName" : "Doe",
         "givenName" : "John",
         "duration" : "30",
         "issuedBy" : {
-            "name" : "Agora",
+            "name" : "Arago",
             "address" : "4, rue Louis-Guérin, 69626 Villeurbanne, France",
             "logo" : "https://talao.mypinata.cloud/ipfs/QmNwbEEupT7jR2zmrA87FsN4hUS8eXnCxM8DsL9RXc25cu"
         }
@@ -442,4 +442,4 @@ exports.AGORA_OBJ = {
 exports.VOUCHER_KEY = "voucher";
 exports.MEMBERSHIP_KEY = "membership";
 exports.VOUCHER_MOBILE_KEY = "voucher_mobile";
-exports.AGORA_KEY = "agora_pass";
+exports.ARAGO_KEY = "arago_pass";

@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const Voucher = require("../models/vouchers");
 const User = require("../models/users");
-const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY, AGORA_KEY, AGORA_OBJ} = require("../utils");
+const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY, ARAGO_KEY, ARAGO_OBJ} = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 const mongoose = require("mongoose");
@@ -27,8 +27,8 @@ exports.generateQRCode = async (req, res) => {
 
     if (req.params.type === VOUCHER_MOBILE_KEY) {
       typeEnd = VOUCHER_MOBILE_KEY
-    } else if (req.params.type === AGORA_KEY) {
-      typeEnd = AGORA_KEY
+    } else if (req.params.type === ARAGO_KEY) {
+      typeEnd = ARAGO_KEY
     } else {
       typeEnd = `${req.params.type}_${voucher.id}`
     }
@@ -110,17 +110,17 @@ exports.postVoucher = async (req, res) => {
 
       return res.status(200).json({ message: "Membership card created", success: true, data: voucher });
 
-    } else if (type === AGORA_KEY) {
-      AGORA_OBJ.credentialSubject.duration = duration ? duration : AGORA_OBJ.credentialSubject.duration
+    } else if (type === ARAGO_KEY) {
+      ARAGO_OBJ.credentialSubject.duration = duration ? duration : ARAGO_OBJ.credentialSubject.duration
 
-      const existingVoucher = await Voucher.findById(AGORA_KEY)
+      const existingVoucher = await Voucher.findById(ARAGO_KEY)
       if (existingVoucher) {
-        await Voucher.updateOne({ _id: AGORA_KEY }, { voucher: AGORA_OBJ });
+        await Voucher.updateOne({ _id: ARAGO_KEY }, { voucher: ARAGO_OBJ });
       } else {
-        voucher = await Voucher.create({ _id: AGORA_KEY, user, voucher: AGORA_OBJ, type });
+        voucher = await Voucher.create({ _id: ARAGO_KEY, user, voucher: ARAGO_OBJ, type });
       }
 
-      return res.status(200).json({ message: "Agora pass created", success: true, data: voucher });
+      return res.status(200).json({ message: "Arago pass created", success: true, data: voucher });
     }
 
   } catch (err) {
@@ -213,12 +213,12 @@ exports.updateVoucher = async (req, res) => {
 
       return res.status(200).json({ message: "Membership card updated", success: true, data: [] });
 
-    } else if (voucherType === AGORA_KEY) {
-      AGORA_OBJ.credentialSubject.duration = duration ? duration : AGORA_OBJ.credentialSubject.duration
+    } else if (voucherType === ARAGO_KEY) {
+      ARAGO_OBJ.credentialSubject.duration = duration ? duration : ARAGO_OBJ.credentialSubject.duration
 
-      await Voucher.updateOne({ _id: AGORA_KEY }, { voucher: AGORA_OBJ });
+      await Voucher.updateOne({ _id: ARAGO_KEY }, { voucher: ARAGO_OBJ });
 
-      return res.status(200).json({ message: "Agora pass updated", success: true, voucher: [] });
+      return res.status(200).json({ message: "Arago pass updated", success: true, voucher: [] });
     }
 
   } catch (err) {
