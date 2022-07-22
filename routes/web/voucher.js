@@ -20,6 +20,13 @@ router.post('/', authMiddleware, [
   body('type', 'Type is required!').trim().not().isEmpty(),
 ], voucherController.postVoucher);
 
+// @route   POST get/vouchers/credentials
+// @desc    Save signed voucher
+// @access  public
+router.post('/credentials', authMiddleware, [
+  body('signed_voucher', 'Signed Voucher is required!').trim().not().isEmpty(),
+], voucherController.postCredentials);
+
 // @route   GET get/vouchers/
 // @desc    Create a new user and a voucher
 // @access  public

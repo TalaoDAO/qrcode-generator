@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const Voucher = require("../models/vouchers");
 const User = require("../models/users");
+const SignedVoucher = require("../models/signed_credentials");
 const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY, ARAGO_KEY, ARAGO_OBJ} = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
@@ -122,6 +123,26 @@ exports.postVoucher = async (req, res) => {
 
       return res.status(200).json({ message: "Arago pass created", success: true, data: voucher });
     }
+
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
+exports.postCredentials = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg, success: false });
+  }
+
+  const {signed_voucher} = req.body;
+
+  try {
+
+    const signedVoucher = await SignedVoucher.create({ signed_voucher });
+
+    return res.status(200).json({ message: "Signed Voucher created", success: true, data: signedVoucher });
 
   } catch (err) {
     console.log(err.message);
