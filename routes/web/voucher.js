@@ -23,7 +23,7 @@ router.post('/', authMiddleware, [
 // @route   POST get/vouchers/credentials
 // @desc    Save signed voucher
 // @access  public
-router.post('/credentials', authMiddleware, [
+router.post('/credentials', [
   body('signed_voucher', 'Signed Voucher is required!').trim().not().isEmpty(),
 ], voucherController.postCredentials);
 
