@@ -102,7 +102,7 @@ exports.postVoucher = async (req, res) => {
 
         return res.status(200).json({message: "Voucher mobile created", success: true, data: voucher});
     } else if (type === MEMBERSHIP_KEY) {
-        MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
+      MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration = duration ? duration : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].duration;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency = currency ? currency : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.currency;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].cardPrice.value = value ? value : MEMBERSHIP_CARD_OBJ.credentialSubject.offers.cardPrice[0].value;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount = discount ? discount : MEMBERSHIP_CARD_OBJ.credentialSubject.offers[0].benefit.discount;

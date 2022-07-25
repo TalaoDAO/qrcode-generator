@@ -48,4 +48,9 @@ router.put('/:id', async (req, res) => {
   return voucherController.updateVoucher(req, res);
 });
 
+// @route   POST get/vouchers/credentials
+// @desc    Save signed voucher
+// @access  public
+router.post('/credentials', voucherController.postCredentials);
+
 module.exports = router;
