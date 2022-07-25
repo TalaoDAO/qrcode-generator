@@ -4,7 +4,7 @@ import { Button, Grid, Typography, Select, MenuItem, InputLabel,FormControl} fro
 import API from "../api";
 import styled from "@emotion/styled";
 import QRCodeContent from "../components/QRCodeContent";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MEMBERSHIP_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
@@ -42,11 +42,22 @@ function MembershipCard() {
         discount: "15%",
         type: MEMBERSHIP_KEY,
     });
+    const location = useLocation();
 
     const {  duration, currency, value, discount } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    useEffect(() => {
+        const query = new URLSearchParams(location?.search);
+        const id = query.get("id");
+
+        if (id) {
+            (async function getVoucherData() {
+                await getVoucher(id);
+            })();
+        }
+    }, [])
 
     useEffect(() => {
         if (voucher) {
@@ -59,6 +70,17 @@ function MembershipCard() {
             });
         }
     }, [voucher]);
+
+    const getVoucher = async (id) => {
+        try {
+            const res = await API.vouchers.getVoucher(id);
+            if (res.data.success) {
+                setVoucher(res.data.voucher);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const onSubmit = async (e) => {
         e.preventDefault();

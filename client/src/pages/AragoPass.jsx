@@ -4,7 +4,7 @@ import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } f
 import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { AGORA_KEY } from "../utils";
+import { ARAGO_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -29,11 +29,11 @@ const HomeButtonStyled = styled(Button)({
     color: "white",
 });
 
-function MobileVoucher() {
+function AragoPass() {
     const [voucher, setVoucher] = useState(null);
     const [formData, setFormData] = useState({
         duration: "30",
-        type: AGORA_KEY
+        type: ARAGO_KEY
     });
 
     const { duration } = formData;
@@ -42,7 +42,7 @@ function MobileVoucher() {
 
     useEffect(() => {
         (async function getVoucherData() {
-            await getVoucher(AGORA_KEY);
+            await getVoucher(ARAGO_KEY);
         })();
     }, [])
 
@@ -96,7 +96,7 @@ function MobileVoucher() {
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
 
-                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Agora Pass`}</Typography>
+                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Arago Pass`}</Typography>
 
                         <FormControl fullWidth>
                             <InputLabel id="duration-label">Voucher Duration</InputLabel>
@@ -136,4 +136,4 @@ function MobileVoucher() {
     );
 }
 
-export default MobileVoucher;
+export default AragoPass;

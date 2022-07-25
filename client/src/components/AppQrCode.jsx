@@ -56,18 +56,18 @@ function AppQrCode({url, isLoggedIn = false}) {
                                             value={url}
                                         />
                                     </div>
-                                    <ButtonStyled
-                                        style={{
-                                            marginBottom: "2rem",
-                                            backgroundColor: isCopied ? '#979797' : '#923aff',
-                                            color: 'white'
-                                        }}
-                                    >
-                                        <CopyToClipboard text={url}
-                                                         onCopy={() => setIsCopied(true)}>
-                                            <span>{isCopied ? 'Copied!' : 'Copy QR code string'}</span>
-                                        </CopyToClipboard>
-                                    </ButtonStyled>
+                                    {/*<ButtonStyled*/}
+                                    {/*    style={{*/}
+                                    {/*        marginBottom: "2rem",*/}
+                                    {/*        backgroundColor: isCopied ? '#979797' : '#923aff',*/}
+                                    {/*        color: 'white'*/}
+                                    {/*    }}*/}
+                                    {/*>*/}
+                                    {/*    <CopyToClipboard text={url}*/}
+                                    {/*                     onCopy={() => setIsCopied(true)}>*/}
+                                    {/*        <span>{isCopied ? 'Copied!' : 'Copy QR code string'}</span>*/}
+                                    {/*    </CopyToClipboard>*/}
+                                    {/*</ButtonStyled>*/}
                                 </> : <h2>
                                     Invalid QR Code Link
                                 </h2>}

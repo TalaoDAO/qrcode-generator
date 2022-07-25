@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
 import { Button, createTheme, ThemeProvider } from '@mui/material';
 import API from "../api";
+import { ARAGO_KEY, VOUCHER_MOBILE_KEY } from "../utils";
 
 const HomeButtonStyled = styled(Button)({
     borderColor: "#923aff",
@@ -60,10 +61,14 @@ function Vouchers() {
     }
 
     const navigateToVoucher = (id, type) => {
-        navigate({
-            pathname: '/voucher',
-            search: `?id=${id}`
-        });
+        if (type === VOUCHER_MOBILE_KEY || type === ARAGO_KEY) {
+            navigate(`/${type}`);
+        } else {
+            navigate({
+                pathname: `/${type}`,
+                search: `?id=${id}`
+            });
+        }
     }
 
     const tableColumns = [
@@ -134,7 +139,7 @@ function Vouchers() {
                                 onClick: () => navigate('/voucher')
                             }
                         ]}
-                        onRowClick={(event, rowData) => navigateToVoucher(rowData._id)}
+                        onRowClick={(event, rowData) => navigateToVoucher(rowData._id, rowData.type)}
                         editable={{
                             onRowDelete: oldData =>
                                 new Promise((resolve) => {

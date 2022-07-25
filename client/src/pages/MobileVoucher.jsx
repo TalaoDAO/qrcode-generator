@@ -4,7 +4,7 @@ import { Button, Grid, Typography, Select, MenuItem, InputLabel,FormControl} fro
 import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { VOUCHER_KEY, VOUCHER_MOBILE_KEY } from "../utils";
+import { ARAGO_KEY, VOUCHER_KEY, VOUCHER_MOBILE_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -44,6 +44,12 @@ function MobileVoucher() {
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     useEffect(() => {
+        (async function getVoucherData() {
+            await getVoucher(VOUCHER_MOBILE_KEY);
+        })();
+    }, [])
+
+    useEffect(() => {
         if (voucher) {
             setFormData({
                 ...formData,
@@ -54,6 +60,17 @@ function MobileVoucher() {
             });
         }
     }, [voucher]);
+
+    const getVoucher = async (id) => {
+        try {
+            const res = await API.vouchers.getVoucher(id);
+            if (res.data.success) {
+                setVoucher(res.data.voucher);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const onSubmit = async (e) => {
         e.preventDefault();

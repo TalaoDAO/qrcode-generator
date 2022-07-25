@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const voucherController = require('../../controllers/voucherController');
-const {VOUCHER_MOBILE_KEY, AGORA_KEY} = require("../../utils");
+const {VOUCHER_MOBILE_KEY, ARAGO_KEY} = require("../../utils");
 
 // @route   GET get/vouchers/:id
 // @desc    Get voucher info
@@ -13,9 +13,9 @@ router.get('/:id', async (req, res) => {
   if (req.params.id === VOUCHER_MOBILE_KEY) {
     req.params.id = VOUCHER_MOBILE_KEY;
     req.params.type = VOUCHER_MOBILE_KEY;
-  } else if (req.params.id === AGORA_KEY) {
-    req.params.id = AGORA_KEY;
-    req.params.type = AGORA_KEY;
+  } else if (req.params.id === ARAGO_KEY) {
+    req.params.id = ARAGO_KEY;
+    req.params.type = ARAGO_KEY;
   } else {
     let qArr = req.params.id.split('_');
     req.params.id = qArr[1];
@@ -36,9 +36,9 @@ router.put('/:id', async (req, res) => {
   if (req.params.id === VOUCHER_MOBILE_KEY) {
     req.params.id = VOUCHER_MOBILE_KEY;
     req.params.type = VOUCHER_MOBILE_KEY;
-  } else if (req.params.id === AGORA_KEY) {
-    req.params.id = AGORA_KEY;
-    req.params.type = AGORA_KEY;
+  } else if (req.params.id === ARAGO_KEY) {
+    req.params.id = ARAGO_KEY;
+    req.params.type = ARAGO_KEY;
   } else {
     let qArr = req.params.id.split('_');
     req.params.id = qArr[1];
@@ -47,5 +47,10 @@ router.put('/:id', async (req, res) => {
 
   return voucherController.updateVoucher(req, res);
 });
+
+// @route   POST get/vouchers/credentials
+// @desc    Save signed voucher
+// @access  public
+router.post('/credentials', voucherController.postCredentials);
 
 module.exports = router;
