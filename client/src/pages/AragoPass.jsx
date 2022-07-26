@@ -4,7 +4,8 @@ import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } f
 import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { ARAGO_KEY } from "../utils";
+import { ARAGO_KEY, MEMBERSHIP_KEY } from "../utils";
+import QRCodeContent from "../components/QRCodeContent";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -31,6 +32,7 @@ const HomeButtonStyled = styled(Button)({
 
 function AragoPass() {
     const [voucher, setVoucher] = useState(null);
+    const [qrUrl, setQRUrl] = useState('')
     const [formData, setFormData] = useState({
         duration: "30",
         type: ARAGO_KEY
@@ -88,9 +90,27 @@ function AragoPass() {
         }
     };
 
+    const getQRUrl = async () => {
+        try {
+            if (voucher) {
+                const res = await API.vouchers.getQRUrl(voucher._id, ARAGO_KEY);
+
+                if (res.data.success) {
+                    setQRUrl(res.data.data);
+                }
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <>
             <Link to={"/choice"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
+            <Grid item xs={8}>
+                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true} isCenter={false} isCopy={false}/>
+            </Grid>
             <Grid>
                 <Grid item className={"left-content"}>
 
