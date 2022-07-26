@@ -152,7 +152,9 @@ exports.postCredentials = async (req, res) => {
 
 exports.getVouchers = async (req, res) => {
   try {
-    const vouchers = await Voucher.find();
+
+    const EXCLUDE_TYPE = [ARAGO_KEY, VOUCHER_MOBILE_KEY]
+    const vouchers = await Voucher.find({type: {$nin: EXCLUDE_TYPE}});
     res.status(200).json({ message: "Vouchers", success: true, data: vouchers });
   } catch (err) {
     console.log(err.message);
