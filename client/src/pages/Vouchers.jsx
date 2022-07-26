@@ -113,7 +113,7 @@ function Vouchers() {
             <div className="vouchers-table">
                 <ThemeProvider theme={defaultMaterialTheme}>
                     <MaterialTable
-                        title="Vouchers"
+                        title="Vouchers & Membership Cards"
                         columns={tableColumns}
                         data={vouchers}
                         isLoading={isLoading}
@@ -132,12 +132,12 @@ function Vouchers() {
                                 tooltip: 'Refresh',
                                 onClick: () => getVouchers()
                             },
-                            {
-                                icon: 'add',
-                                isFreeAction: true,
-                                tooltip: 'Create',
-                                onClick: () => navigate('/voucher')
-                            }
+                            // {
+                            //     icon: 'add',
+                            //     isFreeAction: true,
+                            //     tooltip: 'Create',
+                            //     onClick: () => navigate('/voucher')
+                            // }
                         ]}
                         onRowClick={(event, rowData) => navigateToVoucher(rowData._id, rowData.type)}
                         editable={{

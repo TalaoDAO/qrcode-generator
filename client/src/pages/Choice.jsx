@@ -46,7 +46,8 @@ function Choice({isLoggedIn = false}) {
                                                 aria-labelledby="radio-group-label"
                                                 name="row-radio-buttons-group"
                                             >
-                                                <FormControlLabel  name="next" onChange={onChange} value="vouchers" control={<Radio />} label="Voucher" />
+                                                <FormControlLabel  name="next" onChange={onChange} value="vouchers" control={<Radio />} label="Vouchers & Membership Cards" />
+                                                <FormControlLabel  name="next" onChange={onChange} value="voucher" control={<Radio />} label="Voucher" />
                                                 <FormControlLabel  name="next" onChange={onChange} value="membership" control={<Radio />} label="Membership" />
                                                 <FormControlLabel  name="next" onChange={onChange} value="voucher_mobile" control={<Radio />} label="Voucher for mobile" />
                                                 <FormControlLabel  name="next" onChange={onChange} value="arago_pass" control={<Radio />} label="Arago Pass" />
