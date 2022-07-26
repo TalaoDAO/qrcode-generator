@@ -5,6 +5,7 @@ import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { ARAGO_KEY, VOUCHER_KEY, VOUCHER_MOBILE_KEY } from "../utils";
+import QRCodeContent from "../components/QRCodeContent";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -31,6 +32,7 @@ const HomeButtonStyled = styled(Button)({
 
 function MobileVoucher() {
     const [voucher, setVoucher] = useState(null);
+    const [qrUrl, setQRUrl] = useState('')
     const [formData, setFormData] = useState({
         name: "Altme",
         email: "contact@altme.io",
@@ -94,9 +96,27 @@ function MobileVoucher() {
         }
     };
 
+    const getQRUrl = async () => {
+        try {
+            if (voucher) {
+                const res = await API.vouchers.getQRUrl(voucher._id, VOUCHER_MOBILE_KEY);
+
+                if (res.data.success) {
+                    setQRUrl(res.data.data);
+                }
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <>
             <Link to={"/choice"}><HomeButtonStyled variant="outlined">Home</HomeButtonStyled></Link>
+            <Grid item xs={8}>
+                <QRCodeContent voucher={voucher} getQRUrl={getQRUrl} qrUrl={qrUrl} isLoggedIn={true} isCenter={false} isCopy={false}/>
+            </Grid>
             <Grid>
                 <Grid item className={"left-content"}>
 

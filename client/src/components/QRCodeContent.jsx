@@ -1,7 +1,7 @@
 import React from 'react';
 import AppQrCode from "../components/AppQrCode";
 
-function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false,  isLoggedIn = false, isCenter=true}) {
+function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false,  isLoggedIn = false, isCenter=true, isCopy = true}) {
     return (
         <>
             <section className="page-content">
@@ -29,7 +29,7 @@ function QRCodeContent({voucher, getQRUrl, qrUrl, isButtonWithoutVoucher = false
                 </div>
             </section>
 
-            <AppQrCode url={qrUrl} isLoggedIn={isLoggedIn}/>
+            <AppQrCode url={qrUrl} isLoggedIn={isLoggedIn} isCopy={isCopy}/>
 
             <div
                 className="modal fade theme-modal"
