@@ -96,10 +96,10 @@ function Vouchers() {
             title: 'Blockchain Account', field: 'voucher.credentialSubject.affiliate.paymentAccepted.blockchainAccount'
         },
         {
-            title: 'Duration', field: 'voucher.credentialSubject.offers[0].duration', type: 'numeric'
+            title: 'Duration', field: 'voucher.credentialSubject.offers.duration', type: 'numeric'
         },
         {
-            title: 'Reward', field: 'voucher.credentialSubject.offers[0].benefit.discount', type: 'numeric'
+            title: 'Reward', field: 'voucher.credentialSubject.offers.benefit.discount', type: 'numeric'
         },
         {
             title: 'Type', field: 'voucher.type[1]'

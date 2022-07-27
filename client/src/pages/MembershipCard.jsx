@@ -63,10 +63,10 @@ function MembershipCard() {
         if (voucher) {
             setFormData({
                 ...formData,
-                currency: voucher.voucher.credentialSubject.offers[0].cardPrice.currency,
-                value: voucher.voucher.credentialSubject.offers[0].cardPrice.value,
-                duration: voucher.voucher.credentialSubject.offers[0].duration,
-                discount: voucher.voucher.credentialSubject.offers[0].benefit.discount,
+                currency: voucher.voucher.credentialSubject.offers.cardPrice.currency,
+                value: voucher.voucher.credentialSubject.offers.cardPrice.value,
+                duration: voucher.voucher.credentialSubject.offers.duration,
+                discount: voucher.voucher.credentialSubject.offers.benefit.discount,
             });
         }
     }, [voucher]);

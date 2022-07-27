@@ -118,19 +118,20 @@ exports.VOUCHER_OBJ = {
     ],
     "id": "urn:uuid:random",
     "type": ["VerifiableCredential", "TezVoucher_1"],
+    "expirationDate" : "2022-09-08T19:55:00Z",
     "issuer": "did:tz:issuer",
     "credentialSubject" : {
         "id" : "did:wallet",
         "type" : "TezVoucher_1",
         "associatedAddress" : {
-            "blockchainTezos" : "",
+            "blockchainTezos" : "tz1Q7zwo7fmRNyCL7jdz6hcPSsYukkWY66Q3",
             "blockchainEthereum" : ""
         },
-        "offers" : [{
+        "offers" : {
             "startDate" : "2022-04-08T19:55:00Z",
             "endDate" : "2022-06-08T19:55:00Z",
             "category" : "discounted_coupon",
-            "duration" : "",
+            "duration" : "30",
             "benefit" : {
                 "category" : "discount",
                 "discount" : "15%"
@@ -145,7 +146,7 @@ exports.VOUCHER_OBJ = {
                     "blockchainAccount" : ""
                 }
             }
-        }],
+        },
         "issuedBy": {
             "logo": "ipfs://QmZmdndUVRoxiVhUnjGrKnNPn8ah3jT8fxTCLMnAzRAFFZ",
             "name": "Talao",
@@ -214,7 +215,7 @@ exports.MEMBERSHIP_CARD_OBJ = {
                                 "@context": {
                                     "@version": 1.1,
                                     "@protected": true,
-                                        "currency": "schema:currency",
+                                    "currency": "schema:currency",
                                     "value": "schema:value"
                                 },
                                 "@id": "https://vocabulary.vc.compell.io/properties/cardPrice"
@@ -315,10 +316,10 @@ exports.MEMBERSHIP_CARD_OBJ = {
         "id" : "did:wallet",
         "type" : "MembershipCard_1",
         "associatedAddress" : {
-                "blockchainTezos" : "tz1345765476547654",
-                "blockchainEthereum" : "0x1345765476547654"
+            "blockchainTezos" : "tz1345765476547654",
+            "blockchainEthereum" : "0x1345765476547654"
         },
-        "offers" : [{
+        "offers" : {
             "startDate" : "2022-04-08T19:55:00Z",
             "endDate" : "2022-06-08T19:55:00Z",
             "category" : "membershipcard",
@@ -341,7 +342,7 @@ exports.MEMBERSHIP_CARD_OBJ = {
                     "blockchainAccount" : "tz1iyjrTUNxDpPaqNZ84ipGELAcTWYg66789"
                 }
             }
-        }],
+        },
         "issuedBy": {
             "logo": "ipfs://QmZmdndUVRoxiVhUnjGrKnNPn8ah3jT8fxTCLMnAzRAFFZ",
             "name": "Talao",
@@ -357,7 +358,6 @@ exports.MEMBERSHIP_CARD_OBJ = {
             }
         }
     }
-
 }
 
 exports.ARAGO_OBJ = {

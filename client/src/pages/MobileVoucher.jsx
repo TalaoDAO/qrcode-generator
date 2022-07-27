@@ -57,8 +57,8 @@ function MobileVoucher() {
                 ...formData,
                 name: voucher.voucher.credentialSubject.affiliate.name,
                 email: voucher.voucher.credentialSubject.affiliate.email,
-                duration: voucher.voucher.credentialSubject.offers[0].duration,
-                discount: voucher.voucher.credentialSubject.offers[0].benefit.discount,
+                duration: voucher.voucher.credentialSubject.offers.duration,
+                discount: voucher.voucher.credentialSubject.offers.benefit.discount,
             });
         }
     }, [voucher]);
