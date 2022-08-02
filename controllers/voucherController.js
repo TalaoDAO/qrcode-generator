@@ -2,7 +2,9 @@ const { validationResult } = require("express-validator");
 const Voucher = require("../models/vouchers");
 const User = require("../models/users");
 const SignedVoucher = require("../models/signed_credentials");
-const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY, ARAGO_KEY, ARAGO_OBJ} = require("../utils");
+const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_MOBILE_KEY, ARAGO_KEY, ARAGO_OBJ,
+  LOYALTY_CARD
+} = require("../utils");
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 const mongoose = require("mongoose");
@@ -28,7 +30,11 @@ exports.generateQRCode = async (req, res) => {
 
     if (req.params.type === VOUCHER_MOBILE_KEY) {
       typeEnd = VOUCHER_MOBILE_KEY
-    } else if (req.params.type === ARAGO_KEY) {
+    }
+    else if (req.params.type === LOYALTY_CARD) {
+      typeEnd = LOYALTY_CARD
+    }
+    else if (req.params.type === ARAGO_KEY) {
       typeEnd = ARAGO_KEY
     } else {
       typeEnd = `${req.params.type}_${voucher.id}`
@@ -122,6 +128,19 @@ exports.postVoucher = async (req, res) => {
       }
 
       return res.status(200).json({ message: "Arago pass created", success: true, data: voucher });
+    } else if (type === LOYALTY_CARD) {
+
+      VOUCHER_OBJ.credentialSubject.offers.duration = duration ? duration : VOUCHER_OBJ.credentialSubject.offers.duration;
+      VOUCHER_OBJ.credentialSubject.offers.benefit.discount = discount ? discount : VOUCHER_OBJ.credentialSubject.offers.benefit.discount;
+
+      const existingVoucher = await Voucher.findById(LOYALTY_CARD)
+      if (existingVoucher) {
+        await Voucher.updateOne({_id: LOYALTY_CARD}, {voucher: VOUCHER_OBJ});
+      } else {
+        voucher = await Voucher.create({_id: LOYALTY_CARD, user, voucher: VOUCHER_OBJ, type});
+      }
+
+      return res.status(200).json({message: "Loyalty card created", success: true, data: voucher});
     }
 
   } catch (err) {
@@ -153,7 +172,7 @@ exports.postCredentials = async (req, res) => {
 exports.getVouchers = async (req, res) => {
   try {
 
-    const EXCLUDE_TYPE = [ARAGO_KEY, VOUCHER_MOBILE_KEY]
+    const EXCLUDE_TYPE = [ARAGO_KEY, VOUCHER_MOBILE_KEY, LOYALTY_CARD]
     const vouchers = await Voucher.find({type: {$nin: EXCLUDE_TYPE}});
     res.status(200).json({ message: "Vouchers", success: true, data: vouchers });
   } catch (err) {
@@ -199,7 +218,7 @@ exports.updateVoucher = async (req, res) => {
 
     const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const voucherType =  type ? type : req.params.type;
-    if (voucherType === VOUCHER_KEY || voucherType === VOUCHER_MOBILE_KEY) {
+    if (voucherType === VOUCHER_KEY || voucherType === VOUCHER_MOBILE_KEY || voucherType === LOYALTY_CARD) {
       VOUCHER_OBJ.credentialSubject.affiliate.name = name ? name : VOUCHER_OBJ.credentialSubject.affiliate.name;
       VOUCHER_OBJ.credentialSubject.affiliate.pseudo = pseudo ? pseudo : VOUCHER_OBJ.credentialSubject.affiliate.pseudo;
       VOUCHER_OBJ.credentialSubject.affiliate.email = email ? email : VOUCHER_OBJ.credentialSubject.affiliate.email;
