@@ -437,9 +437,69 @@ exports.ARAGO_OBJ = {
     }
 }
 
+exports.LOYALTY_CARD_OBJ = {
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        {
+            "TezLoyaltyCard_1": {
+                "@id": "https://github.com/TalaoDAO/context/blob/main/README.md#loyaltycard",
+                "@context": {
+                    "@version": 1.1,
+                    "@protected": true,
+                    "schema": "https://schema.org/",
+                    "id": "@id",
+                    "type": "@type",
+                    "agerange": "schema:ageRange",
+                    "addressCountry": "schema:addressCountry",
+                    "duration": "schema:duration",
+                    "email": "schema:email",
+                    "associatedAddress": {
+                        "@id": "https://schema.org/address",
+                        "@context": {
+                            "@protected": true,
+                            "blockchainTezos": "https://schema.org/blockchain",
+                            "blockchainEthereum": "https://schema.org/blockchain"
+                        }
+                    },
+                    "issuedBy": {
+                        "@id": "schema:memberOf",
+                        "@context": {
+                            "@version": 1.1,
+                            "@protected": true,
+                            "logo": {"@id": "schema:image", "@type": "@id"},
+                            "address": "schema:address",
+                            "name": "schema:name"
+                        }
+                    },
+                    "programName": "schema:programName"
+                }
+            }
+        }
+    ],
+    "id": "",
+    "type": ["VerifiableCredential", "TezLoyaltyCard_1"],
+    "issuer": "",
+    "issuanceDate": "",
+    "credentialSubject": {
+        "id": "",
+        "type": "TezLoyaltyCard_1",
+        "ageRange": "18-25",
+        "duration": "360",
+        "addressCountry": "",
+        "email": "",
+        "programName": "Tezotopia Loayalty Card 1",
+        "associatedAddress": {
+            "blockchainTezos": ""
+        },
+        "issuedBy": {
+            "name": "AltMe"
+        }
+    }
+}
 
 
 exports.VOUCHER_KEY = "voucher";
 exports.MEMBERSHIP_KEY = "membership";
 exports.VOUCHER_MOBILE_KEY = "voucher_mobile";
 exports.ARAGO_KEY = "arago_pass";
+exports.LOYALTY_CARD = "loyaltycard";

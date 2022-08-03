@@ -7,6 +7,7 @@ import MembershipCard from "./pages/MembershipCard";
 import MobileVoucher from "./pages/MobileVoucher";
 import Vouchers from "./pages/Vouchers";
 import AragoPass from "./pages/AragoPass";
+import LoyaltyCard from "./pages/LoyaltyCard";
 
 function App() {
   const { pathname } = useLocation();
@@ -27,6 +28,7 @@ function App() {
       <Route path="voucher_mobile" element={<MobileVoucher/>}/>
       <Route path="vouchers" element={<Vouchers/>}/>
       <Route path="arago_pass" element={<AragoPass/>}/>
+      <Route path="loyaltycard" element={<LoyaltyCard/>}/>
     </Routes>
   );
 }
