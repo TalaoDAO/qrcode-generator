@@ -34,14 +34,11 @@ function LoyaltyCard() {
     const [voucher, setVoucher] = useState(null);
     const [qrUrl, setQRUrl] = useState('')
     const [formData, setFormData] = useState({
-        name: "Altme",
-        email: "contact@altme.io",
-        duration: "30",
-        discount: "15%",
+        duration: "365",
         type: LOYALTY_CARD
     });
 
-    const { duration, discount } = formData;
+    const { duration } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -55,10 +52,7 @@ function LoyaltyCard() {
         if (voucher) {
             setFormData({
                 ...formData,
-                name: voucher.voucher.credentialSubject.affiliate.name,
-                email: voucher.voucher.credentialSubject.affiliate.email,
-                duration: voucher.voucher.credentialSubject.offers.duration,
-                discount: voucher.voucher.credentialSubject.offers.benefit.discount,
+                duration: voucher.voucher.credentialSubject.duration,
             });
         }
     }, [voucher]);
@@ -151,31 +145,7 @@ function LoyaltyCard() {
                                 <MenuItem value={365}> 365 </MenuItem>
                             </Select>
                         </FormControl>
-                        <FormControl fullWidth>
-                            <InputLabel id="discount-label">Gamer Reward</InputLabel>
 
-                            <Select
-                                className={'blockchain-form__select'}
-                                labelId="discount-label"
-                                required
-                                fullWidth
-                                value={discount}
-                                name={"discount"}
-                                label="Gamer Reward"
-                                onChange={onChange}
-                            >
-                                <MenuItem value={"5%"}>5 %</MenuItem>
-                                <MenuItem value={"10%"}>10 %</MenuItem>
-                                <MenuItem value={"15%"}>15 %</MenuItem>
-                                <MenuItem value={"20%"}>20 %</MenuItem>
-                                <MenuItem value={"25%"}>25 %</MenuItem>
-                                <MenuItem value={"30%"}>30 %</MenuItem>
-                                <MenuItem value={"35%"}>35 %</MenuItem>
-                                <MenuItem value={"40%"}>40 %</MenuItem>
-                                <MenuItem value={"45%"}>45 %</MenuItem>
-                                <MenuItem value={"50%"}>50 %</MenuItem>
-                            </Select>
-                        </FormControl>
                         <ButtonStyled variant="contained" type={"submit"}>{voucher ? "Update" : "Save"}</ButtonStyled>
 
                     </form>
