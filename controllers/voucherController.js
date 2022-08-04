@@ -8,6 +8,7 @@ const { VOUCHER_OBJ, VOUCHER_KEY, MEMBERSHIP_CARD_OBJ, MEMBERSHIP_KEY, VOUCHER_M
 const didkit= require('../helpers/didkit-handler');
 const config = require('config');
 const mongoose = require("mongoose");
+const moment = require("moment");
 
 exports.getVoucher = async (req, res) => {
 
@@ -206,6 +207,8 @@ exports.updateVoucher = async (req, res) => {
     value,
     type,
     issuer,
+    birthDate,
+    addressCountry
   } = req.body;
 
   try {
@@ -270,7 +273,30 @@ exports.updateVoucher = async (req, res) => {
     } else if (voucherType === LOYALTY_CARD) {
       LOYALTY_CARD_OBJ.credentialSubject.duration = duration ? duration : LOYALTY_CARD_OBJ.credentialSubject.duration;
 
+      if (birthDate) {
+        const years = moment().diff(birthDate, 'years');
+        let ageRange
+        if (years < 18) {
+          ageRange = "-18"
+        } else if (years < 24){
+          ageRange = "18-24"
+        } else if (years < 34){
+          ageRange = "25-34"
+        } else if (years < 44){
+          ageRange = "35-44"
+        } else if (years < 54){
+          ageRange = "45-54"
+        } else if (years < 64){
+          ageRange = "55-64"
+        } else {
+          ageRange = "65+"
+        }
+
+        LOYALTY_CARD_OBJ.credentialSubject.ageRange = ageRange ? ageRange : LOYALTY_CARD_OBJ.credentialSubject.ageRange;
+      }
+
       LOYALTY_CARD_OBJ.credentialSubject.id = subjectId ? subjectId : LOYALTY_CARD_OBJ.credentialSubject.id;
+      LOYALTY_CARD_OBJ.credentialSubject.addressCountry = addressCountry ? addressCountry : LOYALTY_CARD_OBJ.credentialSubject.addressCountry;
       LOYALTY_CARD_OBJ.id = voucherId ? voucherId : LOYALTY_CARD_OBJ.id;
       LOYALTY_CARD_OBJ.issuer = issuer ? issuer : LOYALTY_CARD_OBJ.issuer;
       LOYALTY_CARD_OBJ.issuanceDate = issuanceDate ? issuanceDate : LOYALTY_CARD_OBJ.issuanceDate;
