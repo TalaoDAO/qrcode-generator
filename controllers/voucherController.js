@@ -205,6 +205,7 @@ exports.updateVoucher = async (req, res) => {
     currency,
     value,
     type,
+    issuer,
   } = req.body;
 
   try {
@@ -255,13 +256,25 @@ exports.updateVoucher = async (req, res) => {
       return res.status(200).json({ message: "Membership card updated", success: true, data: [] });
 
     } else if (voucherType === ARAGO_KEY) {
-      ARAGO_OBJ.credentialSubject.duration = duration ? duration : ARAGO_OBJ.credentialSubject.duration
+      ARAGO_OBJ.credentialSubject.duration = duration ? duration : ARAGO_OBJ.credentialSubject.duration;
+
+      ARAGO_OBJ.credentialSubject.id = subjectId ? subjectId : ARAGO_OBJ.credentialSubject.id;
+      ARAGO_OBJ.id = voucherId ? voucherId : ARAGO_OBJ.id;
+      ARAGO_OBJ.issuer = issuer ? issuer : ARAGO_OBJ.issuer;
+      ARAGO_OBJ.issuanceDate = issuanceDate ? issuanceDate : ARAGO_OBJ.issuanceDate;
+      ARAGO_OBJ.expirationDate = expirationDate ? expirationDate : ARAGO_OBJ.expirationDate;
 
       await Voucher.updateOne({ _id: ARAGO_KEY }, { voucher: ARAGO_OBJ });
 
       return res.status(200).json({ message: "Arago pass updated", success: true, voucher: [] });
     } else if (voucherType === LOYALTY_CARD) {
-      LOYALTY_CARD_OBJ.credentialSubject.duration = duration ? duration : LOYALTY_CARD_OBJ.credentialSubject.duration
+      LOYALTY_CARD_OBJ.credentialSubject.duration = duration ? duration : LOYALTY_CARD_OBJ.credentialSubject.duration;
+
+      LOYALTY_CARD_OBJ.credentialSubject.id = subjectId ? subjectId : LOYALTY_CARD_OBJ.credentialSubject.id;
+      LOYALTY_CARD_OBJ.id = voucherId ? voucherId : LOYALTY_CARD_OBJ.id;
+      LOYALTY_CARD_OBJ.issuer = issuer ? issuer : LOYALTY_CARD_OBJ.issuer;
+      LOYALTY_CARD_OBJ.issuanceDate = issuanceDate ? issuanceDate : LOYALTY_CARD_OBJ.issuanceDate;
+      LOYALTY_CARD_OBJ.expirationDate = expirationDate ? expirationDate : LOYALTY_CARD_OBJ.expirationDate;
 
       await Voucher.updateOne({ _id: LOYALTY_CARD }, { voucher: LOYALTY_CARD_OBJ });
 
