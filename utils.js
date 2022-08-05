@@ -452,7 +452,6 @@ exports.LOYALTY_CARD_OBJ = {
                     "ageRange" : "schema:ageRange",
                     "addressCountry" : "schema:addressCountry",
                     "duration" : "schema:duration",
-                    "email" : "schema:email",
                     "associatedAddress" : {
                         "@id": "https://schema.org/address",
                         "@context" : {
@@ -487,7 +486,6 @@ exports.LOYALTY_CARD_OBJ = {
         "ageRange" :"18-25",
         "duration" : "360",
         "addressCountry" : "",
-        "email" :"",
         "programName" : "Tezotopia Loayalty Card 1",
         "associatedAddress" : {
             "blockchainTezos" : ""
