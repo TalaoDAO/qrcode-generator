@@ -55,6 +55,8 @@ exports.VOUCHER_OBJ = {
                             "category" : "schema:category",
                             "duration" : "schema:duration",
                             "endDate" : "schema:date",
+                            "analytics" : "schema:website",
+                            "userGuide" : "schema:userGuide",
                             "benefit" : {
                                 "@id" : "https://github.com/TalaoDAO/context/blob/main/README",
                                 "@context" : {
@@ -132,14 +134,17 @@ exports.VOUCHER_OBJ = {
             "endDate" : "2022-06-08T19:55:00Z",
             "category" : "discounted_coupon",
             "duration" : "30",
+            "analytics" : "",
+            "userGuide" :  "https://altme.io/#steps-03-575161",
             "benefit" : {
                 "category" : "discount",
                 "discount" : "15%"
             },
             "offeredBy": {
                 "logo": "ipfs://QmZmdndUVRoxiVhUnjGrKnNPn8ah3jT8fxTCLMnAzRAFFZ",
-                "name": "GifGames",
-                "description" : "Gaming platform of Tezotopia",
+                "name": "Gif Games",
+                "website" : "https://tezotopia.com/",
+                "description" : "https://tezotopia.com",
                 "paymentMethod" : {
                     "blockchain" : "Tezos",
                     "currency" : "XTZ",
