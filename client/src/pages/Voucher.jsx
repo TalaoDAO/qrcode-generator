@@ -39,7 +39,7 @@ function Voucher() {
         phone: "",
         email: "",
         pseudo: "",
-        commission: "5%",
+        commission: "0%",
         blockchain: "Tezos",
         blockchainAccount: "",
         duration: "30",
@@ -217,6 +217,7 @@ function Voucher() {
                                 label="Commission"
                                 onChange={onChange}
                             >
+                                <MenuItem value={"0%"}>0 %</MenuItem>
                                 <MenuItem value={"1%"}>1 %</MenuItem>
                                 <MenuItem value={"2%"}>2 %</MenuItem>
                                 <MenuItem value={"3%"}>3 %</MenuItem>
