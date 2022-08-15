@@ -237,7 +237,7 @@ exports.updateVoucher = async (req, res) => {
       VOUCHER_OBJ.issuanceDate = issuanceDate ? issuanceDate : VOUCHER_OBJ.issuanceDate;
       VOUCHER_OBJ.expirationDate = expirationDate ? expirationDate : VOUCHER_OBJ.expirationDate;
       VOUCHER_OBJ.credentialSubject.associatedAddress.blockchainTezos = blockchainTezos ? blockchainTezos : VOUCHER_OBJ.credentialSubject.associatedAddress.blockchainTezos;
-      VOUCHER_OBJ.credentialSubject.offers.analytics = "https://talao.co/analytics/the_gamer_Tezos_address"
+      VOUCHER_OBJ.credentialSubject.offers.analytics = "https://talao.co/analytics/" + blockchainTezos
 
       await Voucher.updateOne({ _id: req.params.id }, { voucher: VOUCHER_OBJ });
 
