@@ -116,7 +116,7 @@ function LoyaltyCard() {
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
 
-                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Loyalty Card`}</Typography>
+                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Gaming Loyalty Card`}</Typography>
 
                         <FormControl fullWidth>
                             <InputLabel id="duration-label">Voucher Duration</InputLabel>

@@ -446,7 +446,7 @@ exports.LOYALTY_CARD_OBJ = {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
         {
-            "TezLoyaltyCard_1" : {
+            "GamingLoyaltyCard_1" : {
                 "@id": "https://github.com/TalaoDAO/context/blob/main/README.md#loyaltycard",
                 "@context": {
                     "@version": 1.1,
@@ -470,6 +470,7 @@ exports.LOYALTY_CARD_OBJ = {
                         "@context" : {
                             "@version": 1.1,
                             "@protected": true,
+                            "website" : "schema:website",
                             "logo": {"@id" : "schema:image", "@type" : "@id"},
                             "address" : "schema:address",
                             "name" : "schema:name"
@@ -482,16 +483,16 @@ exports.LOYALTY_CARD_OBJ = {
         }
     ],
     "id": "",
-    "type": ["VerifiableCredential", "TezLoyaltyCard_1"],
+    "type": ["VerifiableCredential", "GamingLoyaltyCard_1"],
     "issuer": "",
     "issuanceDate": "",
     "credentialSubject" : {
         "id" : "",
-        "type" : "TezLoyaltyCard_1",
+        "type" : "GamingLoyaltyCard_1",
         "ageRange" :"18-25",
         "duration" : "360",
         "addressCountry" : "",
-        "programName" : "Tezotopia Loayalty Card 1",
+        "programName" : "Gaming Loayalty Card 1",
         "associatedAddress" : {
             "blockchainTezos" : ""
         },

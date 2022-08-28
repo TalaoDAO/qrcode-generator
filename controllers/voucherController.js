@@ -75,7 +75,12 @@ exports.postVoucher = async (req, res) => {
   try {
 
     const user = await User.create({ name: parseInt((Math.random() * 1000).toString()) });
-    const blockchainAccountPrefix = 'tz1';
+    let blockchainAccountPrefix = 'tz1';
+
+    if (blockchain === 'Ethereum' || blockchain === 'Polygone') {
+      blockchainAccountPrefix = '0x'
+    }
+
     const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
     let voucher;
