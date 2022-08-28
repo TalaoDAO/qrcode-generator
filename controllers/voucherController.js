@@ -219,6 +219,27 @@ exports.updateVoucher = async (req, res) => {
       res.status(400).json({ message: "No voucher found", success: true, data: [] });
     }
 
+    let ageRange
+
+    if (birthDate) {
+      const years = moment().diff(birthDate, 'years');
+      if (years < 18) {
+        ageRange = "-18"
+      } else if (years < 24){
+        ageRange = "18-24"
+      } else if (years < 34){
+        ageRange = "25-34"
+      } else if (years < 44){
+        ageRange = "35-44"
+      } else if (years < 54){
+        ageRange = "45-54"
+      } else if (years < 64){
+        ageRange = "55-64"
+      } else {
+        ageRange = "65+"
+      }
+    }
+
     const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const voucherType =  type ? type : req.params.type;
     if (voucherType === VOUCHER_KEY || voucherType === VOUCHER_MOBILE_KEY) {
@@ -255,6 +276,11 @@ exports.updateVoucher = async (req, res) => {
       MEMBERSHIP_CARD_OBJ.expirationDate = expirationDate ? expirationDate : MEMBERSHIP_CARD_OBJ.expirationDate;
       MEMBERSHIP_CARD_OBJ.credentialSubject.associatedAddress.blockchainTezos = blockchainTezos ? blockchainTezos : MEMBERSHIP_CARD_OBJ.credentialSubject.id;
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers.analytics = "https://talao.co/analytics/" + blockchainTezos
+      MEMBERSHIP_CARD_OBJ.credentialSubject.addressCountry = addressCountry ? addressCountry : MEMBERSHIP_CARD_OBJ.credentialSubject.addressCountry;
+
+      if (ageRange) {
+        MEMBERSHIP_CARD_OBJ.credentialSubject.ageRange = ageRange ? ageRange : MEMBERSHIP_CARD_OBJ.credentialSubject.ageRange;
+      }
 
       await Voucher.updateOne({ _id: req.params.id }, { voucher: MEMBERSHIP_CARD_OBJ });
 
@@ -275,25 +301,7 @@ exports.updateVoucher = async (req, res) => {
     } else if (voucherType === LOYALTY_CARD) {
       LOYALTY_CARD_OBJ.credentialSubject.duration = duration ? duration : LOYALTY_CARD_OBJ.credentialSubject.duration;
 
-      if (birthDate) {
-        const years = moment().diff(birthDate, 'years');
-        let ageRange
-        if (years < 18) {
-          ageRange = "-18"
-        } else if (years < 24){
-          ageRange = "18-24"
-        } else if (years < 34){
-          ageRange = "25-34"
-        } else if (years < 44){
-          ageRange = "35-44"
-        } else if (years < 54){
-          ageRange = "45-54"
-        } else if (years < 64){
-          ageRange = "55-64"
-        } else {
-          ageRange = "65+"
-        }
-
+      if (ageRange) {
         LOYALTY_CARD_OBJ.credentialSubject.ageRange = ageRange ? ageRange : LOYALTY_CARD_OBJ.credentialSubject.ageRange;
       }
 
