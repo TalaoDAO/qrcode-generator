@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MaterialTable from "material-table";
 import { Button, createTheme, ThemeProvider } from '@mui/material';
 import API from "../api";
-import { ARAGO_KEY, VOUCHER_MOBILE_KEY } from "../utils";
+import { ARAGO_KEY, MEMBERSHIP_MOBILE_KEY, VOUCHER_MOBILE_KEY } from "../utils";
 
 const HomeButtonStyled = styled(Button)({
     borderColor: "#923aff",
@@ -61,7 +61,7 @@ function Vouchers() {
     }
 
     const navigateToVoucher = (id, type) => {
-        if (type === VOUCHER_MOBILE_KEY || type === ARAGO_KEY) {
+        if (type === VOUCHER_MOBILE_KEY || type === ARAGO_KEY || type === MEMBERSHIP_MOBILE_KEY) {
             navigate(`/${type}`);
         } else {
             navigate({

@@ -184,7 +184,6 @@ exports.VOUCHER_OBJ = {
     }
 }
 
-
 exports.MEMBERSHIP_CARD_OBJ = {
     "@context": [
         "https://www.w3.org/2018/credentials/v1",
@@ -344,9 +343,147 @@ exports.MEMBERSHIP_CARD_OBJ = {
     }
 }
 
+exports.ARAGO_OBJ = {
+    "@context": ["https://www.w3.org/2018/credentials/v1",
+        {
+            "name" : "https://schema.org/name",
+            "description" : "https://schema.org/description",
+            "AragoPass" : {
+                "@id": "https://github.com/TalaoDAO/context/blob/main/README.mdidentitypass",
+                "@context": {
+                    "@version": 1.1,
+                    "@protected": true,
+                    "schema" : "https://schema.org/",
+                    "id": "@id",
+                    "type": "@type",
+                    "email" : "schema:email",
+                    "image": {"@id" : "schema:image", "@type" : "@id"},
+                    "duration" : "schema:duration",
+                    "telephone" : "schema:telephone",
+                    "givenName" : "schema:givenName",
+                    "familyName" : "schema:familyName",
+                    "gender" : "schema:gender",
+                    "address" : "schema:address",
+                    "birthDate" : "schema:birthDate",
+                    "issuedBy": {
+                        "@id": "schema:issuedBy",
+                        "@context": {
+                            "@version": 1.1,
+                            "@protected": true,
+                            "schema" : "https://schema.org/",
+                            "name" :  "schema:name",
+                            "address" : "schema:address",
+                            "logo" : { "@id" : "schema:logo", "@type" : "@id"}
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "id": "",
+    "type": ["VerifiableCredential", "AragoPass"],
+    "issuer": "",
+    "name" : [
+        {
+            "@value": "Arago pass",
+            "@language": "en"
+        },
+        {
+            "@value": "Arago Pass",
+            "@language": "fr"
+        }
+    ],
+    "description" : [
+        {
+            "@language": "en",
+            "@value": "It can be used to authenticate with Arago services."
+        },
+        {
+            "@language": "fr",
+            "@value": "Cette attestationpermet de s'authentifier auprès des services d'Arago."
+        }
+    ],
+    "issuanceDate": "",
+    "credentialSubject" : {
+        "id": "",
+        "type" : "AragoPass",
+        "email" : "john.doe@gmail.com",
+        "image" : "",
+        "familyName" : "Doe",
+        "givenName" : "John",
+        "duration" : "30",
+        "issuedBy" : {
+            "name" : "Arago",
+            "address" : "4, rue Louis-Guérin, 69626 Villeurbanne, France",
+            "logo" : "https://talao.mypinata.cloud/ipfs/QmNwbEEupT7jR2zmrA87FsN4hUS8eXnCxM8DsL9RXc25cu"
+        }
+    }
+}
+
+exports.LOYALTY_CARD_OBJ = {
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        {
+            "GamingLoyaltyCard_1" : {
+                "@id": "https://github.com/TalaoDAO/context/blob/main/README.md#loyaltycard",
+                "@context": {
+                    "@version": 1.1,
+                    "@protected": true,
+                    "schema" : "https://schema.org/",
+                    "id": "@id",
+                    "type": "@type",
+                    "ageRange" : "schema:ageRange",
+                    "addressCountry" : "schema:addressCountry",
+                    "duration" : "schema:duration",
+                    "associatedAddress" : {
+                        "@id": "https://schema.org/address",
+                        "@context" : {
+                            "@protected" : true,
+                            "blockchainTezos" : "https://schema.org/blockchain",
+                            "blockchainEthereum" : "https://schema.org/blockchain"
+                        }
+                    },
+                    "issuedBy" : {
+                        "@id" : "schema:memberOf",
+                        "@context" : {
+                            "@version": 1.1,
+                            "@protected": true,
+                            "website" : "schema:website",
+                            "logo": {"@id" : "schema:image", "@type" : "@id"},
+                            "address" : "schema:address",
+                            "name" : "schema:name"
+                        }
+                    },
+                    "programName" : "schema:programName"
+
+                }
+            }
+        }
+    ],
+    "id": "",
+    "type": ["VerifiableCredential", "GamingLoyaltyCard_1"],
+    "issuer": "",
+    "issuanceDate": "",
+    "credentialSubject" : {
+        "id" : "",
+        "type" : "GamingLoyaltyCard_1",
+        "ageRange" :"18-25",
+        "duration" : "360",
+        "addressCountry" : "",
+        "programName" : "Gaming Loayalty Card 1",
+        "associatedAddress" : {
+            "blockchainTezos" : ""
+        },
+        "issuedBy" : {
+            "name" : "AltMe"
+        }
+
+    }
+}
 
 exports.VOUCHER_KEY = "voucher";
 exports.MEMBERSHIP_KEY = "membership";
 exports.VOUCHER_MOBILE_KEY = "voucher_mobile";
 exports.ARAGO_KEY = "arago_pass";
-exports.LOYALTY_CARD = "loyaltycard";
+exports.LOYAALTY_CARD = "loyaltycard";
+exports.MEMBERSHIP_MOBILE_KEY = "membershipcard_mobile";
