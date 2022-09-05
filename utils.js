@@ -244,15 +244,7 @@ exports.MEMBERSHIP_CARD_OBJ = {
                                     "website" : "schema:website",
                                     "logo": {"@id" : "schema:image", "@type" : "@id"},
                                     "did" : "schema:identifier",
-                                    "name" : "schema:name",
-                                    "paymentMethod" : {
-                                        "@id" : "schema:paymentMethod",
-                                        "@context" : {
-                                            "currency" : "schema:currency",
-                                            "blockchain" : "schema:name",
-                                            "blockchainAccount" : "schema:identifier"
-                                        }
-                                    }
+                                    "name" : "schema:name"
                                 }
                             }
                         }
@@ -265,23 +257,7 @@ exports.MEMBERSHIP_CARD_OBJ = {
                             "website" : "schema:website",
                             "logo": {"@id" : "schema:image", "@type" : "@id"},
                             "did" : "schema:identifier",
-                            "name" : "schema:name",
-                            "paymentAccepted" : {
-                                "@id" : "schema:paymentMethod",
-                                "@context" : {
-                                    "currency" : "schema:currency",
-                                    "blockchain" : "schema:name",
-                                    "blockchainAccount" : "schema:identifier"
-                                }
-                            },
-                            "paymentMethod" : {
-                                "@id" : "schema:paymentMethod",
-                                "@context" : {
-                                    "currency" : "schema:currency",
-                                    "blockchain" : "schema:name",
-                                    "blockchainAccount" : "schema:identifier"
-                                }
-                            }
+                            "name" : "schema:name"
                         }
                     }
                 }
@@ -297,49 +273,33 @@ exports.MEMBERSHIP_CARD_OBJ = {
         "ageRange" : "",
         "addressCountry" : "",
         "associatedAddress" : {
-            "blockchainTezos" : "tz1345765476547654",
-            "blockchainEthereum" : "0x1345765476547654"
+            "blockchainTezos" : ""
         },
         "offers" : {
             "startDate" : "2022-04-08T19:55:00Z",
             "endDate" : "2022-06-08T19:55:00Z",
             "category" : "membershipcard",
-            "duration" : "360",
+            "duration" : "365",
             "analytics" : "",
             "userGuide" :  "https://altme.io/#steps-03-575161",
             "cardPrice" : {
                 "currency" : "EUR",
-                "value" : "50"
+                "value" : "0"
             },
             "benefit" : {
                 "category" : "discount",
-                "discount" : "5%"
+                "discount" : ""
             },
             "offeredBy": {
                 "logo": "ipfs://QmZmdndUVRoxiVhUnjGrKnNPn8ah3jT8fxTCLMnAzRAFFZ",
                 "name": "GifGames",
                 "website" : "https://tezotopia.com",
-                "description" : "gaming platform Tezotopia",
-                "paymentMethod" : {
-                    "blockchain" : "Tezos",
-                    "currency" : "XTZ",
-                    "blockchainAccount" : "tz1iyjrTUNxDpPaqNZ84ipGELAcTWYg66789"
-                }
+                "description" : "gaming platform Tezotopia"
             }
         },
         "issuedBy": {
             "logo": "ipfs://QmZmdndUVRoxiVhUnjGrKnNPn8ah3jT8fxTCLMnAzRAFFZ",
-            "name": "Talao",
-            "paymentAccepted" : {
-                "blockchain" : "Tezos",
-                "currency" : "XTZ",
-                "blockchainAccount" : "tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg6s5Du"
-            },
-            "paymentMethod" : {
-                "blockchain" : "Tezos",
-                "currency" : "XTZ",
-                "blockchainAccount" : "tz1NyjrTUNxDpPaqNZ84ipGELAcTWYg6s5Du"
-            }
+            "name": "Talao"
         }
     }
 }
