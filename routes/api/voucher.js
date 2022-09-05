@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const voucherController = require('../../controllers/voucherController');
-const {VOUCHER_MOBILE_KEY, ARAGO_KEY, LOYALTY_CARD} = require("../../utils");
+const {VOUCHER_MOBILE_KEY, ARAGO_KEY, LOYALTY_CARD, MEMBERSHIP_MOBILE_KEY} = require("../../utils");
 
 // @route   GET get/vouchers/:id
 // @desc    Get voucher info
@@ -13,6 +13,10 @@ router.get('/:id', async (req, res) => {
   if (req.params.id === VOUCHER_MOBILE_KEY) {
     req.params.id = VOUCHER_MOBILE_KEY;
     req.params.type = VOUCHER_MOBILE_KEY;
+  }
+  else if (req.params.id === MEMBERSHIP_MOBILE_KEY) {
+    req.params.id = MEMBERSHIP_MOBILE_KEY;
+    req.params.type = MEMBERSHIP_MOBILE_KEY;
   }
   else if (req.params.id === LOYALTY_CARD) {
     req.params.id = LOYALTY_CARD;
@@ -41,7 +45,12 @@ router.put('/:id', async (req, res) => {
   if (req.params.id === VOUCHER_MOBILE_KEY) {
     req.params.id = VOUCHER_MOBILE_KEY;
     req.params.type = VOUCHER_MOBILE_KEY;
-  } else if (req.params.id === LOYALTY_CARD) {
+  }
+  else if (req.params.id === MEMBERSHIP_MOBILE_KEY) {
+    req.params.id = MEMBERSHIP_MOBILE_KEY;
+    req.params.type = MEMBERSHIP_MOBILE_KEY;
+  }
+  else if (req.params.id === LOYALTY_CARD) {
     req.params.id = LOYALTY_CARD;
     req.params.type = LOYALTY_CARD;
   } else if (req.params.id === ARAGO_KEY) {

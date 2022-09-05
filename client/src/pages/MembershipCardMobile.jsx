@@ -4,8 +4,8 @@ import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } f
 import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { VOUCHER_MOBILE_KEY } from "../utils";
 import QRCodeContent from "../components/QRCodeContent";
+import { MEMBERSHIP_MOBILE_KEY } from "../utils";
 
 const ButtonStyled = styled(Button)({
     backgroundColor: "#923aff",
@@ -30,15 +30,13 @@ const HomeButtonStyled = styled(Button)({
     color: "white",
 });
 
-function MobileVoucher() {
+function MembershipCardMobile() {
     const [voucher, setVoucher] = useState(null);
     const [qrUrl, setQRUrl] = useState('')
     const [formData, setFormData] = useState({
-        name: "Altme",
-        email: "contact@altme.io",
         duration: "30",
         discount: "15%",
-        type: VOUCHER_MOBILE_KEY
+        type: MEMBERSHIP_MOBILE_KEY
     });
 
     const { duration, discount } = formData;
@@ -47,7 +45,7 @@ function MobileVoucher() {
 
     useEffect(() => {
         (async function getVoucherData() {
-            await getVoucher(VOUCHER_MOBILE_KEY);
+            await getVoucher(MEMBERSHIP_MOBILE_KEY);
         })();
     }, [])
 
@@ -55,8 +53,6 @@ function MobileVoucher() {
         if (voucher) {
             setFormData({
                 ...formData,
-                name: voucher.voucher.credentialSubject.affiliate.name,
-                email: voucher.voucher.credentialSubject.affiliate.email,
                 duration: voucher.voucher.credentialSubject.offers.duration,
                 discount: voucher.voucher.credentialSubject.offers.benefit.discount,
             });
@@ -99,7 +95,7 @@ function MobileVoucher() {
     const getQRUrl = async () => {
         try {
             if (voucher) {
-                const res = await API.vouchers.getQRUrl(voucher._id, VOUCHER_MOBILE_KEY);
+                const res = await API.vouchers.getQRUrl(voucher._id, MEMBERSHIP_MOBILE_KEY);
 
                 if (res.data.success) {
                     setQRUrl(res.data.data);
@@ -122,7 +118,7 @@ function MobileVoucher() {
 
                     <form onSubmit={e => onSubmit(e)} className={"voucher-form"}>
 
-                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Voucher`}</Typography>
+                        <Typography variant={"h5"}>{`${voucher ? 'Update' : 'Create'} Membership Card`}</Typography>
 
                         <FormControl fullWidth>
                             <InputLabel id="duration-label">Voucher Duration</InputLabel>
@@ -186,4 +182,4 @@ function MobileVoucher() {
     );
 }
 
-export default MobileVoucher;
+export default MembershipCardMobile;
