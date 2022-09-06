@@ -229,7 +229,9 @@ exports.updateVoucher = async (req, res) => {
     type,
     issuer,
     birthDate,
-    addressCountry
+    addressCountry,
+    ageRange,
+    nationality
   } = req.body;
 
   try {
@@ -238,27 +240,6 @@ exports.updateVoucher = async (req, res) => {
       await Voucher.findById(req.params.id);
     } catch (err) {
       res.status(400).json({ message: "No voucher found", success: true, data: [] });
-    }
-
-    let ageRange
-
-    if (birthDate) {
-      const years = moment().diff(birthDate, 'years');
-      if (years < 18) {
-        ageRange = "-18"
-      } else if (years < 24){
-        ageRange = "18-24"
-      } else if (years < 34){
-        ageRange = "25-34"
-      } else if (years < 44){
-        ageRange = "35-44"
-      } else if (years < 54){
-        ageRange = "45-54"
-      } else if (years < 64){
-        ageRange = "55-64"
-      } else {
-        ageRange = "65+"
-      }
     }
 
     const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -299,9 +280,8 @@ exports.updateVoucher = async (req, res) => {
       MEMBERSHIP_CARD_OBJ.credentialSubject.offers.analytics = "https://talao.co/analytics/" + blockchainTezos
       MEMBERSHIP_CARD_OBJ.credentialSubject.addressCountry = addressCountry ? addressCountry : MEMBERSHIP_CARD_OBJ.credentialSubject.addressCountry;
 
-      if (ageRange) {
-        MEMBERSHIP_CARD_OBJ.credentialSubject.ageRange = ageRange ? ageRange : MEMBERSHIP_CARD_OBJ.credentialSubject.ageRange;
-      }
+      MEMBERSHIP_CARD_OBJ.credentialSubject.ageRange = ageRange ? ageRange : MEMBERSHIP_CARD_OBJ.credentialSubject.ageRange;
+      MEMBERSHIP_CARD_OBJ.credentialSubject.nationality = nationality ? nationality : MEMBERSHIP_CARD_OBJ.credentialSubject.nationality;
 
       await Voucher.updateOne({ _id: req.params.id }, { voucher: MEMBERSHIP_CARD_OBJ });
 
@@ -322,9 +302,28 @@ exports.updateVoucher = async (req, res) => {
     } else if (voucherType === LOYALTY_CARD) {
       LOYALTY_CARD_OBJ.credentialSubject.duration = duration ? duration : LOYALTY_CARD_OBJ.credentialSubject.duration;
 
-      if (ageRange) {
-        LOYALTY_CARD_OBJ.credentialSubject.ageRange = ageRange ? ageRange : LOYALTY_CARD_OBJ.credentialSubject.ageRange;
+      let newAgeRange
+
+      if (birthDate) {
+        const years = moment().diff(birthDate, 'years');
+        if (years < 18) {
+          newAgeRange = "-18"
+        } else if (years < 24){
+          newAgeRange = "18-24"
+        } else if (years < 34){
+          newAgeRange = "25-34"
+        } else if (years < 44){
+          newAgeRange = "35-44"
+        } else if (years < 54){
+          newAgeRange = "45-54"
+        } else if (years < 64){
+          newAgeRange = "55-64"
+        } else {
+          newAgeRange = "65+"
+        }
       }
+
+      LOYALTY_CARD_OBJ.credentialSubject.ageRange = newAgeRange ? newAgeRange : LOYALTY_CARD_OBJ.credentialSubject.ageRange;
 
       LOYALTY_CARD_OBJ.credentialSubject.id = subjectId ? subjectId : LOYALTY_CARD_OBJ.credentialSubject.id;
       LOYALTY_CARD_OBJ.credentialSubject.addressCountry = addressCountry ? addressCountry : LOYALTY_CARD_OBJ.credentialSubject.addressCountry;
