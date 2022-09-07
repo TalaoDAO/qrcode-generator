@@ -197,6 +197,7 @@ exports.MEMBERSHIP_CARD_OBJ = {
                     "id": "@id",
                     "type": "@type",
                     "ageRange" : "schema:ageRange",
+                    "nationality" : "schema:nationality",
                     "addressCountry" : "schema:addressCountry",
                     "associatedAddress" : {
                         "@id": "https://schema.org/address",
@@ -271,6 +272,7 @@ exports.MEMBERSHIP_CARD_OBJ = {
         "type" : "MembershipCard_1",
         "ageRange" : "",
         "addressCountry" : "",
+        "nationality" : "",
         "associatedAddress" : {
             "blockchainTezos" : ""
         },
