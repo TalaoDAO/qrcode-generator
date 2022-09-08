@@ -168,7 +168,7 @@ function MembershipCard() {
                                 label="voucherPrice"
                                 onChange={onChange}
                             >
-                                <MenuItem value={0}>5</MenuItem>
+                                <MenuItem value={0}>0</MenuItem>
                                 <MenuItem value={5}>5</MenuItem>
                                 <MenuItem value={10}>10</MenuItem>
                                 <MenuItem value={15}>15</MenuItem>
