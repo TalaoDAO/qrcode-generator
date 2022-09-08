@@ -308,8 +308,6 @@ exports.MEMBERSHIP_CARD_OBJ = {
 exports.ARAGO_OBJ = {
     "@context": ["https://www.w3.org/2018/credentials/v1",
         {
-            "name" : "https://schema.org/name",
-            "description" : "https://schema.org/description",
             "AragoPass" : {
                 "@id": "https://github.com/TalaoDAO/context/blob/main/README.mdidentitypass",
                 "@context": {
@@ -318,15 +316,8 @@ exports.ARAGO_OBJ = {
                     "schema" : "https://schema.org/",
                     "id": "@id",
                     "type": "@type",
-                    "email" : "schema:email",
-                    "image": {"@id" : "schema:image", "@type" : "@id"},
+                    "group" : "schema:group",
                     "duration" : "schema:duration",
-                    "telephone" : "schema:telephone",
-                    "givenName" : "schema:givenName",
-                    "familyName" : "schema:familyName",
-                    "gender" : "schema:gender",
-                    "address" : "schema:address",
-                    "birthDate" : "schema:birthDate",
                     "issuedBy": {
                         "@id": "schema:issuedBy",
                         "@context": {
@@ -334,6 +325,7 @@ exports.ARAGO_OBJ = {
                             "@protected": true,
                             "schema" : "https://schema.org/",
                             "name" :  "schema:name",
+                            "website": "schema:website",
                             "address" : "schema:address",
                             "logo" : { "@id" : "schema:logo", "@type" : "@id"}
                         }
@@ -345,37 +337,15 @@ exports.ARAGO_OBJ = {
     "id": "",
     "type": ["VerifiableCredential", "AragoPass"],
     "issuer": "",
-    "name" : [
-        {
-            "@value": "Arago pass",
-            "@language": "en"
-        },
-        {
-            "@value": "Arago Pass",
-            "@language": "fr"
-        }
-    ],
-    "description" : [
-        {
-            "@language": "en",
-            "@value": "It can be used to authenticate with Arago services."
-        },
-        {
-            "@language": "fr",
-            "@value": "Cette attestationpermet de s'authentifier auprès des services d'Arago."
-        }
-    ],
     "issuanceDate": "",
     "credentialSubject" : {
         "id": "",
         "type" : "AragoPass",
-        "email" : "john.doe@gmail.com",
-        "image" : "",
-        "familyName" : "Doe",
-        "givenName" : "John",
-        "duration" : "30",
+        "group" : "Default",
+        "duration" : "360",
         "issuedBy" : {
             "name" : "Arago",
+            "website" : "https://arago.studio",
             "address" : "4, rue Louis-Guérin, 69626 Villeurbanne, France",
             "logo" : "https://talao.mypinata.cloud/ipfs/QmNwbEEupT7jR2zmrA87FsN4hUS8eXnCxM8DsL9RXc25cu"
         }

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@mui/material";
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import API from "../api";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
@@ -35,10 +35,11 @@ function AragoPass() {
     const [qrUrl, setQRUrl] = useState('')
     const [formData, setFormData] = useState({
         duration: "30",
+        group: "Default",
         type: ARAGO_KEY
     });
 
-    const { duration } = formData;
+    const { duration, group } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -145,6 +146,16 @@ function AragoPass() {
                                 <MenuItem value={365}> 365 </MenuItem>
                             </Select>
                         </FormControl>
+
+                        <TextField
+                            type={"text"}
+                            required
+                            fullWidth
+                            label="Group"
+                            value={group}
+                            name={"group"}
+                            onChange={onChange}
+                        />
 
                         <ButtonStyled variant="contained" type={"submit"}>{voucher ? "Update" : "Save"}</ButtonStyled>
 

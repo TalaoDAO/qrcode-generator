@@ -72,7 +72,8 @@ exports.postVoucher = async (req, res) => {
     discount,
     value,
     currency,
-    type
+    type,
+    group
   } = req.body;
 
   try {
@@ -141,6 +142,7 @@ exports.postVoucher = async (req, res) => {
       return res.status(200).json({message: "Membership card mobile created", success: true, data: voucher});
     } else if (type === ARAGO_KEY) {
       ARAGO_OBJ.credentialSubject.duration = duration ? duration : ARAGO_OBJ.credentialSubject.duration
+      ARAGO_OBJ.credentialSubject.group = group ? group : ARAGO_OBJ.credentialSubject.group
 
       const existingVoucher = await Voucher.findById(ARAGO_KEY)
       if (existingVoucher) {
@@ -231,7 +233,8 @@ exports.updateVoucher = async (req, res) => {
     birthDate,
     addressCountry,
     ageRange,
-    nationality
+    nationality,
+    group
   } = req.body;
 
   try {
@@ -289,6 +292,7 @@ exports.updateVoucher = async (req, res) => {
 
     } else if (voucherType === ARAGO_KEY) {
       ARAGO_OBJ.credentialSubject.duration = duration ? duration : ARAGO_OBJ.credentialSubject.duration;
+      ARAGO_OBJ.credentialSubject.group = group ? group : ARAGO_OBJ.credentialSubject.group;
 
       ARAGO_OBJ.credentialSubject.id = subjectId ? subjectId : ARAGO_OBJ.credentialSubject.id;
       ARAGO_OBJ.id = voucherId ? voucherId : ARAGO_OBJ.id;
