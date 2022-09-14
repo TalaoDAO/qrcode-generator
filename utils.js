@@ -345,9 +345,7 @@ exports.ARAGO_OBJ = {
         "duration" : "360",
         "issuedBy" : {
             "name" : "Arago",
-            "website" : "https://arago.studio",
-            "address" : "4, rue Louis-Guérin, 69626 Villeurbanne, France",
-            "logo" : "https://talao.mypinata.cloud/ipfs/QmNwbEEupT7jR2zmrA87FsN4hUS8eXnCxM8DsL9RXc25cu"
+            "website" : "https://arago.studio"
         }
     }
 }
