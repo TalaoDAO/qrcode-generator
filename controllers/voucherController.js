@@ -173,19 +173,15 @@ exports.postVoucher = async (req, res) => {
 };
 
 exports.postCredentials = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ message: errors.array()[0].msg, success: false });
-  }
-
   const {signed_voucher} = req.body;
-
   try {
+    if (!signed_voucher) {
+      return res.status(400).json({ message: "Not signed voucher found!", success: false});
+    }
 
     const signedVoucher = await SignedVoucher.create({ signed_voucher });
 
-    return res.status(200).json({ message: "Signed Voucher created", success: true, data: signedVoucher });
-
+    res.status(200).json({ message: "Signed Voucher created", success: true, data: signedVoucher });
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server error");
